@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Server version="8">
+  <Name>OvenMediaEngine</Name>
+  <!-- origin = primary ingest/distribution node -->
+  <Type>origin</Type>
+  <!-- * = bind on all interfaces -->
+  <IP>*</IP>
+  <PrivacyProtection>false</PrivacyProtection>
+  <!-- Used by WebRTC to help discover reachable network paths -->
+  <StunServer>stun.l.google.com:19302</StunServer>
+
+  <Bind>
+    <Providers>
+      <RTMP>
+        <!-- OBS publishes here: rtmp://HOST:1935/app -->
+        <Port>1935</Port>
+      </RTMP>
+    </Providers>
+
+    <Publishers>
+      <LLHLS>
+        <!-- Browser HLS playback comes from this port -->
+        <Port>3333</Port>
+      </LLHLS>
+
+      <WebRTC>
+        <Signalling>
+          <!-- Reusing 3333 keeps local testing simple -->
+          <Port>3333</Port>
+        </Signalling>
+        <IceCandidates>
+          <!--
+            OME did not expand the env placeholders reliably here on the VPS.
+            For this deployment, keep explicit host/port values.
+            Change these directly if the public IP or ports change.
+          -->
+          <IceCandidate>213.199.53.211:10000-10010/udp</IceCandidate>
+          <!-- TCP relay helps when direct UDP is blocked -->
+          <TcpRelay>213.199.53.211:3478</TcpRelay>
+        </IceCandidates>
+      </WebRTC>
+    </Publishers>
+  </Bind>
+
+  <VirtualHosts>
+    <VirtualHost>
+      <Name>default</Name>
+
+      <Host>
+        <Names>
+          <!-- Accept any host header for this simple setup -->
+          <Name>*</Name>
+        </Names>
+      </Host>
+
+      <!-- Empty because this server is the origin and is not pulling from upstream -->
+      <Origins />
+
+      <Applications>
+        <Application>
+          <!--
+            Edit this if you want a different app namespace.
+            If you change app -> liveapp, OBS server becomes:
+            rtmp://HOST:1935/liveapp
+          -->
+          <Name>app</Name>
+          <Type>live</Type>
+
+          <OutputProfiles>
+            <OutputProfile>
+              <Name>bypass_stream</Name>
+              <!-- Keep the same stream key as the output stream name -->
+              <OutputStreamName>${OriginStreamName}</OutputStreamName>
+              <Encodes>
+                <Audio>
+                  <!-- true = no audio transcoding -->
+                  <Bypass>true</Bypass>
+                </Audio>
+                <Video>
+                  <!-- true = no video transcoding -->
+                  <Bypass>true</Bypass>
+                </Video>
+              </Encodes>
+            </OutputProfile>
+          </OutputProfiles>
+
+          <Providers>
+            <!-- Allow RTMP ingest for this app -->
+            <RTMP />
+          </Providers>
+
+          <Publishers>
+            <!-- Remove one of these if you do not want that playback protocol -->
+            <WebRTC />
+            <LLHLS />
+          </Publishers>
+        </Application>
+      </Applications>
+    </VirtualHost>
+  </VirtualHosts>
+</Server>

@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OME Local Player</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #09111f;
+        --panel: #101b30;
+        --panel-border: #223458;
+        --text: #edf3ff;
+        --muted: #9db0d3;
+        --accent: #63d2ff;
+        --accent-2: #8effc1;
+        --danger: #ff7b7b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "SF Mono", "Menlo", "Consolas", monospace;
+        background:
+          radial-gradient(circle at top, rgba(99, 210, 255, 0.16), transparent 34%),
+          linear-gradient(180deg, #08101d 0%, #050914 100%);
+        color: var(--text);
+      }
+
+      .shell {
+        width: min(1100px, calc(100% - 32px));
+        margin: 32px auto;
+      }
+
+      .header {
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 5vw, 3.25rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      .header p {
+        margin: 0;
+        max-width: 760px;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 20px;
+      }
+
+      .panel {
+        background: rgba(16, 27, 48, 0.92);
+        border: 1px solid var(--panel-border);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+      }
+
+      .controls {
+        display: grid;
+        gap: 14px;
+        align-content: start;
+        min-width: 0;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        font-size: 0.92rem;
+        color: var(--muted);
+        min-width: 0;
+      }
+
+      input {
+        width: 100%;
+        min-width: 0;
+        border: 1px solid #29416c;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font: inherit;
+        color: var(--text);
+        background: rgba(8, 16, 29, 0.95);
+      }
+
+      select {
+        width: 100%;
+        min-width: 0;
+        border: 1px solid #29416c;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font: inherit;
+        color: var(--text);
+        background: rgba(8, 16, 29, 0.95);
+      }
+
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 12px 16px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        color: #04111d;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+      }
+
+      .meta {
+        margin-top: 16px;
+        font-size: 0.92rem;
+        color: var(--muted);
+        overflow-wrap: anywhere;
+      }
+
+      .meta code,
+      .status code {
+        color: var(--text);
+        white-space: pre-wrap;
+      }
+
+      .status {
+        margin-top: 12px;
+        min-height: 48px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(4, 10, 20, 0.6);
+        border: 1px solid #233655;
+        color: var(--muted);
+        overflow-wrap: anywhere;
+        white-space: pre-wrap;
+      }
+
+      .status.error {
+        border-color: rgba(255, 123, 123, 0.4);
+        color: #ffd0d0;
+      }
+
+      .debug {
+        min-height: 120px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(4, 10, 20, 0.8);
+        border: 1px solid #233655;
+        color: var(--muted);
+        overflow: auto;
+        white-space: pre-wrap;
+        font-size: 0.84rem;
+      }
+
+      .stats {
+        min-height: 140px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(4, 10, 20, 0.8);
+        border: 1px solid #233655;
+        color: var(--text);
+        overflow: auto;
+        white-space: pre-wrap;
+        font-size: 0.84rem;
+      }
+
+      .stage {
+        display: grid;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      video {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 18px;
+        background: #000;
+        border: 1px solid #1d2e4c;
+      }
+
+      #ovenplayer {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 18px;
+        overflow: hidden;
+        background: #000;
+        border: 1px solid #1d2e4c;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .hint {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="header">
+        <h1>OME Local Player</h1>
+        <p>
+          Simple LL-HLS playback page for local testing. This avoids TLS and WebRTC signaling complexity while you verify
+          that OBS ingest and OME output are working.
+        </p>
+        <p><a href="/settings.html" style="color:#8effc1;">Open restream settings</a></p>
+      </section>
+
+      <section class="grid">
+        <aside class="panel controls">
+          <label>
+            Host
+            <input id="host" name="host" value="" placeholder="213.199.53.211">
+          </label>
+
+          <label>
+            Protocol
+            <select id="protocol" name="protocol">
+              <option value="hls" selected>LL-HLS</option>
+              <option value="webrtc">WebRTC</option>
+            </select>
+          </label>
+
+          <label>
+            App
+            <input id="app" name="app" value="app">
+          </label>
+
+          <label>
+            Stream
+            <input id="stream" name="stream" value="key">
+          </label>
+
+          <button id="load" type="button">Load Stream</button>
+
+          <div class="meta">
+            Computed URL:
+            <div><code id="url">/app/key/llhls.m3u8</code></div>
+          </div>
+
+          <div id="status" class="status">Idle.</div>
+        </aside>
+
+        <section class="panel stage">
+          <video id="video" controls autoplay muted playsinline></video>
+          <div id="ovenplayer" class="hidden"></div>
+          <p class="hint">
+            LL-HLS uses the same-origin nginx proxy path. WebRTC connects directly to OME on port <code>3333</code>.
+            If this page is opened on <code>localhost</code>, you must enter the remote server host explicitly.
+          </p>
+          <pre id="stats" class="stats">Stats will appear here after playback starts.</pre>
+          <pre id="debug" class="debug">Debug log ready.</pre>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
+    <script>
+      const hostInput = document.getElementById("host");
+      const protocolInput = document.getElementById("protocol");
+      const appInput = document.getElementById("app");
+      const streamInput = document.getElementById("stream");
+      const loadButton = document.getElementById("load");
+      const urlNode = document.getElementById("url");
+      const statusNode = document.getElementById("status");
+      const statsNode = document.getElementById("stats");
+      const debugNode = document.getElementById("debug");
+      const video = document.getElementById("video");
+      const ovenPlayerElement = document.getElementById("ovenplayer");
+
+      let hls;
+      let ovenPlayerInstance;
+      let statsTimer;
+
+      function appendDebug(message) {
+        const stamp = new Date().toLocaleTimeString();
+        debugNode.textContent = `[${stamp}] ${message}\n${debugNode.textContent}`.trimEnd();
+      }
+
+      function getBaseOrigin() {
+        const host = hostInput.value.trim();
+        if (!host) {
+          return window.location.origin;
+        }
+
+        if (host.startsWith("http://") || host.startsWith("https://")) {
+          return host.replace(/\/$/, "");
+        }
+
+        return `http://${host}`;
+      }
+
+      function getHostNameOnly() {
+        const host = hostInput.value.trim();
+        if (!host) {
+          return window.location.hostname;
+        }
+
+        return host
+          .replace(/^https?:\/\//, "")
+          .replace(/\/.*$/, "")
+          .replace(/:\d+$/, "");
+      }
+
+      function getProtocolValue() {
+        return protocolInput.value || "hls";
+      }
+
+      function isLocalHostName(hostName) {
+        return ["localhost", "127.0.0.1", "::1", ""].includes(hostName);
+      }
+
+      function getPlaylistUrl() {
+        const baseOrigin = getBaseOrigin();
+        const app = appInput.value.trim() || "app";
+        const stream = streamInput.value.trim() || "key";
+        return `${baseOrigin}/${app}/${stream}/llhls.m3u8`;
+      }
+
+      function getWebRtcUrl() {
+        const host = hostInput.value.trim();
+        const pageHost = window.location.hostname;
+        const hostValue = host
+          ? host.replace(/^https?:\/\//, "").replace(/\/.*$/, "")
+          : `${pageHost}:3333`;
+        const app = appInput.value.trim() || "app";
+        const stream = streamInput.value.trim() || "key";
+        return `ws://${hostValue}/${app}/${stream}`;
+      }
+
+      function setStatus(message, isError = false) {
+        statusNode.textContent = message;
+        statusNode.classList.toggle("error", isError);
+      }
+
+      function setStats(lines) {
+        statsNode.textContent = Array.isArray(lines) ? lines.join("\n") : String(lines);
+      }
+
+      function syncUrlPreview() {
+        urlNode.textContent = getProtocolValue() === "webrtc" ? getWebRtcUrl() : getPlaylistUrl();
+      }
+
+      async function probeStreamAvailability() {
+        const playlistUrl = getPlaylistUrl();
+
+        try {
+          const response = await fetch(playlistUrl, {
+            method: "GET",
+            cache: "no-store",
+          });
+
+          if (response.ok) {
+            return { ok: true };
+          }
+
+          if (response.status === 404) {
+            return {
+              ok: false,
+              reason: "stream-offline",
+              message: `Stream is offline. OME returned 404 for ${playlistUrl}. Start OBS or the restream service so app/key exists again.`,
+            };
+          }
+
+          return {
+            ok: false,
+            reason: "playlist-error",
+            message: `OME playlist probe failed with HTTP ${response.status} for ${playlistUrl}.`,
+          };
+        } catch (error) {
+          return {
+            ok: false,
+            reason: "network-error",
+            message: `Could not probe the playlist URL ${playlistUrl}: ${error.message}`,
+          };
+        }
+      }
+
+      function destroyHls() {
+        if (hls) {
+          hls.destroy();
+          hls = undefined;
+        }
+      }
+
+      function destroyOvenPlayer() {
+        if (ovenPlayerInstance && typeof ovenPlayerInstance.remove === "function") {
+          ovenPlayerInstance.remove();
+        }
+        ovenPlayerInstance = undefined;
+        ovenPlayerElement.innerHTML = "";
+      }
+
+      function stopStatsPolling() {
+        if (statsTimer) {
+          clearInterval(statsTimer);
+          statsTimer = undefined;
+        }
+      }
+
+      function getActiveVideoElement() {
+        if (getProtocolValue() === "webrtc") {
+          return ovenPlayerElement.querySelector("video");
+        }
+
+        return video;
+      }
+
+      function formatSeconds(value) {
+        if (!Number.isFinite(value)) {
+          return "-";
+        }
+
+        return `${value.toFixed(2)}s`;
+      }
+
+      function formatBitrate(value) {
+        if (!Number.isFinite(value) || value <= 0) {
+          return "-";
+        }
+
+        if (value >= 1000000) {
+          return `${(value / 1000000).toFixed(2)} Mbps`;
+        }
+
+        if (value >= 1000) {
+          return `${(value / 1000).toFixed(0)} Kbps`;
+        }
+
+        return `${value} bps`;
+      }
+
+      function getQualityLabel(width, height) {
+        const w = Number(width) || 0;
+        const h = Number(height) || 0;
+        const edge = Math.max(w, h);
+
+        if (!edge) {
+          return "-";
+        }
+
+        if (edge >= 3800) {
+          return "4K";
+        }
+
+        if (edge >= 2500) {
+          return "1440p";
+        }
+
+        if (edge >= 1900) {
+          return "1080p";
+        }
+
+        if (edge >= 1200) {
+          return "720p";
+        }
+
+        if (edge >= 900) {
+          return "540p";
+        }
+
+        if (edge >= 600) {
+          return "480p";
+        }
+
+        return `${Math.min(w, h)}p`;
+      }
+
+      function getBufferedAhead(media) {
+        if (!media || !media.buffered || media.buffered.length === 0) {
+          return NaN;
+        }
+
+        try {
+          const end = media.buffered.end(media.buffered.length - 1);
+          return Math.max(0, end - media.currentTime);
+        } catch (_error) {
+          return NaN;
+        }
+      }
+
+      function getPlaybackQuality(media) {
+        if (!media) {
+          return {};
+        }
+
+        if (typeof media.getVideoPlaybackQuality === "function") {
+          return media.getVideoPlaybackQuality();
+        }
+
+        return {
+          totalVideoFrames: media.webkitDecodedFrameCount,
+          droppedVideoFrames: media.webkitDroppedFrameCount,
+        };
+      }
+
+      function buildStatsLines() {
+        const mode = getProtocolValue();
+        const media = getActiveVideoElement();
+        const quality = getPlaybackQuality(media);
+        const lines = [
+          `Protocol: ${mode === "webrtc" ? "WebRTC" : "LL-HLS"}`,
+          `State: ${ovenPlayerInstance && typeof ovenPlayerInstance.getState === "function" ? ovenPlayerInstance.getState() : (media ? (media.paused ? "paused" : "playing") : "idle")}`,
+          `Source: ${mode === "webrtc" ? getWebRtcUrl() : getPlaylistUrl()}`,
+          `Media quality: ${media && media.videoWidth ? getQualityLabel(media.videoWidth, media.videoHeight) : "-"}`,
+          `Resolution: ${media && media.videoWidth ? `${media.videoWidth}x${media.videoHeight}` : "-"}`,
+          `Current time: ${media ? formatSeconds(media.currentTime) : "-"}`,
+          `Buffered ahead: ${media ? formatSeconds(getBufferedAhead(media)) : "-"}`,
+          `Ready state: ${media ? media.readyState : "-"}`,
+          `Frames: ${Number.isFinite(quality.totalVideoFrames) ? quality.totalVideoFrames : "-"}`,
+          `Dropped frames: ${Number.isFinite(quality.droppedVideoFrames) ? quality.droppedVideoFrames : "-"}`,
+        ];
+
+        if (mode === "hls" && hls) {
+          const level = hls.levels?.[hls.currentLevel] || hls.levels?.[hls.nextLevel];
+          lines.push(`Latency: ${Number.isFinite(hls.latency) ? formatSeconds(hls.latency) : "-"}`);
+          lines.push(`Live sync position: ${Number.isFinite(hls.liveSyncPosition) ? formatSeconds(hls.liveSyncPosition) : "-"}`);
+          lines.push(`Level: ${level ? `${level.width || "?"}x${level.height || "?"} @ ${formatBitrate(level.bitrate)}` : "-"}`);
+          lines.push(`Auto level: ${typeof hls.autoLevelEnabled === "boolean" ? String(hls.autoLevelEnabled) : "-"}`);
+        }
+
+        if (mode === "webrtc" && ovenPlayerInstance) {
+          const qualityLevels = typeof ovenPlayerInstance.getQualityLevels === "function"
+            ? ovenPlayerInstance.getQualityLevels()
+            : [];
+          const currentQualityIndex = typeof ovenPlayerInstance.getCurrentQuality === "function"
+            ? ovenPlayerInstance.getCurrentQuality()
+            : null;
+          const currentQuality = Array.isArray(qualityLevels) && Number.isInteger(currentQualityIndex)
+            ? qualityLevels[currentQualityIndex]
+            : null;
+          const frameRate = typeof ovenPlayerInstance.getFramerate === "function"
+            ? ovenPlayerInstance.getFramerate()
+            : null;
+
+          lines.push(`Selected rendition: ${currentQuality ? getQualityLabel(currentQuality.width, currentQuality.height) : "-"}`);
+          lines.push(`Quality track: ${currentQuality ? `${currentQuality.width || "?"}x${currentQuality.height || "?"} @ ${formatBitrate(currentQuality.bitrate)}${currentQuality.label ? ` (${currentQuality.label})` : ""}` : "-"}`);
+          lines.push(`Auto quality: ${typeof ovenPlayerInstance.isAutoQuality === "function" ? String(ovenPlayerInstance.isAutoQuality()) : "-"}`);
+          lines.push(`Configured framerate: ${frameRate || "-"}`);
+        }
+
+        return lines;
+      }
+
+      function startStatsPolling() {
+        stopStatsPolling();
+        setStats(buildStatsLines());
+        statsTimer = setInterval(() => {
+          setStats(buildStatsLines());
+        }, 1000);
+      }
+
+      function setMode(mode) {
+        const webrtc = mode === "webrtc";
+        video.classList.toggle("hidden", webrtc);
+        ovenPlayerElement.classList.toggle("hidden", !webrtc);
+      }
+
+      async function loadStream() {
+        const mode = getProtocolValue();
+        const playlistUrl = getPlaylistUrl();
+        const webrtcUrl = getWebRtcUrl();
+        const explicitHost = hostInput.value.trim();
+        syncUrlPreview();
+        destroyHls();
+        destroyOvenPlayer();
+        stopStatsPolling();
+        setMode(mode);
+        setStats("Stats will appear here after playback starts.");
+
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+
+        const availability = await probeStreamAvailability();
+        if (!availability.ok) {
+          appendDebug(`Stream probe failed: ${availability.reason} (${playlistUrl})`);
+          setStatus(availability.message, true);
+          return;
+        }
+
+        if (mode === "webrtc") {
+          if (!window.OvenPlayer) {
+            setStatus("OvenPlayer did not load, so WebRTC playback is unavailable.", true);
+            return;
+          }
+
+          if (!explicitHost && isLocalHostName(window.location.hostname)) {
+            setStatus("WebRTC needs the remote OME host here. Enter 213.199.53.211 in Host when this page runs on localhost.", true);
+            appendDebug(`Blocked WebRTC start because page host is local (${window.location.hostname}) and Host was blank.`);
+            return;
+          }
+
+            appendDebug(`Creating OvenPlayer with WebSocket source ${webrtcUrl}`);
+
+          try {
+            ovenPlayerInstance = window.OvenPlayer.create("ovenplayer", {
+              autoStart: true,
+              autoFallback: false,
+              mute: true,
+              sources: [
+                {
+                  type: "webrtc",
+                  file: webrtcUrl,
+                },
+              ],
+            });
+
+            if (ovenPlayerInstance && typeof ovenPlayerInstance.on === "function") {
+              ovenPlayerInstance.on("ready", () => appendDebug("OvenPlayer ready"));
+              ovenPlayerInstance.on("stateChanged", (data) => appendDebug(`stateChanged: ${JSON.stringify(data)}`));
+              ovenPlayerInstance.on("stateChanged", () => setStats(buildStatsLines()));
+              ovenPlayerInstance.on("error", (data) => {
+                appendDebug(`player error: ${JSON.stringify(data)}`);
+                setStatus(`WebRTC error: ${JSON.stringify(data)}`, true);
+              });
+            } else {
+              appendDebug("OvenPlayer instance created without event hooks");
+            }
+
+            setStatus(`Loading via WebRTC: ${webrtcUrl}`);
+            startStatsPolling();
+          } catch (error) {
+            appendDebug(`OvenPlayer.create threw: ${error.message}`);
+            setStatus(`WebRTC setup failed before network start: ${error.message}`, true);
+          }
+          return;
+        }
+
+        video.addEventListener("error", () => {
+          const mediaError = video.error;
+          if (mediaError) {
+            setStatus(`Video error: code ${mediaError.code}`, true);
+          }
+        }, { once: true });
+
+        if (window.Hls && window.Hls.isSupported()) {
+          hls = new window.Hls({
+            lowLatencyMode: true,
+            liveSyncDurationCount: 3,
+          });
+
+          hls.on(window.Hls.Events.MANIFEST_PARSED, async () => {
+            try {
+              await video.play();
+              appendDebug(`HLS manifest parsed: ${playlistUrl}`);
+              setStatus(`Playing via hls.js: ${playlistUrl}`);
+              startStatsPolling();
+            } catch (error) {
+              setStatus(`Autoplay failed: ${error.message}`, true);
+            }
+          });
+
+          hls.on(window.Hls.Events.ERROR, (_event, data) => {
+            appendDebug(`hls.js error: ${JSON.stringify(data)}`);
+            if (data.fatal) {
+              setStatus(`hls.js error: ${data.type} / ${data.details}`, true);
+            }
+          });
+
+          hls.loadSource(playlistUrl);
+          hls.attachMedia(video);
+          setStatus(`Loading via hls.js: ${playlistUrl}`);
+          return;
+        }
+
+        if (video.canPlayType("application/vnd.apple.mpegurl")) {
+          video.src = playlistUrl;
+          try {
+            await video.play();
+            setStatus(`Playing via native HLS: ${playlistUrl}`);
+            startStatsPolling();
+          } catch (error) {
+            setStatus(`Native HLS failed: ${error.message}`, true);
+          }
+          return;
+        }
+
+        setStatus("This browser does not support HLS playback here. Try Safari or a Chromium browser with hls.js.", true);
+      }
+
+      [hostInput, protocolInput, appInput, streamInput].forEach((input) => {
+        input.addEventListener("input", syncUrlPreview);
+        input.addEventListener("change", syncUrlPreview);
+      });
+
+      loadButton.addEventListener("click", loadStream);
+
+      syncUrlPreview();
+      appendDebug(`Page loaded from ${window.location.origin}`);
+    </script>
+  </body>
+</html>
