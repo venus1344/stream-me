@@ -8,76 +8,156 @@
       :root { color-scheme: dark; --bg:#07111d; --panel:#0f1d30; --panel-border:#254166; --text:#edf3ff; --muted:#93a8ca; --accent:#63d2ff; --accent-2:#8effc1; --danger:#ff7b7b; }
       * { box-sizing: border-box; }
       body { margin:0; min-height:100vh; font-family:"SF Mono","Menlo","Consolas",monospace; color:var(--text); background:radial-gradient(circle at top, rgba(99,210,255,.14), transparent 35%), linear-gradient(180deg,#07101b 0%,#040913 100%); }
-      .shell { width:min(1180px, calc(100% - 32px)); margin:28px auto; }
+      .shell { width:min(1360px, calc(100% - 32px)); margin:28px auto; }
       .header h1 { margin:0 0 8px; font-size:clamp(2rem,4vw,3rem); letter-spacing:-.04em; }
-      .header p { margin:0; color:var(--muted); max-width:840px; }
-      .header a { color:var(--accent-2); }
-      .grid { display:grid; grid-template-columns:420px minmax(0,1fr); gap:20px; margin-top:20px; }
+      .header p { margin:0; color:var(--muted); max-width:840px; font-size:.95rem; line-height:1.5; }
+      .header a { color:var(--accent-2); text-decoration:none; }
+      .header a:hover { text-decoration:underline; }
+
+      .status-banner { display:grid; grid-template-columns:1fr auto; align-items:center; gap:20px; margin:20px 0; padding:16px 18px; background:rgba(15,29,48,.94); border:1px solid var(--panel-border); border-radius:18px; box-shadow:0 18px 50px rgba(0,0,0,.32); }
+      .status-content { display:grid; gap:8px; }
+      .status-label { font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+      .status-badge { font-size:1.1rem; font-weight:700; color:var(--accent); }
+      .status-badge.idle { color:var(--muted); }
+      .status-indicator { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:12px; }
+      .status-dot { width:12px; height:12px; border-radius:50%; background:var(--accent-2); animation:pulse 2s ease-in-out infinite; }
+      .status-dot.idle { background:var(--muted); animation:none; }
+      @keyframes pulse { 0%, 100% { opacity:.6; } 50% { opacity:1; } }
+
+      .grid { display:grid; grid-template-columns:1fr 420px; gap:20px; align-items:start; }
       .panel { background:rgba(15,29,48,.94); border:1px solid var(--panel-border); border-radius:18px; padding:18px; box-shadow:0 18px 50px rgba(0,0,0,.32); }
+
+      .form-section { margin-bottom:22px; }
+      .form-section:last-child { margin-bottom:0; }
+      .form-section-title { font-size:.8rem; color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; font-weight:700; }
       .controls { display:grid; gap:14px; }
       .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
       label { display:grid; gap:6px; font-size:.92rem; color:var(--muted); }
-      input,select,textarea { width:100%; border:1px solid #29416c; border-radius:12px; padding:12px 14px; font:inherit; color:var(--text); background:rgba(8,16,29,.95); }
-      textarea { min-height:100px; resize:vertical; }
-      .buttons { display:flex; flex-wrap:wrap; gap:10px; }
-      button { border:0; border-radius:999px; padding:12px 16px; font:inherit; font-weight:700; cursor:pointer; color:#04111d; background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); }
+      input,select,textarea { width:100%; border:1px solid #29416c; border-radius:12px; padding:12px 14px; font:inherit; color:var(--text); background:rgba(8,16,29,.95); transition:border-color .2s; }
+      input:focus,select:focus,textarea:focus { outline:none; border-color:var(--accent); }
+      textarea { min-height:80px; resize:vertical; }
+
+      .buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; padding-top:18px; border-top:1px solid #1a2d42; }
+      button { border:0; border-radius:999px; padding:12px 16px; font:inherit; font-weight:700; cursor:pointer; color:#04111d; background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); transition:opacity .2s; }
+      button:hover { opacity:.9; }
       button.secondary { background:#203554; color:var(--text); border:1px solid #35547e; }
+      button.secondary:hover { background:#254166; }
       button.danger { background:linear-gradient(135deg, #ff9b9b 0%, #ff7b7b 100%); }
-      .status,.logbox,.summary { border-radius:12px; border:1px solid #24395d; background:rgba(4,10,20,.7); padding:12px 14px; overflow:auto; white-space:pre-wrap; }
+
+      .status { padding:12px 14px; border-radius:12px; border:1px solid #24395d; background:rgba(4,10,20,.7); margin-bottom:14px; font-size:.9rem; }
       .status.error { border-color:rgba(255,123,123,.45); color:#ffd0d0; }
-      .summary { min-height:180px; color:var(--muted); }
-      .logbox { min-height:420px; font-size:.84rem; color:var(--muted); }
-      .chipline { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
-      .chip { padding:8px 10px; border-radius:999px; border:1px solid #29416c; background:rgba(8,16,29,.95); color:var(--muted); font-size:.88rem; }
-      @media (max-width:940px) { .grid, .row-2 { grid-template-columns:1fr; } }
+
+      .monitor-section { margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #1a2d42; }
+      .monitor-section:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+      .monitor-title { font-size:.75rem; color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; font-weight:700; }
+
+      .chipline { display:flex; flex-wrap:wrap; gap:8px; }
+      .chip { padding:8px 12px; border-radius:8px; border:1px solid #29416c; background:rgba(8,16,29,.95); color:var(--muted); font-size:.85rem; white-space:nowrap; }
+
+      .summary { padding:12px 14px; border-radius:12px; border:1px solid #24395d; background:rgba(4,10,20,.7); font-size:.85rem; color:var(--muted); line-height:1.6; }
+      .summary span { color:var(--text); font-weight:600; }
+
+      .logbox { height:380px; overflow-y:auto; padding:12px 14px; border-radius:12px; border:1px solid #24395d; background:rgba(4,10,20,.7); font-size:.8rem; color:var(--muted); white-space:pre-wrap; word-break:break-word; }
+      .logbox::-webkit-scrollbar { width:6px; }
+      .logbox::-webkit-scrollbar-track { background:rgba(8,16,29,.5); border-radius:3px; }
+      .logbox::-webkit-scrollbar-thumb { background:#29416c; border-radius:3px; }
+      .logbox::-webkit-scrollbar-thumb:hover { background:#35547e; }
+
+      @media (max-width:1100px) {
+        .grid { grid-template-columns:1fr; }
+        .status-banner { grid-template-columns:1fr; }
+      }
+      @media (max-width:940px) {
+        .row-2 { grid-template-columns:1fr; }
+      }
     </style>
   </head>
   <body>
     <main class="shell">
       <section class="header">
-        <h1>Restream Settings</h1>
-        <p>Configure the ffmpeg restream, then start or stop it from here. OBS should publish to <code>rtmp://HOST:1936/stream</code> with key <code>input</code>. Your site player should still use <code>app/key</code>. <a href="/">Back to player</a></p>
+        <h1>Restream Control</h1>
+        <p>Configure ffmpeg encoding and manage your live stream. OBS publishes to <code>rtmp://HOST:1936/stream</code> with key <code>input</code>, and your player uses <code>app/key</code>. <a href="/">Back to player</a></p>
       </section>
+
+      <div class="status-banner">
+        <div class="status-content">
+          <div class="status-label">Stream Status</div>
+          <div class="status-indicator">
+            <div id="statusDot" class="status-dot"></div>
+            <div id="statusBadge" class="status-badge idle">Idle</div>
+          </div>
+        </div>
+        <div id="status" class="status">Loading…</div>
+      </div>
+
       <section class="grid">
-        <aside class="panel controls">
-          <div id="status" class="status">Loading restream settings…</div>
-          <label>Input URL<input id="inputUrl" value=""></label>
-          <label>OME output URL<input id="omeUrl" value=""></label>
-          <label>YouTube base URL<input id="youtubeUrl" value=""></label>
-          <label>YouTube stream key<input id="youtubeKey" value=""></label>
-          <div class="row-2">
-            <label>Video bitrate (kbps)<input id="videoBitrateKbps" type="number" min="500" step="100" value="6000"></label>
+        <section class="panel controls">
+          <div class="form-section">
+            <div class="form-section-title">Ingest Sources</div>
+            <label>Input URL<input id="inputUrl" value=""></label>
+            <label>OME output URL<input id="omeUrl" value=""></label>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">YouTube</div>
+            <label>Base URL<input id="youtubeUrl" value=""></label>
+            <label>Stream key<input id="youtubeKey" value=""></label>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Video Encoding</div>
+            <div class="row-2">
+              <label>Bitrate (kbps)<input id="videoBitrateKbps" type="number" min="500" step="100" value="6000"></label>
+              <label>Maxrate (kbps)<input id="maxrateKbps" type="number" min="500" step="100" value="6000"></label>
+            </div>
+            <div class="row-2">
+              <label>FPS<input id="fps" type="number" min="1" step="1" value="30"></label>
+              <label>GOP seconds<input id="gopSeconds" type="number" min="1" step="1" value="2"></label>
+            </div>
+            <div class="row-2">
+              <label>Preset<select id="preset"><option value="ultrafast">ultrafast</option><option value="superfast">superfast</option><option value="veryfast" selected>veryfast</option><option value="faster">faster</option><option value="fast">fast</option><option value="medium">medium</option></select></label>
+              <label>Scale height<input id="scaleHeight" type="number" min="0" step="1" value="1080"></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Audio Encoding</div>
             <label>Audio bitrate (kbps)<input id="audioBitrateKbps" type="number" min="64" step="32" value="160"></label>
+            <label>Buffer size (kbps)<input id="bufsizeKbps" type="number" min="500" step="100" value="12000"></label>
           </div>
-          <div class="row-2">
-            <label>Maxrate (kbps)<input id="maxrateKbps" type="number" min="500" step="100" value="6000"></label>
-            <label>Bufsize (kbps)<input id="bufsizeKbps" type="number" min="500" step="100" value="12000"></label>
+
+          <div class="form-section">
+            <div class="form-section-title">Advanced</div>
+            <label>Extra ffmpeg args<textarea id="extraArgs" placeholder="-metadata title=My Live"></textarea></label>
           </div>
-          <div class="row-2">
-            <label>FPS<input id="fps" type="number" min="1" step="1" value="30"></label>
-            <label>GOP seconds<input id="gopSeconds" type="number" min="1" step="1" value="2"></label>
-          </div>
-          <div class="row-2">
-            <label>Preset<select id="preset"><option value="ultrafast">ultrafast</option><option value="superfast">superfast</option><option value="veryfast" selected>veryfast</option><option value="faster">faster</option><option value="fast">fast</option><option value="medium">medium</option></select></label>
-            <label>Scale height<input id="scaleHeight" type="number" min="0" step="1" value="1080"></label>
-          </div>
-          <label>Extra ffmpeg args<textarea id="extraArgs" placeholder="-metadata title=My Live"></textarea></label>
+
           <div class="buttons">
-            <button id="saveBtn" type="button">Save Settings</button>
             <button id="startBtn" type="button">Start Streaming</button>
             <button id="stopBtn" type="button" class="danger">Stop Streaming</button>
-            <button id="refreshBtn" type="button" class="secondary">Refresh Status</button>
+            <button id="saveBtn" type="button" class="secondary">Save Settings</button>
+            <button id="refreshBtn" type="button" class="secondary">Refresh</button>
           </div>
-        </aside>
+        </section>
+
         <section class="panel">
-          <div class="chipline">
-            <div class="chip">API state: <span id="apiState">-</span></div>
-            <div class="chip">ffmpeg PID: <span id="pidState">-</span></div>
+          <div class="monitor-section">
+            <div class="monitor-title">Process</div>
+            <div class="chipline">
+              <div class="chip">State: <span id="apiState">-</span></div>
+              <div class="chip">PID: <span id="pidState">-</span></div>
+            </div>
             <div class="chip">Started: <span id="startedState">-</span></div>
           </div>
-          <div id="summary" class="summary">No status yet.</div>
-          <h3>Recent ffmpeg log</h3>
-          <div id="logs" class="logbox">No log yet.</div>
+
+          <div class="monitor-section">
+            <div class="monitor-title">Configuration</div>
+            <div id="summary" class="summary">No status yet.</div>
+          </div>
+
+          <div class="monitor-section">
+            <div class="monitor-title">ffmpeg Log</div>
+            <div id="logs" class="logbox">No log yet.</div>
+          </div>
         </section>
       </section>
     </main>
@@ -87,7 +167,26 @@
       function setStatus(message, isError = false) { status.textContent = message; status.classList.toggle("error", isError); }
       function readForm() { return { inputUrl: fields.inputUrl.value.trim(), omeUrl: fields.omeUrl.value.trim(), youtubeUrl: fields.youtubeUrl.value.trim(), youtubeKey: fields.youtubeKey.value.trim(), videoBitrateKbps: Number(fields.videoBitrateKbps.value || 0), audioBitrateKbps: Number(fields.audioBitrateKbps.value || 0), maxrateKbps: Number(fields.maxrateKbps.value || 0), bufsizeKbps: Number(fields.bufsizeKbps.value || 0), fps: Number(fields.fps.value || 0), gopSeconds: Number(fields.gopSeconds.value || 0), preset: fields.preset.value.trim(), scaleHeight: Number(fields.scaleHeight.value || 0), extraArgs: fields.extraArgs.value.trim() }; }
       function writeForm(config) { fields.inputUrl.value = config.inputUrl || ""; fields.omeUrl.value = config.omeUrl || ""; fields.youtubeUrl.value = config.youtubeUrl || ""; fields.youtubeKey.value = config.youtubeKey || ""; fields.videoBitrateKbps.value = config.videoBitrateKbps ?? 6000; fields.audioBitrateKbps.value = config.audioBitrateKbps ?? 160; fields.maxrateKbps.value = config.maxrateKbps ?? 6000; fields.bufsizeKbps.value = config.bufsizeKbps ?? 12000; fields.fps.value = config.fps ?? 30; fields.gopSeconds.value = config.gopSeconds ?? 2; fields.preset.value = config.preset || "veryfast"; fields.scaleHeight.value = config.scaleHeight ?? 1080; fields.extraArgs.value = config.extraArgs || ""; }
-      function renderStatus(payload) { const st = payload.status || {}; apiState.textContent = st.running ? "running" : "idle"; pidState.textContent = st.pid || "-"; startedState.textContent = st.startedAt || "-"; summary.textContent = [`Input URL: ${payload.config?.inputUrl || "-"}`, `OME URL: ${payload.config?.omeUrl || "-"}`, `YouTube URL: ${payload.config?.youtubeUrl || "-"}`, `YouTube key set: ${payload.config?.youtubeKey ? "yes" : "no"}`, `Video bitrate: ${payload.config?.videoBitrateKbps || "-"} kbps`, `Audio bitrate: ${payload.config?.audioBitrateKbps || "-"} kbps`, `Preset: ${payload.config?.preset || "-"}`, `Scale height: ${payload.config?.scaleHeight || "-"}`, `FPS: ${payload.config?.fps || "-"}`, `GOP seconds: ${payload.config?.gopSeconds || "-"}`, `Last exit code: ${st.lastExitCode ?? "-"}`].join("\n"); logs.textContent = payload.logs || "No log yet."; }
+      function renderStatus(payload) {
+        const st = payload.status || {};
+        const isRunning = st.running;
+
+        // Update status banner
+        statusBadge.textContent = isRunning ? "Streaming" : "Idle";
+        statusBadge.classList.toggle("idle", !isRunning);
+        statusDot.classList.toggle("idle", !isRunning);
+
+        // Update process info
+        apiState.textContent = isRunning ? "running" : "idle";
+        pidState.textContent = st.pid || "-";
+        startedState.textContent = st.startedAt || "-";
+
+        // Update config summary
+        summary.textContent = [`Input: ${payload.config?.inputUrl || "-"}`, `Output: ${payload.config?.omeUrl || "-"}`, `YouTube: ${payload.config?.youtubeKey ? "configured" : "not set"}`, `Video: ${payload.config?.videoBitrateKbps || "-"} kbps @ ${payload.config?.fps || "-"} fps`, `Audio: ${payload.config?.audioBitrateKbps || "-"} kbps`, `Preset: ${payload.config?.preset || "-"}`].join("\n");
+
+        // Update logs
+        logs.textContent = payload.logs || "No log yet.";
+      }
       async function api(path, method = "GET", body) { const response = await fetch(`/api/restream/${path}`, { method, headers: body ? { "Content-Type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined }); if (!response.ok) throw new Error(await response.text() || `${response.status} ${response.statusText}`); return response.json(); }
       async function refresh() { const payload = await api("status"); writeForm(payload.config || {}); renderStatus(payload); return payload; }
       async function save() { const payload = await api("config", "POST", readForm()); renderStatus(payload); setStatus("Restream settings saved."); }
