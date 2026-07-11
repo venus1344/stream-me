@@ -73,8 +73,16 @@
               <OutputStreamName>${OriginStreamName}</OutputStreamName>
               <Encodes>
                 <Audio>
-                  <!-- true = no audio transcoding -->
+                  <!-- Keep the original AAC audio track for LL-HLS playback -->
                   <Bypass>true</Bypass>
+                </Audio>
+                <Audio>
+                  <!-- Add a WebRTC-safe audio track because browsers do not play AAC over WebRTC -->
+                  <Name>audio_opus</Name>
+                  <Codec>Opus</Codec>
+                  <Bitrate>128000</Bitrate>
+                  <Samplerate>48000</Samplerate>
+                  <Channel>2</Channel>
                 </Audio>
                 <Video>
                   <!-- true = no video transcoding -->

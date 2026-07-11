@@ -201,6 +201,47 @@
         font-size: 0.92rem;
       }
 
+      .relay-health {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: fit-content;
+        margin-top: 14px;
+        padding: 9px 12px;
+        border: 1px solid #29416c;
+        border-radius: 999px;
+        background: rgba(4, 10, 20, 0.72);
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .relay-health-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--muted);
+      }
+
+      .relay-health.live {
+        border-color: rgba(142, 255, 193, 0.45);
+        color: var(--accent-2);
+      }
+
+      .relay-health.live .relay-health-dot {
+        background: var(--accent-2);
+      }
+
+      .relay-health.offline,
+      .relay-health.error {
+        border-color: rgba(255, 123, 123, 0.45);
+        color: #ffd0d0;
+      }
+
+      .relay-health.offline .relay-health-dot,
+      .relay-health.error .relay-health-dot {
+        background: var(--danger);
+      }
+
       @media (max-width: 860px) {
         .grid {
           grid-template-columns: 1fr;
@@ -217,6 +258,10 @@
           that OBS ingest and OME output are working.
         </p>
         <p><a href="/settings.html" style="color:#8effc1;">Open restream settings</a></p>
+        <div id="relayHealth" class="relay-health checking" title="Checks OBS ingest at rtmp://127.0.0.1:1936/stream/input">
+          <span class="relay-health-dot"></span>
+          <span id="relayHealthText">OBS → Relay: checking...</span>
+        </div>
       </section>
 
       <section class="grid">
@@ -285,6 +330,7 @@
       let hls;
       let ovenPlayerInstance;
       let statsTimer;
+      let relayHealthTimer;
 
       function appendDebug(message) {
         const stamp = new Date().toLocaleTimeString();
@@ -349,6 +395,36 @@
 
       function setStats(lines) {
         statsNode.textContent = Array.isArray(lines) ? lines.join("\n") : String(lines);
+      }
+
+      function renderRelayHealth(payload) {
+        const node = document.getElementById("relayHealth");
+        const text = document.getElementById("relayHealthText");
+        if (!node || !text) return;
+        const status = payload.status || "unknown";
+        node.classList.remove("live", "offline", "error", "checking");
+        node.classList.add(payload.ok ? "live" : status === "error" ? "error" : status === "offline" ? "offline" : "checking");
+        const video = (payload.streams || []).find((stream) => stream.codec_type === "video");
+        const audio = (payload.streams || []).find((stream) => stream.codec_type === "audio");
+        const resolution = video && video.width && video.height ? ` ${video.width}x${video.height}` : "";
+        const audioLabel = audio ? " + audio" : "";
+        text.textContent = payload.ok ? `OBS → Relay: live${resolution}${audioLabel}` : `OBS → Relay: ${status}`;
+        node.title = `${payload.source || ""}\n${payload.message || ""}\nChecked: ${payload.checkedAt || "-"}`;
+      }
+
+      async function refreshRelayHealth() {
+        try {
+          const response = await fetch("/api/restream/relay-health", { cache: "no-store" });
+          if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+          renderRelayHealth(await response.json());
+        } catch (error) {
+          renderRelayHealth({ ok: false, status: "error", message: error.message, streams: [] });
+        }
+      }
+
+      function startRelayHealthPolling() {
+        refreshRelayHealth();
+        relayHealthTimer = setInterval(refreshRelayHealth, 5000);
       }
 
       function syncUrlPreview() {
@@ -699,8 +775,10 @@
       });
 
       loadButton.addEventListener("click", loadStream);
+      window.addEventListener("beforeunload", () => clearInterval(relayHealthTimer));
 
       syncUrlPreview();
+      startRelayHealthPolling();
       appendDebug(`Page loaded from ${window.location.origin}`);
     </script>
   </body>

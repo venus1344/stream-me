@@ -5,201 +5,744 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Restream Settings</title>
     <style>
-      :root { color-scheme: dark; --bg:#07111d; --panel:#0f1d30; --panel-border:#254166; --text:#edf3ff; --muted:#93a8ca; --accent:#63d2ff; --accent-2:#8effc1; --danger:#ff7b7b; }
-      * { box-sizing: border-box; }
-      body { margin:0; min-height:100vh; font-family:"SF Mono","Menlo","Consolas",monospace; color:var(--text); background:radial-gradient(circle at top, rgba(99,210,255,.14), transparent 35%), linear-gradient(180deg,#07101b 0%,#040913 100%); }
-      .shell { width:min(1360px, calc(100% - 32px)); margin:28px auto; }
-      .header h1 { margin:0 0 8px; font-size:clamp(2rem,4vw,3rem); letter-spacing:-.04em; }
-      .header p { margin:0; color:var(--muted); max-width:840px; font-size:.95rem; line-height:1.5; }
-      .header a { color:var(--accent-2); text-decoration:none; }
-      .header a:hover { text-decoration:underline; }
-
-      .status-banner { display:grid; grid-template-columns:1fr auto; align-items:center; gap:20px; margin:20px 0; padding:16px 18px; background:rgba(15,29,48,.94); border:1px solid var(--panel-border); border-radius:18px; box-shadow:0 18px 50px rgba(0,0,0,.32); }
-      .status-content { display:grid; gap:8px; }
-      .status-label { font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
-      .status-badge { font-size:1.1rem; font-weight:700; color:var(--accent); }
-      .status-badge.idle { color:var(--muted); }
-      .status-indicator { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:12px; }
-      .status-dot { width:12px; height:12px; border-radius:50%; background:var(--accent-2); animation:pulse 2s ease-in-out infinite; }
-      .status-dot.idle { background:var(--muted); animation:none; }
-      @keyframes pulse { 0%, 100% { opacity:.6; } 50% { opacity:1; } }
-
-      .grid { display:grid; grid-template-columns:1fr 420px; gap:20px; align-items:start; }
-      .panel { background:rgba(15,29,48,.94); border:1px solid var(--panel-border); border-radius:18px; padding:18px; box-shadow:0 18px 50px rgba(0,0,0,.32); }
-
-      .form-section { margin-bottom:22px; }
-      .form-section:last-child { margin-bottom:0; }
-      .form-section-title { font-size:.8rem; color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; font-weight:700; }
-      .controls { display:grid; gap:14px; }
-      .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-      label { display:grid; gap:6px; font-size:.92rem; color:var(--muted); }
-      input,select,textarea { width:100%; border:1px solid #29416c; border-radius:12px; padding:12px 14px; font:inherit; color:var(--text); background:rgba(8,16,29,.95); transition:border-color .2s; }
-      input:focus,select:focus,textarea:focus { outline:none; border-color:var(--accent); }
-      textarea { min-height:80px; resize:vertical; }
-
-      .buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; padding-top:18px; border-top:1px solid #1a2d42; }
-      button { border:0; border-radius:999px; padding:12px 16px; font:inherit; font-weight:700; cursor:pointer; color:#04111d; background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); transition:opacity .2s; }
-      button:hover { opacity:.9; }
-      button.secondary { background:#203554; color:var(--text); border:1px solid #35547e; }
-      button.secondary:hover { background:#254166; }
-      button.danger { background:linear-gradient(135deg, #ff9b9b 0%, #ff7b7b 100%); }
-
-      .status { padding:12px 14px; border-radius:12px; border:1px solid #24395d; background:rgba(4,10,20,.7); margin-bottom:14px; font-size:.9rem; }
-      .status.error { border-color:rgba(255,123,123,.45); color:#ffd0d0; }
-
-      .monitor-section { margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #1a2d42; }
-      .monitor-section:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
-      .monitor-title { font-size:.75rem; color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; font-weight:700; }
-
-      .chipline { display:flex; flex-wrap:wrap; gap:8px; }
-      .chip { padding:8px 12px; border-radius:8px; border:1px solid #29416c; background:rgba(8,16,29,.95); color:var(--muted); font-size:.85rem; white-space:nowrap; }
-
-      .summary { padding:12px 14px; border-radius:12px; border:1px solid #24395d; background:rgba(4,10,20,.7); font-size:.85rem; color:var(--muted); line-height:1.6; }
-      .summary span { color:var(--text); font-weight:600; }
-
-      .logbox { height:380px; overflow-y:auto; padding:12px 14px; border-radius:12px; border:1px solid #24395d; background:rgba(4,10,20,.7); font-size:.8rem; color:var(--muted); white-space:pre-wrap; word-break:break-word; }
-      .logbox::-webkit-scrollbar { width:6px; }
-      .logbox::-webkit-scrollbar-track { background:rgba(8,16,29,.5); border-radius:3px; }
-      .logbox::-webkit-scrollbar-thumb { background:#29416c; border-radius:3px; }
-      .logbox::-webkit-scrollbar-thumb:hover { background:#35547e; }
-
-      @media (max-width:1100px) {
-        .grid { grid-template-columns:1fr; }
-        .status-banner { grid-template-columns:1fr; }
+      :root {
+        color-scheme: dark;
+        --bg: #061018;
+        --panel: rgba(13, 27, 40, .94);
+        --panel-2: rgba(8, 18, 28, .96);
+        --line: #24415f;
+        --text: #eef7ff;
+        --muted: #93a9bb;
+        --accent: #7ee787;
+        --warn: #ffd166;
+        --danger: #ff7b7b;
+        --blue: #73d2ff;
       }
-      @media (max-width:940px) {
-        .row-2 { grid-template-columns:1fr; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        background:
+          radial-gradient(circle at 18% 0%, rgba(115, 210, 255, .16), transparent 30%),
+          radial-gradient(circle at 90% 10%, rgba(126, 231, 135, .13), transparent 25%),
+          linear-gradient(180deg, #061018 0%, #03070d 100%);
+      }
+      .shell { width: min(1480px, calc(100% - 32px)); margin: 28px auto 42px; }
+      .topbar { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: end; margin-bottom: 18px; }
+      h1 { margin: 0 0 8px; font-size: clamp(2rem, 4vw, 3.35rem); letter-spacing: -.06em; }
+      p { margin: 0; color: var(--muted); line-height: 1.55; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      code { color: var(--blue); }
+      .status-bar {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 16px;
+        align-items: center;
+        padding: 14px 16px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+      }
+      .status-text { font-weight: 700; color: var(--accent); }
+      .status-text.idle { color: var(--muted); }
+      .message { color: var(--muted); font-size: .88rem; }
+      .message.error { color: #ffd0d0; }
+      .relay-health {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: fit-content;
+        margin-top: 12px;
+        padding: 9px 12px;
+        border: 1px solid #2a4a6a;
+        border-radius: 999px;
+        background: rgba(3, 8, 14, .62);
+        color: var(--muted);
+        font-size: .84rem;
+      }
+      .relay-health-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+      .relay-health.live { border-color: rgba(126, 231, 135, .45); color: var(--accent); }
+      .relay-health.live .relay-health-dot { background: var(--accent); }
+      .relay-health.offline,
+      .relay-health.error { border-color: rgba(255, 123, 123, .45); color: #ffd0d0; }
+      .relay-health.offline .relay-health-dot,
+      .relay-health.error .relay-health-dot { background: var(--danger); }
+      .grid { display: grid; grid-template-columns: 310px 1fr; gap: 18px; align-items: start; margin-top: 18px; }
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+      }
+      .panel-inner { padding: 16px; }
+      .section-title {
+        color: var(--blue);
+        font-size: .76rem;
+        font-weight: 800;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        margin: 0 0 12px;
+      }
+      label { display: grid; gap: 7px; color: var(--muted); font-size: .86rem; }
+      input, select, textarea {
+        width: 100%;
+        border: 1px solid #2a4a6a;
+        border-radius: 12px;
+        padding: 11px 12px;
+        color: var(--text);
+        background: rgba(4, 11, 18, .95);
+        font: inherit;
+      }
+      input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); }
+      textarea { min-height: 78px; resize: vertical; }
+      .stack { display: grid; gap: 13px; }
+      .hint { color: var(--muted); font-size: .78rem; line-height: 1.55; margin-top: 12px; }
+      .destinations { display: grid; gap: 14px; }
+      .card { overflow: hidden; }
+      .card-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto auto;
+        gap: 12px;
+        align-items: center;
+        padding: 15px 16px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(5, 13, 22, .78);
+      }
+      .card h2 { margin: 0 0 5px; letter-spacing: -.04em; }
+      .card-subtitle { color: var(--muted); font-size: .78rem; line-height: 1.45; }
+      .card-summary { color: var(--muted); font-size: .76rem; overflow-wrap: anywhere; }
+      .card-details[hidden] { display: none; }
+      .card.is-open .card-head { border-bottom-color: rgba(115, 210, 255, .34); }
+      .pill {
+        border: 1px solid #36516f;
+        border-radius: 999px;
+        padding: 7px 10px;
+        color: var(--muted);
+        background: rgba(3, 8, 14, .62);
+        font-size: .76rem;
+        white-space: nowrap;
+      }
+      .pill.running { color: #03110a; background: var(--accent); border-color: var(--accent); }
+      .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .full { grid-column: 1 / -1; }
+      .copy-mode-row {
+        border: 1px solid rgba(126, 231, 135, .42);
+        border-radius: 14px;
+        padding: 12px;
+        background: rgba(126, 231, 135, .08);
+      }
+      .hold-mode-row {
+        border: 1px solid rgba(255, 209, 102, .42);
+        border-radius: 14px;
+        padding: 12px;
+        background: rgba(255, 209, 102, .08);
+      }
+      .scene-list { display: grid; gap: 8px; }
+      .scene-item {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 8px;
+        align-items: center;
+        padding: 9px;
+        border: 1px solid #213a55;
+        border-radius: 10px;
+        background: rgba(3, 8, 14, .62);
+      }
+      .scene-item strong { display: block; overflow-wrap: anywhere; font-size: .8rem; }
+      .scene-item span { color: var(--muted); font-size: .72rem; }
+      .scene-item.selected { border-color: rgba(126, 231, 135, .6); }
+      .scene-empty { color: var(--muted); font-size: .8rem; }
+      .checkbox-label {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        color: var(--text);
+      }
+      .checkbox-label input { width: auto; margin-top: 2px; }
+      .field-note { color: var(--muted); font-size: .76rem; line-height: 1.45; margin-top: 5px; }
+      .transcode-disabled {
+        opacity: .45;
+      }
+      .transcode-disabled input,
+      .transcode-disabled select,
+      .transcode-disabled textarea {
+        cursor: not-allowed;
+      }
+      .buttons { display: flex; flex-wrap: wrap; gap: 9px; padding-top: 4px; }
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 11px 14px;
+        cursor: pointer;
+        color: #02100c;
+        background: linear-gradient(135deg, var(--accent), #b7ffca);
+        font: inherit;
+        font-weight: 800;
+      }
+      button.secondary { color: var(--text); background: #20364d; border: 1px solid #36516f; }
+      button.danger { color: #1a0202; background: linear-gradient(135deg, #ff9c9c, var(--danger)); }
+      button.expand-toggle {
+        color: var(--text);
+        background: #182940;
+        border: 1px solid #36516f;
+      }
+      button.live-toggle {
+        color: var(--text);
+        background: rgba(3, 8, 14, .62);
+        border: 1px solid #36516f;
+      }
+      button.live-toggle.is-live {
+        color: #1a0202;
+        background: linear-gradient(135deg, #ff9c9c, var(--danger));
+        border: 1px solid rgba(255, 123, 123, .75);
+      }
+      button:hover { filter: brightness(1.06); }
+      .log {
+        height: 230px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+        color: #b7c7d6;
+        background: rgba(3, 8, 14, .74);
+        border: 1px solid #213a55;
+        border-radius: 12px;
+        padding: 11px;
+        font-size: .76rem;
+      }
+      .meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+      .metric {
+        border: 1px solid #213a55;
+        border-radius: 10px;
+        background: rgba(3, 8, 14, .62);
+        padding: 9px;
+      }
+      .metric span { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+      .metric strong { font-size: .78rem; font-weight: 700; }
+      @media (max-width: 1280px) {
+        .grid { grid-template-columns: 1fr; }
+        .destinations { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 740px) {
+        .topbar, .status-bar { grid-template-columns: 1fr; }
+        .card-head { grid-template-columns: 1fr; }
+        .form-grid, .meta { grid-template-columns: 1fr; }
       }
     </style>
   </head>
   <body>
     <main class="shell">
-      <section class="header">
-        <h1>Restream Control</h1>
-        <p>Configure ffmpeg encoding and manage your live stream. OBS publishes to <code>rtmp://HOST:1936/stream</code> with key <code>input</code>, and your player uses <code>app/key</code>. <a href="/">Back to player</a></p>
-      </section>
-
-      <div class="status-banner">
-        <div class="status-content">
-          <div class="status-label">Stream Status</div>
-          <div class="status-indicator">
-            <div id="statusDot" class="status-dot"></div>
-            <div id="statusBadge" class="status-badge idle">Idle</div>
+      <section class="topbar">
+        <div>
+          <h1>Restream Control</h1>
+          <p>OBS publishes to <code>rtmp://HOST:1936/stream</code> with key <code>input</code>. YouTube, Facebook, and Instagram now run as separate ffmpeg jobs, so stopping one destination will not stop the others or the custom web stream. <a href="/">Back to player</a></p>
+          <div id="relayHealth" class="relay-health checking" title="Checks OBS ingest at rtmp://127.0.0.1:1936/stream/input">
+            <span class="relay-health-dot"></span>
+            <span id="relayHealthText">OBS → Relay: checking...</span>
           </div>
         </div>
-        <div id="status" class="status">Loading…</div>
-      </div>
+        <button id="refreshBtn" type="button" class="secondary">Refresh</button>
+      </section>
+
+      <section class="status-bar">
+        <div>
+          <div id="overallStatus" class="status-text idle">Loading status...</div>
+          <div id="overallTargets" class="message">Checking restream API.</div>
+        </div>
+        <div id="message" class="message">Ready.</div>
+      </section>
 
       <section class="grid">
-        <section class="panel controls">
-          <div class="form-section">
-            <div class="form-section-title">Ingest Sources</div>
-            <label>Input URL<input id="inputUrl" value=""></label>
-            <label>OME output URL<input id="omeUrl" value=""></label>
-          </div>
-
-          <div class="form-section">
-            <div class="form-section-title">YouTube</div>
-            <label>Base URL<input id="youtubeUrl" value=""></label>
-            <label>Stream key<input id="youtubeKey" value=""></label>
-          </div>
-
-          <div class="form-section">
-            <div class="form-section-title">Video Encoding</div>
-            <div class="row-2">
-              <label>Bitrate (kbps)<input id="videoBitrateKbps" type="number" min="500" step="100" value="6000"></label>
-              <label>Maxrate (kbps)<input id="maxrateKbps" type="number" min="500" step="100" value="6000"></label>
+        <aside class="panel">
+          <div class="panel-inner stack">
+            <div>
+              <div class="section-title">Relay Input</div>
+              <label>Shared input URL
+                <input id="inputUrl" data-common="inputUrl" placeholder="rtmp://127.0.0.1:1936/restream/input">
+              </label>
+              <div class="hint">Every destination pulls from this relay branch. Keep this on <code>rtmp://127.0.0.1:1936/restream/input</code> unless the relay config changes.</div>
             </div>
-            <div class="row-2">
-              <label>FPS<input id="fps" type="number" min="1" step="1" value="30"></label>
-              <label>GOP seconds<input id="gopSeconds" type="number" min="1" step="1" value="2"></label>
+            <div>
+              <div class="section-title">Default Filters</div>
+              <div class="hint">YouTube: <code>scale=-2:720</code></div>
+              <div class="hint">Facebook and Instagram: <code>transpose=1,scale=-2:1280</code>. <code>transpose=1</code> rotates the frame 90 degrees clockwise.</div>
             </div>
-            <div class="row-2">
-              <label>Preset<select id="preset"><option value="ultrafast">ultrafast</option><option value="superfast">superfast</option><option value="veryfast" selected>veryfast</option><option value="faster">faster</option><option value="fast">fast</option><option value="medium">medium</option></select></label>
-              <label>Scale height<input id="scaleHeight" type="number" min="0" step="1" value="1080"></label>
+            <div>
+              <div class="section-title">Offline Scene Clips</div>
+              <div class="field-note">The selected clip is used for every destination when OBS relay drops.</div>
+              <input type="file" data-role="offline-scene-file" accept="video/*,.mkv,.ts">
+              <div class="buttons">
+                <button type="button" class="secondary" data-action="upload-offline-scene">Upload Clip</button>
+                <button type="button" class="secondary" data-action="refresh-offline-scenes">Refresh Clips</button>
+              </div>
+              <div class="scene-list" data-role="offline-scene-list">
+                <div class="scene-empty">No offline clips loaded yet.</div>
+              </div>
             </div>
           </div>
+        </aside>
 
-          <div class="form-section">
-            <div class="form-section-title">Audio Encoding</div>
-            <label>Audio bitrate (kbps)<input id="audioBitrateKbps" type="number" min="64" step="32" value="160"></label>
-            <label>Buffer size (kbps)<input id="bufsizeKbps" type="number" min="500" step="100" value="12000"></label>
+        <section class="destinations" id="destinations"></section>
+      </section>
+    </main>
+
+    <template id="destinationTemplate">
+      <article class="panel card">
+        <div class="card-head">
+          <div>
+            <h2 data-role="title"></h2>
+            <div class="card-subtitle" data-role="subtitle"></div>
+            <div class="card-summary" data-role="summary">Not configured.</div>
           </div>
-
-          <div class="form-section">
-            <div class="form-section-title">Advanced</div>
-            <label>Extra ffmpeg args<textarea id="extraArgs" placeholder="-metadata title=My Live"></textarea></label>
+          <div class="pill" data-role="state">idle</div>
+          <button type="button" class="live-toggle" data-action="live-toggle">Live</button>
+          <button type="button" class="expand-toggle" data-action="expand-toggle" aria-expanded="false">Settings</button>
+        </div>
+        <div class="panel-inner stack card-details" data-role="details" hidden>
+          <div class="form-grid">
+            <label class="full">Server URL
+              <input data-field="Url">
+            </label>
+            <label class="full">Stream key
+              <input data-field="Key" type="password" placeholder="Leave empty to disable this destination">
+            </label>
+            <label class="full copy-mode-row" data-copy-row>
+              <span class="checkbox-label">
+                <input data-field="CopyMode" type="checkbox">
+                <span>
+                  Recommended: copy OBS video/audio without re-encoding
+                  <span class="field-note">Best for YouTube stability. Uncheck only if you need to resize, cap bitrate, or force different encoder settings.</span>
+                </span>
+              </span>
+            </label>
+            <label class="full hold-mode-row" data-hold-row>
+              <span class="checkbox-label">
+                <input data-field="HoldOnStop" type="checkbox">
+                <span>
+                  Graceful YouTube stop: send black video and silent audio before closing
+                  <span class="field-note">This keeps YouTube ingest receiving data for the configured grace period instead of closing the RTMP socket immediately.</span>
+                </span>
+              </span>
+            </label>
+            <label data-hold-row>Hold seconds
+              <input data-field="HoldSeconds" type="number" min="1" step="1">
+            </label>
+            <label data-hold-row>Hold FPS
+              <input data-field="HoldFps" type="number" min="1" step="1">
+            </label>
+            <label data-hold-row>Hold width
+              <input data-field="HoldWidth" type="number" min="16" step="2">
+            </label>
+            <label data-hold-row>Hold height
+              <input data-field="HoldHeight" type="number" min="16" step="2">
+            </label>
+            <label data-hold-row>Hold video bitrate
+              <input data-field="HoldVideoBitrateKbps" type="number" min="100" step="100">
+            </label>
+            <label data-hold-row>Hold audio bitrate
+              <input data-field="HoldAudioBitrateKbps" type="number" min="64" step="32">
+            </label>
+            <label data-transcode-control>Video bitrate
+              <input data-field="VideoBitrateKbps" type="number" min="300" step="100">
+            </label>
+            <label data-transcode-control>Audio bitrate
+              <input data-field="AudioBitrateKbps" type="number" min="64" step="32">
+            </label>
+            <label data-transcode-control>Maxrate
+              <input data-field="MaxrateKbps" type="number" min="300" step="100">
+            </label>
+            <label data-transcode-control>Buffer size
+              <input data-field="BufsizeKbps" type="number" min="300" step="100">
+            </label>
+            <label data-transcode-control>FPS
+              <input data-field="Fps" type="number" min="1" step="1">
+            </label>
+            <label data-transcode-control>GOP seconds
+              <input data-field="GopSeconds" type="number" min="1" step="1">
+            </label>
+            <label class="full" data-transcode-control>Preset
+              <select data-field="Preset">
+                <option value="ultrafast">ultrafast</option>
+                <option value="superfast">superfast</option>
+                <option value="veryfast">veryfast</option>
+                <option value="faster">faster</option>
+                <option value="fast">fast</option>
+                <option value="medium">medium</option>
+              </select>
+            </label>
+            <label class="full" data-transcode-control>Video filter
+              <input data-field="VideoFilter" placeholder="scale=-2:720">
+            </label>
+            <label class="full">Extra ffmpeg args
+              <textarea data-field="ExtraArgs" placeholder="-metadata title=My Live"></textarea>
+            </label>
           </div>
 
           <div class="buttons">
-            <button id="startBtn" type="button">Start Streaming</button>
-            <button id="stopBtn" type="button" class="danger">Stop Streaming</button>
-            <button id="saveBtn" type="button" class="secondary">Save Settings</button>
-            <button id="refreshBtn" type="button" class="secondary">Refresh</button>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="monitor-section">
-            <div class="monitor-title">Process</div>
-            <div class="chipline">
-              <div class="chip">State: <span id="apiState">-</span></div>
-              <div class="chip">PID: <span id="pidState">-</span></div>
-            </div>
-            <div class="chip">Started: <span id="startedState">-</span></div>
+            <button type="button" class="secondary" data-action="save">Save</button>
           </div>
 
-          <div class="monitor-section">
-            <div class="monitor-title">Configuration</div>
-            <div id="summary" class="summary">No status yet.</div>
+          <div class="meta">
+            <div class="metric"><span>PID</span><strong data-role="pid">-</strong></div>
+            <div class="metric"><span>Started</span><strong data-role="started">-</strong></div>
+            <div class="metric"><span>Exit</span><strong data-role="exit">-</strong></div>
           </div>
 
-          <div class="monitor-section">
-            <div class="monitor-title">ffmpeg Log</div>
-            <div id="logs" class="logbox">No log yet.</div>
+          <div>
+            <div class="section-title">ffmpeg Log</div>
+            <div class="log" data-role="log">No log yet.</div>
           </div>
-        </section>
-      </section>
-    </main>
+        </div>
+      </article>
+    </template>
+
     <script>
-      const fields = { inputUrl: inputUrl, omeUrl: omeUrl, youtubeUrl: youtubeUrl, youtubeKey: youtubeKey, videoBitrateKbps: videoBitrateKbps, audioBitrateKbps: audioBitrateKbps, maxrateKbps: maxrateKbps, bufsizeKbps: bufsizeKbps, fps: fps, gopSeconds: gopSeconds, preset: preset, scaleHeight: scaleHeight, extraArgs: extraArgs };
+      const DESTINATIONS = [
+        {
+          name: "youtube",
+          title: "YouTube",
+          subtitle: "Recommended default: copy OBS video/audio directly to YouTube.",
+        },
+        {
+          name: "facebook",
+          title: "Facebook",
+          subtitle: "Vertical output by default: rotate 90° clockwise, then scale height to 1280.",
+        },
+        {
+          name: "instagram",
+          title: "Instagram",
+          subtitle: "Vertical output by default: rotate 90° clockwise, then scale height to 1280.",
+        },
+      ];
+
+      const nodes = {
+        message: document.getElementById("message"),
+        inputUrl: document.getElementById("inputUrl"),
+        overallStatus: document.getElementById("overallStatus"),
+        overallTargets: document.getElementById("overallTargets"),
+        destinations: document.getElementById("destinations"),
+        template: document.getElementById("destinationTemplate"),
+        refreshBtn: document.getElementById("refreshBtn"),
+      };
+      const cards = new Map();
+      const dirty = new Set();
       let pollTimer;
-      function setStatus(message, isError = false) { status.textContent = message; status.classList.toggle("error", isError); }
-      function readForm() { return { inputUrl: fields.inputUrl.value.trim(), omeUrl: fields.omeUrl.value.trim(), youtubeUrl: fields.youtubeUrl.value.trim(), youtubeKey: fields.youtubeKey.value.trim(), videoBitrateKbps: Number(fields.videoBitrateKbps.value || 0), audioBitrateKbps: Number(fields.audioBitrateKbps.value || 0), maxrateKbps: Number(fields.maxrateKbps.value || 0), bufsizeKbps: Number(fields.bufsizeKbps.value || 0), fps: Number(fields.fps.value || 0), gopSeconds: Number(fields.gopSeconds.value || 0), preset: fields.preset.value.trim(), scaleHeight: Number(fields.scaleHeight.value || 0), extraArgs: fields.extraArgs.value.trim() }; }
-      function writeForm(config) { fields.inputUrl.value = config.inputUrl || ""; fields.omeUrl.value = config.omeUrl || ""; fields.youtubeUrl.value = config.youtubeUrl || ""; fields.youtubeKey.value = config.youtubeKey || ""; fields.videoBitrateKbps.value = config.videoBitrateKbps ?? 6000; fields.audioBitrateKbps.value = config.audioBitrateKbps ?? 160; fields.maxrateKbps.value = config.maxrateKbps ?? 6000; fields.bufsizeKbps.value = config.bufsizeKbps ?? 12000; fields.fps.value = config.fps ?? 30; fields.gopSeconds.value = config.gopSeconds ?? 2; fields.preset.value = config.preset || "veryfast"; fields.scaleHeight.value = config.scaleHeight ?? 1080; fields.extraArgs.value = config.extraArgs || ""; }
-      function renderStatus(payload) {
-        const st = payload.status || {};
-        const isRunning = st.running;
+      let relayHealthTimer;
 
-        // Update status banner
-        statusBadge.textContent = isRunning ? "Streaming" : "Idle";
-        statusBadge.classList.toggle("idle", !isRunning);
-        statusDot.classList.toggle("idle", !isRunning);
-
-        // Update process info
-        apiState.textContent = isRunning ? "running" : "idle";
-        pidState.textContent = st.pid || "-";
-        startedState.textContent = st.startedAt || "-";
-
-        // Update config summary
-        summary.textContent = [`Input: ${payload.config?.inputUrl || "-"}`, `Output: ${payload.config?.omeUrl || "-"}`, `YouTube: ${payload.config?.youtubeKey ? "configured" : "not set"}`, `Video: ${payload.config?.videoBitrateKbps || "-"} kbps @ ${payload.config?.fps || "-"} fps`, `Audio: ${payload.config?.audioBitrateKbps || "-"} kbps`, `Preset: ${payload.config?.preset || "-"}`].join("\n");
-
-        // Update logs
-        logs.textContent = payload.logs || "No log yet.";
+      function keyFor(name, suffix) {
+        return `${name}${suffix}`;
       }
-      async function api(path, method = "GET", body) { const response = await fetch(`/api/restream/${path}`, { method, headers: body ? { "Content-Type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined }); if (!response.ok) throw new Error(await response.text() || `${response.status} ${response.statusText}`); return response.json(); }
-      async function refresh() { const payload = await api("status"); writeForm(payload.config || {}); renderStatus(payload); return payload; }
-      async function save() { const payload = await api("config", "POST", readForm()); renderStatus(payload); setStatus("Restream settings saved."); }
-      async function start() { const payload = await api("start", "POST", readForm()); renderStatus(payload); setStatus("Restream process started."); }
-      async function stopStream() { const payload = await api("stop", "POST"); renderStatus(payload); setStatus("Restream process stopped."); }
-      async function guarded(fn) { try { await fn(); } catch (error) { setStatus(error.message, true); } }
-      saveBtn.addEventListener("click", () => guarded(save));
-      startBtn.addEventListener("click", () => guarded(start));
-      stopBtn.addEventListener("click", () => guarded(stopStream));
-      refreshBtn.addEventListener("click", () => guarded(refresh));
+
+      function setMessage(text, isError = false) {
+        nodes.message.textContent = text;
+        nodes.message.classList.toggle("error", isError);
+      }
+
+      function renderRelayHealth(payload) {
+        const node = document.getElementById("relayHealth");
+        const text = document.getElementById("relayHealthText");
+        if (!node || !text) return;
+        const status = payload.status || "unknown";
+        node.classList.remove("live", "offline", "error", "checking");
+        node.classList.add(payload.ok ? "live" : status === "error" ? "error" : status === "offline" ? "offline" : "checking");
+        const video = (payload.streams || []).find((stream) => stream.codec_type === "video");
+        const audio = (payload.streams || []).find((stream) => stream.codec_type === "audio");
+        const resolution = video && video.width && video.height ? ` ${video.width}x${video.height}` : "";
+        const audioLabel = audio ? " + audio" : "";
+        text.textContent = payload.ok ? `OBS → Relay: live${resolution}${audioLabel}` : `OBS → Relay: ${status}`;
+        node.title = `${payload.source || ""}\n${payload.message || ""}\nChecked: ${payload.checkedAt || "-"}`;
+      }
+
+      async function refreshRelayHealth() {
+        try {
+          const response = await fetch("/api/restream/relay-health", { cache: "no-store" });
+          if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+          renderRelayHealth(await response.json());
+        } catch (error) {
+          renderRelayHealth({ ok: false, status: "error", message: error.message, streams: [] });
+        }
+      }
+
+      function startRelayHealthPolling() {
+        refreshRelayHealth();
+        relayHealthTimer = setInterval(refreshRelayHealth, 5000);
+      }
+
+      function createCards() {
+        for (const destination of DESTINATIONS) {
+          const fragment = nodes.template.content.cloneNode(true);
+          const card = fragment.querySelector(".card");
+          card.dataset.destination = destination.name;
+          card.querySelector('[data-role="title"]').textContent = destination.title;
+          card.querySelector('[data-role="subtitle"]').textContent = destination.subtitle;
+          card.querySelector('[data-action="save"]').addEventListener("click", () => guarded(() => saveDestination(destination.name)));
+          card.querySelector('[data-action="live-toggle"]').addEventListener("click", () => guarded(() => toggleDestination(destination.name)));
+          card.querySelector('[data-action="expand-toggle"]').addEventListener("click", () => toggleCardDetails(destination.name));
+          if (destination.name !== "youtube") {
+            card.querySelector("[data-copy-row]")?.remove();
+            card.querySelectorAll("[data-hold-row]").forEach((row) => row.remove());
+          }
+          card.querySelectorAll("[data-field]").forEach((field) => {
+            const id = keyFor(destination.name, field.dataset.field);
+            field.dataset.configKey = id;
+            field.addEventListener("input", () => {
+              dirty.add(id);
+              if (id === "youtubeCopyMode") {
+                toggleYouTubeCopyControls();
+              }
+            });
+          });
+          cards.set(destination.name, card);
+          nodes.destinations.appendChild(fragment);
+        }
+        nodes.inputUrl.addEventListener("input", () => dirty.add("inputUrl"));
+      }
+
+      async function api(path, method = "GET", body) {
+        const response = await fetch(`/api/restream/${path}`, {
+          method,
+          headers: body ? { "Content-Type": "application/json" } : undefined,
+          body: body ? JSON.stringify(body) : undefined,
+        });
+        if (!response.ok) {
+          throw new Error(await response.text() || `${response.status} ${response.statusText}`);
+        }
+        return response.json();
+      }
+
+      function formatBytes(bytes) {
+        const value = Number(bytes) || 0;
+        if (value >= 1024 * 1024 * 1024) return `${(value / 1024 / 1024 / 1024).toFixed(2)} GB`;
+        if (value >= 1024 * 1024) return `${(value / 1024 / 1024).toFixed(1)} MB`;
+        if (value >= 1024) return `${(value / 1024).toFixed(0)} KB`;
+        return `${value} B`;
+      }
+
+      async function refreshOfflineScenes() {
+        const payload = await api("offline-scenes");
+        renderOfflineScenes(payload);
+        return payload;
+      }
+
+      function renderOfflineScenes(payload = {}) {
+        const list = document.querySelector('[data-role="offline-scene-list"]');
+        if (!list) return;
+        const files = payload.files || [];
+        if (!files.length) {
+          list.innerHTML = '<div class="scene-empty">No offline clips loaded yet.</div>';
+          return;
+        }
+        list.innerHTML = "";
+        for (const file of files) {
+          const row = document.createElement("div");
+          row.className = `scene-item${file.selected ? " selected" : ""}`;
+          row.innerHTML = `
+            <div>
+              <strong></strong>
+              <span>${formatBytes(file.size)} · ${file.modifiedAt || ""}${file.selected ? " · selected" : ""}</span>
+            </div>
+            <button type="button" class="secondary" data-scene-select>Select</button>
+            <button type="button" class="danger" data-scene-delete>Delete</button>
+          `;
+          row.querySelector("strong").textContent = file.name;
+          row.querySelector("[data-scene-select]").addEventListener("click", () => guarded(() => selectOfflineScene(file.name)));
+          row.querySelector("[data-scene-delete]").addEventListener("click", () => guarded(() => deleteOfflineScene(file.name)));
+          list.appendChild(row);
+        }
+      }
+
+      async function uploadOfflineScene() {
+        const input = document.querySelector('[data-role="offline-scene-file"]');
+        const file = input?.files?.[0];
+        if (!file) {
+          setMessage("Choose an offline scene clip first.", true);
+          return;
+        }
+        const form = new FormData();
+        form.append("file", file);
+        const response = await fetch("/api/restream/offline-scenes/upload", {
+          method: "POST",
+          body: form,
+        });
+        if (!response.ok) throw new Error(await response.text() || `${response.status} ${response.statusText}`);
+        renderOfflineScenes(await response.json());
+        input.value = "";
+        await refresh();
+        setMessage("Offline scene uploaded.");
+      }
+
+      async function selectOfflineScene(name) {
+        const payload = await api("offline-scenes/select", "POST", { name });
+        renderOfflineScenes(payload);
+        await refresh();
+        setMessage(`Offline scene selected: ${name}`);
+      }
+
+      async function deleteOfflineScene(name) {
+        const payload = await api("offline-scenes/delete", "POST", { name });
+        renderOfflineScenes(payload);
+        await refresh();
+        setMessage(`Offline scene deleted: ${name}`);
+      }
+
+      function destinationPatch(name) {
+        const card = cards.get(name);
+        const patch = { inputUrl: nodes.inputUrl.value.trim() };
+        card.querySelectorAll("[data-config-key]").forEach((field) => {
+          const value = field.type === "checkbox" ? (field.checked ? 1 : 0) : field.type === "number" ? Number(field.value || 0) : field.value.trim();
+          patch[field.dataset.configKey] = value;
+        });
+        return patch;
+      }
+
+      function writeConfig(config = {}) {
+        if (!dirty.has("inputUrl")) {
+          nodes.inputUrl.value = config.inputUrl || "";
+        }
+        for (const [name, card] of cards) {
+          card.querySelectorAll("[data-config-key]").forEach((field) => {
+            const key = field.dataset.configKey;
+            if (!dirty.has(key)) {
+              if (field.type === "checkbox") {
+                field.checked = Boolean(Number(config[key] ?? 0));
+              } else {
+                field.value = config[key] ?? "";
+              }
+            }
+          });
+        }
+        toggleYouTubeCopyControls();
+      }
+
+      function toggleYouTubeCopyControls() {
+        const card = cards.get("youtube");
+        if (!card) return;
+        const copyInput = card.querySelector('[data-config-key="youtubeCopyMode"]');
+        const copyMode = copyInput ? copyInput.checked : false;
+        card.querySelectorAll("[data-transcode-control]").forEach((label) => {
+          label.classList.toggle("transcode-disabled", copyMode);
+          label.querySelectorAll("input, select, textarea").forEach((field) => {
+            field.disabled = copyMode;
+          });
+        });
+      }
+
+      function toggleCardDetails(name) {
+        const card = cards.get(name);
+        if (!card) return;
+        const isOpen = card.dataset.expanded === "true";
+        setCardExpanded(card, !isOpen);
+      }
+
+      function setCardExpanded(card, expanded) {
+        const details = card.querySelector('[data-role="details"]');
+        const button = card.querySelector('[data-action="expand-toggle"]');
+        card.dataset.expanded = String(expanded);
+        card.classList.toggle("is-open", expanded);
+        if (details) details.hidden = !expanded;
+        if (button) {
+          button.textContent = expanded ? "Hide" : "Settings";
+          button.setAttribute("aria-expanded", String(expanded));
+        }
+      }
+
+      function render(payload) {
+        const runningTargets = payload.status?.runningTargets || [];
+        const configuredTargets = payload.status?.targets || [];
+        const running = runningTargets.length > 0;
+        nodes.overallStatus.textContent = running ? `Running: ${runningTargets.join(", ")}` : "No restream destinations running";
+        nodes.overallStatus.classList.toggle("idle", !running);
+        nodes.overallTargets.textContent = configuredTargets.length
+          ? `Configured targets: ${configuredTargets.join(", ")}`
+          : "No destination has a stream key yet.";
+
+        for (const [name, card] of cards) {
+          const state = payload.destinations?.[name] || {};
+          const isRunning = Boolean(state.running);
+          const pill = card.querySelector('[data-role="state"]');
+          const liveButton = card.querySelector('[data-action="live-toggle"]');
+          card.dataset.running = String(isRunning);
+          pill.textContent = isRunning ? `running${state.mode ? `/${state.mode}` : ""}` : "idle";
+          pill.classList.toggle("running", isRunning);
+          liveButton.textContent = isRunning ? "End" : "Live";
+          liveButton.classList.toggle("is-live", isRunning);
+          liveButton.setAttribute("aria-pressed", String(isRunning));
+          const key = payload.config?.[`${name}Key`] || "";
+          const mode = state.mode ? ` · ${state.mode}` : "";
+          const filter = payload.config?.[`${name}VideoFilter`] || "none";
+          card.querySelector('[data-role="summary"]').textContent = `${key ? "configured" : "no key"}${mode} · filter: ${filter}`;
+          card.querySelector('[data-role="pid"]').textContent = state.pid || "-";
+          card.querySelector('[data-role="started"]').textContent = state.startedAt || "-";
+          card.querySelector('[data-role="exit"]').textContent = state.lastExitCode ?? "-";
+          card.querySelector('[data-role="log"]').textContent = payload.logs?.[name] || "No log yet.";
+        }
+      }
+
+      async function refresh() {
+        const payload = await api("status");
+        writeConfig(payload.config);
+        render(payload);
+        refreshOfflineScenes().catch((error) => setMessage(error.message, true));
+        return payload;
+      }
+
+      async function saveDestination(name) {
+        const payload = await api(`${name}/config`, "POST", destinationPatch(name));
+        for (const key of Object.keys(destinationPatch(name))) {
+          dirty.delete(key);
+        }
+        writeConfig(payload.config);
+        render(payload);
+        setMessage(`${name} settings saved.`);
+      }
+
+      async function startDestination(name) {
+        const payload = await api(`${name}/start`, "POST", destinationPatch(name));
+        for (const key of Object.keys(destinationPatch(name))) {
+          dirty.delete(key);
+        }
+        writeConfig(payload.config);
+        render(payload);
+        setMessage(`${name} started.`);
+      }
+
+      async function stopDestination(name) {
+        const payload = await api(`${name}/stop`, "POST", {});
+        render(payload);
+        setMessage(`${name} stopped.`);
+      }
+
+      async function toggleDestination(name) {
+        const state = cards.get(name)?.dataset.running === "true";
+        if (state) {
+          await stopDestination(name);
+        } else {
+          await startDestination(name);
+        }
+      }
+
+      async function guarded(fn) {
+        try {
+          await fn();
+        } catch (error) {
+          setMessage(error.message, true);
+        }
+      }
+
+      createCards();
+      nodes.refreshBtn.addEventListener("click", () => guarded(refresh));
+      document.querySelector('[data-action="upload-offline-scene"]').addEventListener("click", () => guarded(uploadOfflineScene));
+      document.querySelector('[data-action="refresh-offline-scenes"]').addEventListener("click", () => guarded(refreshOfflineScenes));
       guarded(refresh);
-      pollTimer = setInterval(() => { guarded(refresh); }, 4000);
-      window.addEventListener("beforeunload", () => clearInterval(pollTimer));
+      startRelayHealthPolling();
+      pollTimer = setInterval(() => guarded(refresh), 2500);
+      window.addEventListener("beforeunload", () => {
+        clearInterval(pollTimer);
+        clearInterval(relayHealthTimer);
+      });
     </script>
   </body>
 </html>

@@ -3,8 +3,31 @@ services:
     image: alfg/nginx-rtmp
     container_name: ome-relay-rtmp
     restart: unless-stopped
+    command: ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
     ports:
       - "1936:1935"
+    volumes:
+      - ./relay/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - ome
+
+  ingester:
+    image: jrottenberg/ffmpeg:latest
+    container_name: ome-ingester
+    restart: unless-stopped
+    profiles: ["ingest-copy"]
+    depends_on:
+      - relay-rtmp
+      - ome
+    network_mode: host
+    entrypoint: /bin/bash -c "while true; do ffmpeg -hide_banner -loglevel info -fflags +genpts -i rtmp://127.0.0.1:1936/stream/input -map 0:v:0 -map 0:a:0? -c copy -f flv rtmp://127.0.0.1:1935/app/key 2>&1 | tee /data/ingester.log; sleep 2; done"
+    volumes:
+      - ./restream/data:/data
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "ffmpeg"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   restream:
     build:
