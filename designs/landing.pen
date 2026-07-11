@@ -1,0 +1,2289 @@
+{
+  "version": "2.14",
+  "children": [
+    {
+      "type": "frame",
+      "id": "E87jdf",
+      "x": 0,
+      "y": 0,
+      "name": "Landing Page",
+      "clip": true,
+      "width": 1600,
+      "fill": "$bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "BgonR",
+          "name": "Hero Section",
+          "width": "fill_container",
+          "height": 620,
+          "fill": "$bg",
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "q5QPz3",
+              "x": 900,
+              "y": -200,
+              "name": "Hero Red Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "opacity": 0.28,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#D9772A",
+                    "position": 0
+                  },
+                  {
+                    "color": "#05050500",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 700,
+              "height": 500
+            },
+            {
+              "type": "ellipse",
+              "id": "yMOTl",
+              "x": -200,
+              "y": 250,
+              "name": "Hero Blue Glow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "opacity": 0.15,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#4DA3FF",
+                    "position": 0
+                  },
+                  {
+                    "color": "#05050500",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 550,
+              "height": 420
+            },
+            {
+              "type": "frame",
+              "id": "ssGf8",
+              "x": 120,
+              "y": 160,
+              "name": "Hero Content",
+              "width": 900,
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EUtWo",
+                  "name": "Hero Headline",
+                  "fill": "$text",
+                  "content": "Stream to Multiple\nPlatforms at 1/3\nthe Cost",
+                  "lineHeight": 1,
+                  "fontFamily": "$font",
+                  "fontSize": 64,
+                  "fontWeight": "900",
+                  "letterSpacing": -2.5
+                },
+                {
+                  "type": "text",
+                  "id": "dkBH3",
+                  "name": "Hero Subheading",
+                  "fill": "$muted",
+                  "content": "One OBS setup. YouTube, Facebook, Instagram, anywhere.\nPowered by low-latency OME infrastructure.",
+                  "lineHeight": 1.5,
+                  "fontFamily": "$font",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "SgqF8",
+                  "name": "Hero CTA Row",
+                  "gap": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "yt4Dm",
+                      "name": "Start Trial Button",
+                      "fill": "$red",
+                      "cornerRadius": 12,
+                      "padding": [
+                        16,
+                        32
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dXbJU",
+                          "name": "Button Label",
+                          "fill": "#FFFFFF",
+                          "content": "Start Free Trial",
+                          "fontFamily": "$font",
+                          "fontSize": 15,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "tHKQV",
+                      "name": "No CC Text",
+                      "fill": "$muted",
+                      "content": "No credit card required · 2 hours free",
+                      "fontFamily": "$font",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Wteaf",
+          "name": "Use Cases Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            60,
+            120
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "Ddx52",
+              "name": "Use Cases Eyebrow",
+              "fill": "$red",
+              "content": "WHO IT'S FOR",
+              "fontFamily": "$font",
+              "fontSize": 12,
+              "fontWeight": "900",
+              "letterSpacing": 1.5
+            },
+            {
+              "type": "text",
+              "id": "x0KG6",
+              "name": "Use Cases Title",
+              "fill": "$text",
+              "content": "Built for Your Workflow",
+              "fontFamily": "$font",
+              "fontSize": 36,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "fwTPf",
+              "name": "Use Cases Grid",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "m6ouFO",
+                  "name": "Use Case - Individual Creators",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 18,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": [
+                    28,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2,
+                      "id": "YToE3",
+                      "name": "Accent Bar",
+                      "fill": "$red",
+                      "width": 36,
+                      "height": 4
+                    },
+                    {
+                      "type": "text",
+                      "id": "dDQT7",
+                      "name": "Card Title",
+                      "fill": "$text",
+                      "content": "Individual Creators",
+                      "fontFamily": "$font",
+                      "fontSize": 20,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ClT2v",
+                      "name": "Card Description",
+                      "fill": "$muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "One stream, multiple audiences. Reach your fans on YouTube and TikTok simultaneously without managing separate streams.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "x38lY",
+                  "name": "Use Case - Broadcasters & Teams",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 18,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": [
+                    28,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2,
+                      "id": "p5hQ2I",
+                      "name": "Accent Bar",
+                      "fill": "$green",
+                      "width": 36,
+                      "height": 4
+                    },
+                    {
+                      "type": "text",
+                      "id": "OJE0g",
+                      "name": "Card Title",
+                      "fill": "$text",
+                      "content": "Broadcasters & Teams",
+                      "fontFamily": "$font",
+                      "fontSize": 20,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "AFcKx",
+                      "name": "Card Description",
+                      "fill": "$muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Coordinate multi-platform broadcasts. Schedule streams, monitor health, and manage viewers across all platforms in one dashboard.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cZPSw",
+                  "name": "Use Case - Events & Live Content",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 18,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": [
+                    28,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2,
+                      "id": "I5Dv21",
+                      "name": "Accent Bar",
+                      "fill": "$blue",
+                      "width": 36,
+                      "height": 4
+                    },
+                    {
+                      "type": "text",
+                      "id": "Ki6jU",
+                      "name": "Card Title",
+                      "fill": "$text",
+                      "content": "Events & Live Content",
+                      "fontFamily": "$font",
+                      "fontSize": 20,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "iw3Y4",
+                      "name": "Card Description",
+                      "fill": "$muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Host conferences, workshops, or live events. Stream to YouTube, Facebook, Instagram simultaneously with fallback video if your connection drops.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DMFNO",
+          "name": "Features Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            60,
+            120
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "YnUNy",
+              "name": "Features Eyebrow",
+              "fill": "$blue",
+              "content": "FEATURES",
+              "fontFamily": "$font",
+              "fontSize": 12,
+              "fontWeight": "900",
+              "letterSpacing": 1.5
+            },
+            {
+              "type": "text",
+              "id": "W8o5kF",
+              "name": "Features Title",
+              "fill": "$text",
+              "content": "Powerful Features Built In",
+              "fontFamily": "$font",
+              "fontSize": 36,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "ALT7j",
+              "name": "Features Grid",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "o5urHJ",
+                  "name": "Features Row 1",
+                  "width": "fill_container",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XBLlY",
+                      "name": "Feature - Stream to Multiple Platforms",
+                      "width": "fill_container",
+                      "fill": "$surface",
+                      "cornerRadius": 18,
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        28,
+                        24
+                      ],
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ObAcl",
+                          "name": "Feature Icon",
+                          "width": 28,
+                          "height": 28,
+                          "icon": "radio",
+                          "library": "lucide",
+                          "fill": "$blue"
+                        },
+                        {
+                          "type": "text",
+                          "id": "y9p2k",
+                          "name": "Feature Title",
+                          "fill": "$text",
+                          "content": "Stream to Multiple Platforms",
+                          "fontFamily": "$font",
+                          "fontSize": 18,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Fk4Ju",
+                          "name": "Feature Description",
+                          "fill": "$muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Send your stream to YouTube, Facebook, Instagram, and more simultaneously. One OBS setup, infinite reach.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nIsHT",
+                      "name": "Feature - Low-Latency Playback",
+                      "width": "fill_container",
+                      "fill": "$surface",
+                      "cornerRadius": 18,
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        28,
+                        24
+                      ],
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "v7Lf33",
+                          "name": "Feature Icon",
+                          "width": 28,
+                          "height": 28,
+                          "icon": "zap",
+                          "library": "lucide",
+                          "fill": "$green"
+                        },
+                        {
+                          "type": "text",
+                          "id": "yjTcy",
+                          "name": "Feature Title",
+                          "fill": "$text",
+                          "content": "Low-Latency Playback",
+                          "fontFamily": "$font",
+                          "fontSize": 18,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Zg5qY",
+                          "name": "Feature Description",
+                          "fill": "$muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "LL-HLS and WebRTC playback with minimal delay. Keep your audience engaged in real-time.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "VsZkL",
+                  "name": "Features Row 2",
+                  "width": "fill_container",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ud7HQ",
+                      "name": "Feature - Never Miss a Beat",
+                      "width": "fill_container",
+                      "fill": "$surface",
+                      "cornerRadius": 18,
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        28,
+                        24
+                      ],
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "yU644",
+                          "name": "Feature Icon",
+                          "width": 28,
+                          "height": 28,
+                          "icon": "refresh-cw",
+                          "library": "lucide",
+                          "fill": "$amber"
+                        },
+                        {
+                          "type": "text",
+                          "id": "OwSoR",
+                          "name": "Feature Title",
+                          "fill": "$text",
+                          "content": "Never Miss a Beat",
+                          "fontFamily": "$font",
+                          "fontSize": 18,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "timQD",
+                          "name": "Feature Description",
+                          "fill": "$muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "If your connection drops, pre-recorded videos automatically play. Your stream stays live.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jun3C",
+                      "name": "Feature - Schedule & Queue Streams",
+                      "width": "fill_container",
+                      "fill": "$surface",
+                      "cornerRadius": 18,
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        28,
+                        24
+                      ],
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "N6mm4P",
+                          "name": "Feature Icon",
+                          "width": 28,
+                          "height": 28,
+                          "icon": "calendar",
+                          "library": "lucide",
+                          "fill": "$red"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Mqm2R",
+                          "name": "Feature Title",
+                          "fill": "$text",
+                          "content": "Schedule & Queue Streams",
+                          "fontFamily": "$font",
+                          "fontSize": 18,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "HzDab",
+                          "name": "Feature Description",
+                          "fill": "$muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Plan your content in advance. Schedule broadcasts and queue multiple streams to go live at set times.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "J2ukrh",
+                  "name": "Features Row 3",
+                  "width": "fill_container",
+                  "gap": 20,
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "eQk6e",
+                      "name": "Feature - One Stream, Infinite Reach",
+                      "width": 660,
+                      "fill": "$surface",
+                      "cornerRadius": 18,
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        28,
+                        24
+                      ],
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "FpESf",
+                          "name": "Feature Icon",
+                          "width": 28,
+                          "height": 28,
+                          "icon": "git-merge",
+                          "library": "lucide",
+                          "fill": "$blue"
+                        },
+                        {
+                          "type": "text",
+                          "id": "W47PMn",
+                          "name": "Feature Title",
+                          "fill": "$text",
+                          "content": "One Stream, Infinite Reach",
+                          "fontFamily": "$font",
+                          "fontSize": 18,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "BAoR1",
+                          "name": "Feature Description",
+                          "fill": "$muted",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Send one RTMP stream to OME. No OBS plugins, no configuration per platform. We handle the distribution.",
+                          "lineHeight": 1.45,
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bujOm",
+          "name": "Stats Section",
+          "width": "fill_container",
+          "gap": 20,
+          "padding": [
+            60,
+            120
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "lDYka",
+              "name": "Stat - Uptime Guaranteed",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 18,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 6,
+              "padding": [
+                32,
+                28
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pVE8u",
+                  "name": "Stat Value",
+                  "fill": "$amber",
+                  "content": "99.9%",
+                  "fontFamily": "$font",
+                  "fontSize": 48,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "uELlt",
+                  "name": "Stat Label",
+                  "fill": "$text",
+                  "content": "Uptime Guaranteed",
+                  "fontFamily": "$font",
+                  "fontSize": 16,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "D5PFoH",
+                  "name": "Stat Subtext",
+                  "fill": "$muted",
+                  "content": "Backed by enterprise infrastructure",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VCXH5",
+              "name": "Stat - Successful Streams",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 18,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 6,
+              "padding": [
+                32,
+                28
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gBkUl",
+                  "name": "Stat Value",
+                  "fill": "$green",
+                  "content": "50K+",
+                  "fontFamily": "$font",
+                  "fontSize": 48,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "KVkiE",
+                  "name": "Stat Label",
+                  "fill": "$text",
+                  "content": "Successful Streams",
+                  "fontFamily": "$font",
+                  "fontSize": 16,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "w5a9h",
+                  "name": "Stat Subtext",
+                  "fill": "$muted",
+                  "content": "Powering creators worldwide",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Rs2cW",
+              "name": "Stat - Active Users",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": 18,
+              "stroke": "$border",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 6,
+              "padding": [
+                32,
+                28
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "lQfhu",
+                  "name": "Stat Value",
+                  "fill": "$blue",
+                  "content": "10K+",
+                  "fontFamily": "$font",
+                  "fontSize": 48,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "Oc1k2",
+                  "name": "Stat Label",
+                  "fill": "$text",
+                  "content": "Active Users",
+                  "fontFamily": "$font",
+                  "fontSize": 16,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "knnIY",
+                  "name": "Stat Subtext",
+                  "fill": "$muted",
+                  "content": "Streaming right now",
+                  "fontFamily": "$font",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "a63N6",
+          "name": "Pricing Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            60,
+            120
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "i8dmV",
+              "name": "Pricing Eyebrow",
+              "fill": "$amber",
+              "content": "PRICING",
+              "fontFamily": "$font",
+              "fontSize": 12,
+              "fontWeight": "900",
+              "letterSpacing": 1.5
+            },
+            {
+              "type": "text",
+              "id": "D5R8Tp",
+              "name": "Pricing Title",
+              "fill": "$text",
+              "content": "Simple, Transparent Pricing",
+              "fontFamily": "$font",
+              "fontSize": 36,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "Whzpb",
+              "name": "Pricing Grid",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "bK4kE",
+                  "name": "Pricing - Starter",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 20,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": [
+                    32,
+                    28
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ALBRP",
+                      "name": "Badge",
+                      "fill": "#2D1A0A",
+                      "cornerRadius": 8,
+                      "stroke": "#D9772A",
+                      "strokeWidth": 1,
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SskvS",
+                          "name": "Badge Text",
+                          "fill": "#FFE4E6",
+                          "content": "Free Trial",
+                          "fontFamily": "$font",
+                          "fontSize": 11,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p0sHDx",
+                      "name": "Price Row",
+                      "gap": 4,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "E1n26x",
+                          "name": "Amount",
+                          "fill": "$text",
+                          "content": "$0",
+                          "fontFamily": "$font",
+                          "fontSize": 44,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "aiYTe",
+                          "name": "Period",
+                          "fill": "$muted",
+                          "content": "/month",
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OSNrR",
+                      "name": "Specs",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FqWxd",
+                          "name": "Spec Platforms",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "aRzFl",
+                              "name": "Value",
+                              "fill": "$text",
+                              "content": "2",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "dD7MK",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Platforms",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g49l0",
+                          "name": "Spec Offline",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "iZDGF",
+                              "name": "Value",
+                              "fill": "$text",
+                              "content": "60min",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "S2HYMQ",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Offline",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "SzyqF",
+                          "name": "Spec Quality",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "TkJqG",
+                              "name": "Value",
+                              "fill": "$text",
+                              "content": "720p",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "U8fri",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Quality",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "V08VB",
+                      "name": "Features List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ImT8G",
+                          "name": "Feature - Multi-destination streaming",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uZqRl",
+                              "name": "Check",
+                              "fill": "$blue",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "G9r1fP",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Multi-destination streaming",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "qEdb5",
+                          "name": "Feature - LL-HLS playback",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "tQq4g",
+                              "name": "Check",
+                              "fill": "$green",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "w1v69",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "LL-HLS playback",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "T4ZVz7",
+                          "name": "Feature - Basic offline sequencing",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "UxDc5",
+                              "name": "Check",
+                              "fill": "$amber",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "A0V08",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Basic offline sequencing",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bexG1",
+                          "name": "Feature - Stream stats & monitoring",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "B7qYHi",
+                              "name": "Check",
+                              "fill": "$blue",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "QYnCo",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Stream stats & monitoring",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wJhw9",
+                      "name": "CTA Button",
+                      "width": "fill_container",
+                      "fill": "#d9772a",
+                      "cornerRadius": 12,
+                      "padding": [
+                        14,
+                        18
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "D0HL5",
+                          "name": "CTA Text",
+                          "fill": "#FFFFFF",
+                          "content": "Start Free Trial",
+                          "fontFamily": "$font",
+                          "fontSize": 15,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "aIuFG",
+                      "name": "Trial Note",
+                      "fill": "$muted",
+                      "content": "2 hours streaming limit",
+                      "fontFamily": "$font",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aUipa",
+                  "name": "Pricing - Professional",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 20,
+                  "stroke": "$green",
+                  "strokeWidth": 2,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#2EE66B22",
+                    "blur": 30
+                  },
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": [
+                    32,
+                    28
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "o8KQQ",
+                      "name": "Badge",
+                      "fill": "#0D2A16",
+                      "cornerRadius": 8,
+                      "stroke": "$green",
+                      "strokeWidth": 1,
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "a5DEM",
+                          "name": "Badge Text",
+                          "fill": "$green",
+                          "content": "Recommended",
+                          "fontFamily": "$font",
+                          "fontSize": 11,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "c9wYEL",
+                      "name": "Price Row",
+                      "gap": 4,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "AIJIS",
+                          "name": "Amount",
+                          "fill": "$text",
+                          "content": "$29",
+                          "fontFamily": "$font",
+                          "fontSize": 44,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "GKpAa",
+                          "name": "Period",
+                          "fill": "$muted",
+                          "content": "/month",
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OIZIl",
+                      "name": "Specs",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "X3KAiU",
+                          "name": "Spec Platforms",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "xzGw3",
+                              "name": "Value",
+                              "fill": "$green",
+                              "content": "3",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "R7RLu",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Platforms",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "u9OEWC",
+                          "name": "Spec Offline",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "F5W8Hv",
+                              "name": "Value",
+                              "fill": "$green",
+                              "content": "240min",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "oHFJZ",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Offline",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "eXbH4",
+                          "name": "Spec Quality",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "CRvfH",
+                              "name": "Value",
+                              "fill": "$green",
+                              "content": "1080p",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "hFwQG",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Quality",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lD1DS",
+                      "name": "Features List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "y5lgOs",
+                          "name": "Feature - Everything in Starter",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Xyk2K",
+                              "name": "Check",
+                              "fill": "$green",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "c1qz0",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Everything in Starter",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zmV8h",
+                          "name": "Feature - Extended offline storage",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "yTIVh",
+                              "name": "Check",
+                              "fill": "$green",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "FEg9G",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Extended offline storage",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "c7xf8x",
+                          "name": "Feature - Scheduled broadcasts",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "nZmZ7",
+                              "name": "Check",
+                              "fill": "$green",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ia6WN",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Scheduled broadcasts",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ucTyM",
+                          "name": "Feature - Stream queueing",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hJUiZ",
+                              "name": "Check",
+                              "fill": "$green",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "QGeqc",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Stream queueing",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zKqaO",
+                          "name": "Feature - Priority support",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "wKUxa",
+                              "name": "Check",
+                              "fill": "$green",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "uoVxK",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Priority support",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QqWNY",
+                      "name": "CTA Button",
+                      "width": "fill_container",
+                      "fill": "#d9772a",
+                      "cornerRadius": 12,
+                      "padding": [
+                        14,
+                        18
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ziDzv",
+                          "name": "CTA Text",
+                          "fill": "#FFFFFF",
+                          "content": "Get Started",
+                          "fontFamily": "$font",
+                          "fontSize": 15,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Vmytg",
+                  "name": "Pricing - Enterprise",
+                  "width": "fill_container",
+                  "fill": "$surface",
+                  "cornerRadius": 20,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": [
+                    32,
+                    28
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "njKTH",
+                      "name": "Badge",
+                      "fill": "#1A1F2E",
+                      "cornerRadius": 8,
+                      "stroke": "$blue",
+                      "strokeWidth": 1,
+                      "padding": [
+                        6,
+                        12
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yypaQ",
+                          "name": "Badge Text",
+                          "fill": "$blue",
+                          "content": "Unlimited",
+                          "fontFamily": "$font",
+                          "fontSize": 11,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xY2Ux",
+                      "name": "Price Row",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "c6hZY",
+                          "name": "Amount",
+                          "fill": "$text",
+                          "content": "Custom",
+                          "fontFamily": "$font",
+                          "fontSize": 44,
+                          "fontWeight": "900"
+                        },
+                        {
+                          "type": "text",
+                          "id": "uoUN7",
+                          "name": "Period",
+                          "fill": "$muted",
+                          "content": "Contact us for pricing",
+                          "fontFamily": "$font",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "y8NGF",
+                      "name": "Specs",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "k2tptz",
+                          "name": "Spec Platforms",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "k4jsh",
+                              "name": "Value",
+                              "fill": "$blue",
+                              "content": "4+",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "zutHY",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Platforms",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "F0o5D",
+                          "name": "Spec Offline",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "xBJyI",
+                              "name": "Value",
+                              "fill": "$blue",
+                              "content": "∞",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "yZFAK",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Offline",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fEoNk",
+                          "name": "Spec Quality",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "kOiDS",
+                              "name": "Value",
+                              "fill": "$blue",
+                              "content": "4K",
+                              "fontFamily": "$font",
+                              "fontSize": 16,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "RRt0K",
+                              "name": "Label",
+                              "fill": "$muted",
+                              "content": "Quality",
+                              "fontFamily": "$font",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "g8WIPO",
+                      "name": "Features List",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mI2My",
+                          "name": "Feature - Everything in Professional",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ySvPc",
+                              "name": "Check",
+                              "fill": "$blue",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "s4T18M",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Everything in Professional",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "j0V0W",
+                          "name": "Feature - Unlimited offline storage",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "I1VbQK",
+                              "name": "Check",
+                              "fill": "$blue",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ilOKg",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Unlimited offline storage",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ir6ZH",
+                          "name": "Feature - Custom integrations",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uB5yW",
+                              "name": "Check",
+                              "fill": "$blue",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "OVfhW",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Custom integrations",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vOXoh",
+                          "name": "Feature - Dedicated support",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Wbzq2",
+                              "name": "Check",
+                              "fill": "$blue",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Fxpkq",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "Dedicated support",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "FgmZ8",
+                          "name": "Feature - SLA guarantee",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qejnt",
+                              "name": "Check",
+                              "fill": "$blue",
+                              "content": "✓",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "900"
+                            },
+                            {
+                              "type": "text",
+                              "id": "SyL3e",
+                              "name": "Text",
+                              "fill": "$text",
+                              "content": "SLA guarantee",
+                              "fontFamily": "$font",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GtSui",
+                      "name": "CTA Button",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 12,
+                      "stroke": "$blue",
+                      "strokeWidth": 1,
+                      "padding": [
+                        14,
+                        18
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uJfcV",
+                          "name": "CTA Text",
+                          "fill": "$blue",
+                          "content": "Contact Sales",
+                          "fontFamily": "$font",
+                          "fontSize": 15,
+                          "fontWeight": "900"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fGj7m",
+          "name": "Testimonials Section",
+          "width": "fill_container",
+          "fill": "$surface",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            60,
+            120
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "PrewX",
+              "name": "Testimonials Eyebrow",
+              "fill": "$green",
+              "content": "TESTIMONIALS",
+              "fontFamily": "$font",
+              "fontSize": 12,
+              "fontWeight": "900",
+              "letterSpacing": 1.5
+            },
+            {
+              "type": "text",
+              "id": "J5OriL",
+              "name": "Testimonials Title",
+              "fill": "$text",
+              "content": "Loved by Creators",
+              "fontFamily": "$font",
+              "fontSize": 36,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "y6tNXA",
+              "name": "Testimonials Grid",
+              "width": "fill_container",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Mura6",
+                  "name": "Testimonial 1",
+                  "width": "fill_container",
+                  "height": 200,
+                  "fill": "$bg",
+                  "cornerRadius": 18,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    28
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "X46lci",
+                      "name": "Placeholder",
+                      "fill": "$muted",
+                      "content": "Testimonial coming soon",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "x957am",
+                  "name": "Testimonial 2",
+                  "width": "fill_container",
+                  "height": 200,
+                  "fill": "$bg",
+                  "cornerRadius": 18,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    28
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dzRIY",
+                      "name": "Placeholder",
+                      "fill": "$muted",
+                      "content": "Testimonial coming soon",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "XRw8b",
+                  "name": "Testimonial 3",
+                  "width": "fill_container",
+                  "height": 200,
+                  "fill": "$bg",
+                  "cornerRadius": 18,
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "padding": [
+                    24,
+                    28
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gzshm",
+                      "name": "Placeholder",
+                      "fill": "$muted",
+                      "content": "Testimonial coming soon",
+                      "fontFamily": "$font",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "LsXa5",
+          "name": "Footer CTA Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            80,
+            120
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "QAx1A",
+              "name": "CTA Headline",
+              "fill": "$text",
+              "content": "Ready to Stream Smarter?",
+              "fontFamily": "$font",
+              "fontSize": 40,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "vgmBG",
+              "name": "CTA Subheading",
+              "fill": "$muted",
+              "content": "Join thousands of creators reducing complexity and costs.",
+              "fontFamily": "$font",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "p825Y",
+              "name": "CTA Buttons",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "f5Mnj",
+                  "name": "Primary CTA",
+                  "fill": "#d9772a",
+                  "cornerRadius": 12,
+                  "padding": [
+                    16,
+                    40
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "QILXe",
+                      "name": "CTA Text",
+                      "fill": "#FFFFFF",
+                      "content": "Start Your Free Trial",
+                      "fontFamily": "$font",
+                      "fontSize": 15,
+                      "fontWeight": "900"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "pxFYg",
+                  "name": "Secondary Link",
+                  "fill": "$blue",
+                  "content": "Schedule a demo →",
+                  "fontFamily": "$font",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "N11nV",
+          "name": "Footer",
+          "width": "fill_container",
+          "stroke": "$border",
+          "strokeWidth": {
+            "top": 1
+          },
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            40,
+            120
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "J6uYkf",
+              "name": "Footer Links",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Ouk83",
+                  "name": "Privacy Policy",
+                  "fill": "$muted",
+                  "content": "Privacy Policy",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "CszI6",
+                  "name": "Terms of Service",
+                  "fill": "$muted",
+                  "content": "Terms of Service",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "fUQXo",
+                  "name": "Contact",
+                  "fill": "$muted",
+                  "content": "Contact",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "ym6uB",
+              "name": "Copyright",
+              "fill": "$muted",
+              "content": "© 2026 OME Player. All rights reserved.",
+              "fontFamily": "$font",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "bg": {
+      "type": "color",
+      "value": "#050505"
+    },
+    "surface": {
+      "type": "color",
+      "value": "#101114"
+    },
+    "surface2": {
+      "type": "color",
+      "value": "#15171C"
+    },
+    "border": {
+      "type": "color",
+      "value": "#292D35"
+    },
+    "text": {
+      "type": "color",
+      "value": "#F7F7F7"
+    },
+    "muted": {
+      "type": "color",
+      "value": "#9BA3AF"
+    },
+    "red": {
+      "type": "color",
+      "value": "#D9772A"
+    },
+    "green": {
+      "type": "color",
+      "value": "#2EE66B"
+    },
+    "amber": {
+      "type": "color",
+      "value": "#F5B84B"
+    },
+    "blue": {
+      "type": "color",
+      "value": "#4DA3FF"
+    },
+    "font": {
+      "type": "string",
+      "value": "Space Grotesk"
+    }
+  },
+  "fileToken": "f97194c3-2219-4800-97f3-29da47fc2c9d"
+}

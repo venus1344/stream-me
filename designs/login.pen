@@ -1,0 +1,432 @@
+{
+  "version": "2.14",
+  "children": [
+    {
+      "type": "frame",
+      "id": "w0MzgV",
+      "x": 0,
+      "y": 0,
+      "name": "Login Page",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "ellipse",
+          "id": "TQQHl",
+          "x": 900,
+          "y": -150,
+          "name": "Login Red Glow",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "radial",
+            "enabled": true,
+            "opacity": 0.18,
+            "rotation": 0,
+            "size": {
+              "width": 1,
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#D9772A",
+                "position": 0
+              },
+              {
+                "color": "#05050500",
+                "position": 1
+              }
+            ]
+          },
+          "width": 600,
+          "height": 450
+        },
+        {
+          "type": "ellipse",
+          "id": "e9roSr",
+          "x": -100,
+          "y": 500,
+          "name": "Login Blue Glow",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "radial",
+            "enabled": true,
+            "opacity": 0.12,
+            "rotation": 0,
+            "size": {
+              "width": 1,
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#4DA3FF",
+                "position": 0
+              },
+              {
+                "color": "#05050500",
+                "position": 1
+              }
+            ]
+          },
+          "width": 500,
+          "height": 400
+        },
+        {
+          "type": "frame",
+          "id": "VO43C",
+          "x": 520,
+          "y": 140,
+          "name": "Login Container",
+          "width": 400,
+          "fill": "$surface",
+          "cornerRadius": 20,
+          "stroke": "$border",
+          "strokeWidth": 1,
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            40,
+            32
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "dzomD",
+              "name": "Branding",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "q20IcX",
+                  "name": "Logo Box",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "$red",
+                  "cornerRadius": 10,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "path",
+                      "id": "hzz4L",
+                      "x": 13,
+                      "y": 10,
+                      "name": "Play Triangle",
+                      "geometry": "M0 0l12 8-12 8z",
+                      "viewBox": [
+                        0,
+                        0,
+                        12,
+                        16
+                      ],
+                      "fill": "#FFFFFF",
+                      "width": 12,
+                      "height": 16
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "u3KER6",
+                  "name": "Brand Text",
+                  "fill": "$text",
+                  "content": "OME Player",
+                  "fontFamily": "$font",
+                  "fontSize": 20,
+                  "fontWeight": "900"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sGIZ1",
+              "name": "Form Header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "rNBsv",
+                  "name": "Sign In Title",
+                  "fill": "$text",
+                  "content": "Sign In",
+                  "fontFamily": "$font",
+                  "fontSize": 28,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "gWL7c",
+                  "name": "Sign In Subtitle",
+                  "fill": "$muted",
+                  "content": "Access your streaming dashboard",
+                  "fontFamily": "$font",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HUeMX",
+              "name": "Email Phone Field",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EfM48",
+                  "name": "Field Label",
+                  "fill": "$muted",
+                  "content": "EMAIL OR PHONE",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "900",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "frame",
+                  "id": "C83Fi1",
+                  "name": "Input Email Phone",
+                  "width": "fill_container",
+                  "fill": "#07080C",
+                  "cornerRadius": 12,
+                  "stroke": "#343A46",
+                  "strokeWidth": 1,
+                  "padding": [
+                    13,
+                    14
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "iXkUv",
+                      "name": "Placeholder",
+                      "fill": "#4B5563",
+                      "content": "user@example.com or +1 555 000 0000",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uzes0",
+              "name": "Password Field",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Y5hA3Y",
+                  "name": "Field Label",
+                  "fill": "$muted",
+                  "content": "PASSWORD",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "900",
+                  "letterSpacing": 0.8
+                },
+                {
+                  "type": "frame",
+                  "id": "NDRoL",
+                  "name": "Input Password",
+                  "width": "fill_container",
+                  "fill": "#07080C",
+                  "cornerRadius": 12,
+                  "stroke": "#343A46",
+                  "strokeWidth": 1,
+                  "padding": [
+                    13,
+                    14
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "W6Cfy9",
+                      "name": "Password Dots",
+                      "fill": "#4B5563",
+                      "content": "••••••••",
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "LKkaq",
+                      "name": "Eye Icon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "eye-off",
+                      "library": "lucide",
+                      "fill": "$muted"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p9iTy",
+              "name": "Sign In Button",
+              "width": "fill_container",
+              "fill": "$red",
+              "cornerRadius": 12,
+              "padding": [
+                15,
+                18
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "seZzy",
+                  "name": "Button Text",
+                  "fill": "#FFFFFF",
+                  "content": "Sign In",
+                  "fontFamily": "$font",
+                  "fontSize": 15,
+                  "fontWeight": "900"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "yllv6",
+              "name": "Forgot Password",
+              "fill": "$blue",
+              "content": "Forgot password?",
+              "fontFamily": "$font",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "MmYz4",
+              "name": "Divider Row",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "AkOl6",
+                  "name": "Line Left",
+                  "fill": "$border",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "FpScG",
+                  "name": "Or Text",
+                  "fill": "$muted",
+                  "content": "or use phone OTP",
+                  "fontFamily": "$font",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "rectangle",
+                  "id": "dLSmM",
+                  "name": "Line Right",
+                  "fill": "$border",
+                  "width": "fill_container",
+                  "height": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "aLZqp",
+              "name": "Bottom Links",
+              "width": "fill_container",
+              "gap": 4,
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "wymFA",
+                  "name": "No Account Text",
+                  "fill": "$muted",
+                  "content": "Don't have an account?",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "rsH9v",
+                  "name": "Trial Link",
+                  "fill": "$blue",
+                  "content": "Start Free Trial",
+                  "fontFamily": "$font",
+                  "fontSize": 13,
+                  "fontWeight": "900"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "bg": {
+      "type": "color",
+      "value": "#050505"
+    },
+    "surface": {
+      "type": "color",
+      "value": "#101114"
+    },
+    "surface2": {
+      "type": "color",
+      "value": "#15171C"
+    },
+    "border": {
+      "type": "color",
+      "value": "#292D35"
+    },
+    "text": {
+      "type": "color",
+      "value": "#F7F7F7"
+    },
+    "muted": {
+      "type": "color",
+      "value": "#9BA3AF"
+    },
+    "red": {
+      "type": "color",
+      "value": "#D9772A"
+    },
+    "green": {
+      "type": "color",
+      "value": "#2EE66B"
+    },
+    "amber": {
+      "type": "color",
+      "value": "#F5B84B"
+    },
+    "blue": {
+      "type": "color",
+      "value": "#4DA3FF"
+    },
+    "font": {
+      "type": "string",
+      "value": "Space Grotesk"
+    }
+  },
+  "fileToken": "afe71792-d1ee-4a67-a16e-7d0bc26d44b9"
+}
