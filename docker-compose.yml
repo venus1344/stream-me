@@ -3,7 +3,7 @@ services:
     image: alfg/nginx-rtmp
     container_name: ome-relay-rtmp
     restart: unless-stopped
-    command: ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
+    command: [ "nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf" ]
     ports:
       - "1936:1935"
     volumes:
@@ -15,7 +15,7 @@ services:
     image: jrottenberg/ffmpeg:latest
     container_name: ome-ingester
     restart: unless-stopped
-    profiles: ["ingest-copy"]
+    profiles: [ "ingest-copy" ]
     depends_on:
       - relay-rtmp
       - ome
@@ -24,7 +24,7 @@ services:
     volumes:
       - ./restream/data:/data
     healthcheck:
-      test: ["CMD", "pgrep", "-f", "ffmpeg"]
+      test: [ "CMD", "pgrep", "-f", "ffmpeg" ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -73,4 +73,4 @@ services:
     network_mode: host
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./player:/usr/share/nginx/html:ro
+      - ./player/dist:/usr/share/nginx/html:ro
