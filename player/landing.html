@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk%3Awght%40300..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>OME Player — Multi-Platform Streaming</title>
+    <style>
+      *, ::before, ::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #050505;
+      }
+
+      [data-pencil-name="Start Trial Button"],
+      [data-pencil-name="CTA Button"],
+      [data-pencil-name="Primary CTA"] {
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+
+      [data-pencil-name="Start Trial Button"]:hover,
+      [data-pencil-name="CTA Button"]:hover,
+      [data-pencil-name="Primary CTA"]:hover {
+        opacity: 0.9;
+      }
+
+      [data-pencil-name="Secondary Link"],
+      [data-pencil-name="Trial Link"] {
+        cursor: pointer;
+      }
+
+      [data-pencil-name="Secondary Link"]:hover,
+      [data-pencil-name="Trial Link"]:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      data-pencil-name="Landing Page"
+      style="align-items: flex-start; background-color: #050505; box-sizing: border-box; display: flex; flex-direction: column; gap: 0px; height: fit-content; justify-content: flex-start; overflow: hidden; width: 100%; max-width: 1600px; margin: 0 auto"
+    >
+      <div
+        data-pencil-name="Hero Section"
+        style="background-color: #050505; box-sizing: border-box; flex-shrink: 0; height: 620px; position: relative; width: 100%"
+      >
+        <div
+          data-pencil-name="Hero Red Glow"
+          style="background-image: radial-gradient(ellipse 50% 50% at 50% 50%, #d9772a47 0%, #05050500 100%); background-repeat: no-repeat; background-size: 100% 100%; border-radius: 50%; box-sizing: border-box; height: 500px; left: 900px; position: absolute; top: -200px; width: 700px; z-index: 0"
+        ></div>
+        <div
+          data-pencil-name="Hero Blue Glow"
+          style="background-image: radial-gradient(ellipse 50% 50% at 50% 50%, #4da3ff26 0%, #05050500 100%); background-repeat: no-repeat; background-size: 100% 100%; border-radius: 50%; box-sizing: border-box; height: 420px; left: -200px; position: absolute; top: 250px; width: 550px; z-index: 1"
+        ></div>
+        <div
+          data-pencil-name="Hero Content"
+          style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px; height: fit-content; justify-content: flex-start; left: 120px; position: absolute; top: 160px; width: 900px; z-index: 2"
+        >
+          <div
+            data-pencil-name="Hero Headline"
+            style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 64px; font-style: normal; font-weight: 900; letter-spacing: -2.5px; line-height: 64px; text-align: left; white-space: nowrap'
+          >
+            Stream to Multiple
+            <br />
+            Platforms at 1/3
+            <br />
+            the Cost
+          </div>
+          <div
+            data-pencil-name="Hero Subheading"
+            style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 18px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 27px; text-align: left; white-space: nowrap'
+          >
+            One OBS setup. YouTube, Facebook, Instagram, anywhere.
+            <br />
+            Powered by low-latency OME infrastructure.
+          </div>
+          <div
+            data-pencil-name="Hero CTA Row"
+            style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 16px; height: fit-content; justify-content: flex-start; width: fit-content"
+          >
+            <a href="/login" style="text-decoration:none">
+              <div
+                data-pencil-name="Start Trial Button"
+                style="align-items: center; background-color: #D9772A; border-radius: 12px; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 0px; height: fit-content; justify-content: center; padding: 16px 32px; width: fit-content"
+              >
+                <div
+                  data-pencil-name="Button Label"
+                  style='box-sizing: border-box; color: #FFFFFF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 15px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Start Free Trial
+                </div>
+              </div>
+            </a>
+            <div
+              data-pencil-name="No CC Text"
+              style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 13px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+            >
+              No credit card required · 2 hours free
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        data-pencil-name="Use Cases Section"
+        style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 32px; height: fit-content; justify-content: flex-start; padding: 60px 120px; width: 100%"
+      >
+        <div
+          data-pencil-name="Use Cases Eyebrow"
+          style='box-sizing: border-box; color: #D9772A; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 12px; font-style: normal; font-weight: 900; letter-spacing: 1.5px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          WHO IT'S FOR
+        </div>
+        <div
+          data-pencil-name="Use Cases Title"
+          style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 36px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          Built for Your Workflow
+        </div>
+        <div
+          data-pencil-name="Use Cases Grid"
+          style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 20px; height: fit-content; justify-content: flex-start; width: 100%"
+        >
+          <div
+            data-pencil-name="Use Case - Individual Creators"
+            style="align-items: flex-start; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 16px; height: fit-content; justify-content: flex-start; padding: 28px 24px"
+          >
+            <div
+              data-pencil-name="Accent Bar"
+              style="background-color: #D9772A; border-radius: 2px; box-sizing: border-box; flex-shrink: 0; height: 4px; width: 36px"
+            ></div>
+            <div
+              data-pencil-name="Card Title"
+              style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 20px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+            >
+              Individual Creators
+            </div>
+            <div
+              data-pencil-name="Card Description"
+              style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 20px; text-align: left; width: 100%'
+            >
+              One stream, multiple audiences. Reach your fans on YouTube and TikTok simultaneously
+              without managing separate streams.
+            </div>
+          </div>
+          <div
+            data-pencil-name="Use Case - Broadcasters &amp; Teams"
+            style="align-items: flex-start; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 16px; height: fit-content; justify-content: flex-start; padding: 28px 24px"
+          >
+            <div
+              data-pencil-name="Accent Bar"
+              style="background-color: #2EE66B; border-radius: 2px; box-sizing: border-box; flex-shrink: 0; height: 4px; width: 36px"
+            ></div>
+            <div
+              data-pencil-name="Card Title"
+              style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 20px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+            >
+              Broadcasters &amp; Teams
+            </div>
+            <div
+              data-pencil-name="Card Description"
+              style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 20px; text-align: left; width: 100%'
+            >
+              Coordinate multi-platform broadcasts. Schedule streams, monitor health, and manage
+              viewers across all platforms in one dashboard.
+            </div>
+          </div>
+          <div
+            data-pencil-name="Use Case - Events &amp; Live Content"
+            style="align-items: flex-start; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 16px; height: fit-content; justify-content: flex-start; padding: 28px 24px"
+          >
+            <div
+              data-pencil-name="Accent Bar"
+              style="background-color: #4DA3FF; border-radius: 2px; box-sizing: border-box; flex-shrink: 0; height: 4px; width: 36px"
+            ></div>
+            <div
+              data-pencil-name="Card Title"
+              style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 20px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+            >
+              Events &amp; Live Content
+            </div>
+            <div
+              data-pencil-name="Card Description"
+              style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 20px; text-align: left; width: 100%'
+            >
+              Host conferences, workshops, or live events. Stream to YouTube, Facebook, Instagram
+              simultaneously with fallback video if your connection drops.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        data-pencil-name="Features Section"
+        style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 32px; height: fit-content; justify-content: flex-start; padding: 60px 120px; width: 100%"
+      >
+        <div
+          data-pencil-name="Features Eyebrow"
+          style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 12px; font-style: normal; font-weight: 900; letter-spacing: 1.5px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          FEATURES
+        </div>
+        <div
+          data-pencil-name="Features Title"
+          style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 36px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          Powerful Features Built In
+        </div>
+        <div
+          data-pencil-name="Features Grid"
+          style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 20px; height: fit-content; justify-content: flex-start; width: 100%"
+        >
+          <div
+            data-pencil-name="Features Row 1"
+            style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 20px; height: fit-content; justify-content: flex-start; width: 100%"
+          >
+            <div
+              data-pencil-name="Feature - Stream to Multiple Platforms"
+              style="align-items: flex-start; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 12px; height: fit-content; justify-content: flex-start; padding: 28px 24px"
+            >
+              <svg
+                data-pencil-name="Feature Icon"
+                data-icon-name="radio"
+                data-icon-set="lucide"
+                viewBox="0 0 13.99993896484375 14"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+                style="box-sizing: border-box; flex-shrink: 0; height: 28px; width: 28px"
+              >
+                <path
+                  d="M2.7583 2.31055q-0.12646 0.02734-0.23926 0.11279-0.10938 0.08203-0.30761 0.32129-1.35693 1.52441-1.5962 3.56836-0.02734 0.2666-0.02734 0.68701 0 0.42041 0.02734 0.68701 0.21191 1.85937 1.36036 3.28809 0.12305 0.18457 0.29736 0.37256 0.17773 0.18799 0.25293 0.24609 0.07861 0.05469 0.18799 0.08887 0.11279 0.03418 0.21191 0.02051 0.22559-0.02734 0.37256-0.18799 0.14697-0.16064 0.14697-0.37256 0-0.16748-0.05127-0.25635-0.04785-0.09228-0.229-0.31787-0.50586-0.54346-0.81348-1.13135-0.60156-1.13477-0.60156-2.43701 0-1.30225 0.60156-2.43701 0.30762-0.58789 0.81348-1.13135 0.18115-0.22559 0.229-0.31445 0.05127-0.09229 0.05127-0.27344 0-0.18457-0.12646-0.33838-0.12646-0.15381-0.32129-0.19482-0.12646-0.02734-0.23926 0z m8.2168 0q-0.2085 0.05469-0.33496 0.24609-0.12646 0.18799-0.08545 0.41016 0.01367 0.11279 0.06836 0.19824 0.05811 0.08203 0.22558 0.2666 0.49219 0.52979 0.79981 1.13135 0.60156 1.13477 0.60156 2.43701 0 1.30225-0.60156 2.43701-0.30762 0.60156-0.79981 1.13135-0.16748 0.18457-0.22558 0.27002-0.05469 0.08203-0.06836 0.19482-0.02734 0.2085 0.07178 0.37598 0.09912 0.16748 0.27343 0.24609 0.17432 0.0752 0.36914 0.02051 0.11279-0.02734 0.20166-0.0957 0.09229-0.07178 0.25977-0.25293 1.40137-1.5415 1.6543-3.64014 0.02734-0.23926 0.02734-0.68017 0-0.44092-0.02734-0.69385-0.19824-1.62354-1.08008-2.91211-0.16748-0.24951-0.39307-0.52295-0.22217-0.27344-0.37597-0.41357-0.11279-0.09912-0.26661-0.14014-0.15381-0.04102-0.29394-0.01367z m-6.53858 1.65088q-0.18115 0.01367-0.38964 0.22558-0.75537 0.76904-1.02198 1.90381-0.09912 0.42041-0.09912 0.90918 0 0.48877 0.09912 0.90918 0.19482 0.86816 0.71436 1.5415 0.12305 0.16748 0.28369 0.33496 0.16406 0.16748 0.23242 0.21192 0.2666 0.12305 0.52637 0 0.25977-0.12646 0.31445-0.40674 0.02734-0.15381-0.02392-0.28711-0.04785-0.1333-0.18457-0.30078-0.40674-0.44775-0.60499-0.93652-0.19482-0.49219-0.19482-1.06641 0-0.57422 0.19482-1.06299 0.19824-0.49219 0.60499-0.93994 0.13672-0.16748 0.18457-0.30078 0.05127-0.1333 0.02392-0.28711-0.02734-0.08203-0.0581-0.13672-0.02734-0.05811-0.09571-0.14355-0.19482-0.2085-0.50586-0.16748z m4.95606 0q-0.19482 0.01367-0.33496 0.16748-0.06836 0.08545-0.09912 0.14355-0.02734 0.05469-0.05469 0.13672-0.02734 0.15381 0.02051 0.28711 0.05127 0.1333 0.18798 0.30078 0.72803 0.7998 0.78614 1.79443 0.08203 1.25781-0.78614 2.21143-0.13672 0.16748-0.18798 0.30078-0.04785 0.1333-0.02051 0.28711 0.05469 0.28027 0.31445 0.40674 0.25977 0.12305 0.52637 0 0.06836-0.04443 0.23584-0.21192 0.43408-0.44775 0.70752-1.03564 0.27344-0.58789 0.35889-1.23047 0.04102-0.32471 0.02734-0.72119-0.01367-0.3999-0.09912-0.70752-0.19482-0.86816-0.71436-1.5415-0.12646-0.16748-0.28711-0.33496-0.16064-0.16748-0.229-0.21192-0.15381-0.06836-0.35205-0.04101z m-2.67285 1.31591q-0.3623 0.05811-0.69385 0.2837-0.32813 0.22217-0.52295 0.52978-0.2666 0.46143-0.24609 0.97412 0.02051 0.50928 0.31445 0.93652 0.29395 0.42725 0.78613 0.62208 0.43408 0.16748 0.89551 0.10595 0.46143-0.06494 0.82373-0.35205 0.36572-0.28711 0.54688-0.71777 0.12646-0.32471 0.12646-0.65967 0-0.33496-0.12646-0.64258-0.18115-0.43408-0.54004-0.72119-0.35547-0.28711-0.8169-0.35889-0.28027-0.04102-0.54687 0z m0.5332 1.20313q0.18115 0.08545 0.2666 0.2666 0.02734 0.05811 0.04102 0.09912 0.01367 0.04102 0.01367 0.15381 0 0.11279-0.01367 0.15381-0.01367 0.04102-0.04102 0.09912-0.09912 0.18115-0.2666 0.28027-0.08545 0.04102-0.25293 0.04102-0.16748 0-0.25293-0.04102-0.16748-0.09912-0.2666-0.28027-0.02734-0.05811-0.04102-0.09912-0.01367-0.04102-0.01367-0.15381 0-0.11279 0.01367-0.15381 0.01367-0.04102 0.04102-0.09912 0.11279-0.22217 0.36572-0.30762 0.04102-0.01367 0.18115-0.00683 0.14014 0.00684 0.22559 0.04785z"
+                  fill="#4DA3FF"
+                ></path>
+              </svg>
+              <div
+                data-pencil-name="Feature Title"
+                style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 18px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Stream to Multiple Platforms
+              </div>
+              <div
+                data-pencil-name="Feature Description"
+                style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 20px; text-align: left; width: 100%'
+              >
+                Send your stream to YouTube, Facebook, Instagram, and more simultaneously. One OBS
+                setup, infinite reach.
+              </div>
+            </div>
+            <div
+              data-pencil-name="Feature - Low-Latency Playback"
+              style="align-items: flex-start; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 12px; height: fit-content; justify-content: flex-start; padding: 28px 24px"
+            >
+              <svg
+                data-pencil-name="Feature Icon"
+                data-icon-name="zap"
+                data-icon-set="lucide"
+                viewBox="0 0 13.99993896484375 14"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+                style="box-sizing: border-box; flex-shrink: 0; height: 28px; width: 28px"
+              >
+                <path
+                  d="M7.7417 0.60156q-0.16748 0.02734-0.33496 0.1128-0.09912 0.06836-2.81641 2.87109l-2.88135 2.98047q-0.35205 0.36572-0.39306 0.44775l-0.01367 0.01367q-0.09912 0.21191-0.12647 0.44776-0.04102 0.37939 0.14014 0.68701 0.18115 0.30762 0.50244 0.46143l0.04443 0.02734q0.0957 0.04443 0.19483 0.0581 0.12646 0.02734 0.51953 0.02735l3.83496 0.02734-0.57422 1.79102q-0.57422 1.79443-0.57422 1.89013-0.04102 0.25293 0.09912 0.50586 0.14014 0.25293 0.37598 0.37598 0.39307 0.18457 0.77246 0 0.12646-0.06836 0.32129-0.24951l5.59863-5.7832q0.22559-0.22559 0.30762-0.42041 0.08545-0.19482 0.08545-0.4751 0-0.32129-0.16748-0.59473-0.16748-0.27344-0.46143-0.42725l-0.04443-0.01367q-0.0957-0.05811-0.19483-0.07177-0.14014-0.02734-0.51953-0.02735l-3.84863-0.02734 0.57422-1.79102q0.57422-1.79443 0.57422-1.89013 0.04102-0.25293-0.09912-0.50586-0.14014-0.25293-0.39307-0.37598-0.24951-0.12646-0.50244-0.07178z m-0.92285 3.19239q-0.37939 1.20313-0.39307 1.32959-0.02734 0.19482 0.02051 0.3999 0.05127 0.20166 0.16064 0.36914 0.07178 0.09912 0.20508 0.21875 0.1333 0.11963 0.24268 0.17431l0.04443 0.02735q0.10938 0.05811 0.2085 0.07178 0.14014 0.01367 0.51953 0.02734l3.82129 0.01367-2.42334 2.50537q-2.41992 2.4917-2.42676 2.4917-0.00684 0 0.37598-1.20996 0.38623-1.20996 0.3999-1.33643 0.02734-0.19482-0.02393-0.39648-0.04785-0.20508-0.15722-0.35889-0.05811-0.08545-0.16407-0.19482-0.10254-0.11279-0.18798-0.15723-0.16748-0.10938-0.37598-0.16748-0.07178-0.01367-2.19775-0.02734l-2.11573 0 2.42334-2.50537q2.41992-2.4917 2.42676-2.4917 0.00684 0-0.38281 1.2168z"
+                  fill="#2EE66B"
+                ></path>
+              </svg>
+              <div
+                data-pencil-name="Feature Title"
+                style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 18px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Low-Latency Playback
+              </div>
+              <div
+                data-pencil-name="Feature Description"
+                style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 20px; text-align: left; width: 100%'
+              >
+                LL-HLS and WebRTC playback with minimal delay. Keep your audience engaged in
+                real-time.
+              </div>
+            </div>
+          </div>
+          <div
+            data-pencil-name="Features Row 2"
+            style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 20px; height: fit-content; justify-content: flex-start; width: 100%"
+          >
+            <div
+              data-pencil-name="Feature - Never Miss a Beat"
+              style="align-items: flex-start; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 12px; height: fit-content; justify-content: flex-start; padding: 28px 24px"
+            >
+              <svg
+                data-pencil-name="Feature Icon"
+                data-icon-name="refresh-cw"
+                data-icon-set="lucide"
+                viewBox="0 0 13.99993896484375 14"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+                style="box-sizing: border-box; flex-shrink: 0; height: 28px; width: 28px"
+              >
+                <path
+                  d="M6.56592 1.18945q-1.12109 0.08545-2.1294 0.57422-0.9502 0.46143-1.66455 1.22022-0.71436 0.75537-1.13476 1.71924-0.22217 0.54688-0.34864 1.13476-0.12646 0.58789-0.11279 1.10742 0 0.19482 0.03418 0.28028 0.0376 0.08203 0.1333 0.18115 0.09912 0.0957 0.18115 0.1333 0.08545 0.03418 0.22559 0.03418 0.14014 0 0.22217-0.03418 0.08545-0.0376 0.1914-0.1333 0.10596-0.09912 0.14014-0.23926 0.03418-0.14014 0.03418-0.39307 0.01367-0.30762 0.0957-0.71777 0.08545-0.41357 0.22559-0.75195 0.42041-1.09033 1.31592-1.85254 0.89551-0.76563 2.04394-1.01514 0.30762-0.07178 0.72803-0.09228 0.42041-0.02051 0.75537 0.0205 1.76709 0.18115 3.11035 1.4834l0.22217 0.22559-0.7417 0q-0.7417 0-0.85449 0.02734-0.24951 0.02734-0.38281 0.23242-0.1333 0.20166-0.09912 0.43409 0.03418 0.229 0.24609 0.36914l0.01367 0.01367q0.08203 0.05811 0.15381 0.07178 0.11279 0.01367 0.43408 0.02734l2.79932-0.01367 0.09912-0.04102q0.18115-0.08545 0.28027-0.28027l0.04102-0.07178 0-3.26074-0.04102-0.08545q-0.09912-0.16748-0.28027-0.2666-0.05811-0.02734-0.09912-0.04102-0.04102-0.01367-0.15381-0.01367-0.11279 0-0.15381 0.01367-0.04101 0.01367-0.09912 0.04102-0.18115 0.09912-0.28027 0.2666l-0.04102 0.08545 0 1.67822-0.28027-0.26318q-0.3623-0.36572-0.72119-0.62207-0.35547-0.25977-0.78955-0.48535-1.10742-0.58789-2.38233-0.70069-0.15381-0.01367-0.4751-0.01367-0.32129 0-0.46142 0.01367z m5.53027 5.25q-0.11279 0.04102-0.21875 0.12647-0.10254 0.08545-0.14697 0.18115-0.04102 0.05811-0.04102 0.15381l-0.05468 0.54687q-0.04443 0.65967-0.30762 1.28858-0.47851 1.18945-1.47998 1.96191-0.99805 0.76904-2.24561 0.93653-0.7417 0.08203-1.5039-0.05811-0.76221-0.14014-1.43555-0.48877-0.72803-0.39307-1.3877-1.03564l-0.10937-0.12647 0.75537 0q0.50244 0 0.66992-0.01367 0.22559-0.01367 0.30762-0.04102 0.08545-0.03076 0.1709-0.12646 0.22217-0.22559 0.16748-0.51953-0.05469-0.29395-0.34863-0.43408l-0.08545-0.02735-3.20606 0-0.08545 0.04102q-0.19482 0.08545-0.29394 0.28027l-0.04102 0.07178 0 3.26074 0.04102 0.08545q0.04443 0.06836 0.12646 0.15381 0.08545 0.08203 0.16065 0.12646 0.07861 0.04102 0.24609 0.04102 0.16748 0 0.24268-0.04102 0.07861-0.04443 0.16064-0.12646 0.08545-0.08545 0.12988-0.15381l0.04102-0.08545 0-1.67822 0.25293 0.24951q0.24951 0.23926 0.43408 0.39307 1.37061 1.14844 3.20606 1.40136 0.2085 0.02734 0.63574 0.03418 0.42725 0.00684 0.64941-0.00683 1.3877-0.12646 2.57715-0.8545 1.14844-0.72803 1.87646-1.87646 0.72803-1.17578 0.8545-2.57715 0.02734-0.22217 0.01367-0.44775 0-0.19482-0.0376-0.27686-0.03418-0.08545-0.11621-0.18457-0.16748-0.15381-0.39307-0.16748-0.14014 0-0.18115 0.01367z"
+                  fill="#F5B84B"
+                ></path>
+              </svg>
+              <div
+                data-pencil-name="Feature Title"
+                style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 18px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Never Miss a Beat
+              </div>
+              <div
+                data-pencil-name="Feature Description"
+                style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 20px; text-align: left; width: 100%'
+              >
+                If your connection drops, pre-recorded videos automatically play. Your stream stays
+                live.
+              </div>
+            </div>
+            <div
+              data-pencil-name="Feature - Schedule &amp; Queue Streams"
+              style="align-items: flex-start; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 12px; height: fit-content; justify-content: flex-start; padding: 28px 24px"
+            >
+              <svg
+                data-pencil-name="Feature Icon"
+                data-icon-name="calendar"
+                data-icon-set="lucide"
+                viewBox="0 0 13.99993896484375 14"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+                style="box-sizing: border-box; flex-shrink: 0; height: 28px; width: 28px"
+              >
+                <path
+                  d="M4.57666 0.60156q-0.12305 0.01367-0.24268 0.09912-0.11963 0.08203-0.1914 0.19483-0.04102 0.08545-0.05469 0.20508-0.01367 0.11621-0.01367 0.35546l0 0.29395-1.32959 0.01367q-0.14014 0.01367-0.23926 0.02735-0.50244 0.14014-0.85449 0.50586-0.34863 0.3623-0.44776 0.88183-0.02734 0.0957-0.02734 0.81006l0 7.99463 0.05469 0.15381q0.15723 0.51953 0.56055 0.86133 0.40674 0.3418 0.93994 0.3999 0.15381 0.02734 4.26904 0.02734 4.11523 0 4.26904-0.02734 0.30762-0.02734 0.58789-0.16748 0.32471-0.15381 0.56055-0.44092 0.23926-0.28711 0.35205-0.65283l0.05469-0.15381 0-7.99463q0-0.71436-0.02735-0.81006-0.09912-0.51953-0.45117-0.88183-0.34863-0.36572-0.85107-0.50586-0.09912-0.01367-0.23926-0.02735l-1.32959-0.01367 0-0.29395q0-0.32129-0.03418-0.45459-0.03418-0.1333-0.14697-0.24609-0.14014-0.14014-0.35889-0.16064-0.21533-0.02051-0.37597 0.09228-0.16064 0.10938-0.21875 0.29395-0.02734 0.05469-0.03418 0.1333-0.00684 0.0752-0.00684 0.30078l0 0.33496-3.5 0 0-0.34863q0-0.23926-0.00684-0.30762-0.00684-0.07178-0.03418-0.12646-0.08545-0.21191-0.25293-0.30762-0.16748-0.09912-0.37939-0.05811z m-0.50244 2.67285q0.01367 0.25293 0.02051 0.31788 0.00684 0.06152 0.03418 0.14697 0.05811 0.0957 0.14013 0.18115 0.21191 0.19482 0.50586 0.14697 0.29395-0.04785 0.42041-0.31445 0.02734-0.08545 0.03418-0.14014 0.00684-0.05811 0.02051-0.32129l0-0.36572 3.5 0 0 0.36572q0.01367 0.26318 0.02051 0.32129 0.00684 0.05469 0.03418 0.14014 0.12646 0.2666 0.42041 0.31445 0.29395 0.04785 0.50586-0.14697 0.08203-0.08545 0.14013-0.18115 0.02734-0.08545 0.03418-0.14697 0.00684-0.06494 0.02051-0.31788l0-0.34863 1.31592 0 0.08545 0.04102q0.08203 0.04443 0.15722 0.12304 0.07861 0.0752 0.11963 0.16065 0.04443 0.08203 0.05811 0.28027 0.01367 0.19482 0.01367 0.85108l0 0.86816-9.35156 0 0.01367-1.72266q0.01367-0.16748 0.02734-0.20849 0.09912-0.2666 0.35206-0.36572 0.05469-0.01367 0.16748-0.02735l1.18945 0 0 0.34863z m7.58789 5.82422q0 1.89014-0.00684 2.30371-0.00683 0.41357-0.0205 0.45459-0.09912 0.25293-0.35206 0.35205l-0.0957 0.04102-8.37402 0-0.0957-0.04102q-0.15381-0.0581-0.26661-0.19824l-0.02734-0.02734q-0.04443-0.05469-0.05811-0.15381-0.02734-0.14014-0.02734-0.60156l-0.01367-4.80225 9.35156 0-0.01367 2.67285z"
+                  fill="#D9772A"
+                ></path>
+              </svg>
+              <div
+                data-pencil-name="Feature Title"
+                style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 18px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Schedule &amp; Queue Streams
+              </div>
+              <div
+                data-pencil-name="Feature Description"
+                style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 20px; text-align: left; width: 100%'
+              >
+                Plan your content in advance. Schedule broadcasts and queue multiple streams to go
+                live at set times.
+              </div>
+            </div>
+          </div>
+          <div
+            data-pencil-name="Features Row 3"
+            style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 20px; height: fit-content; justify-content: center; width: 100%"
+          >
+            <div
+              data-pencil-name="Feature - One Stream, Infinite Reach"
+              style="align-items: flex-start; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 12px; height: fit-content; justify-content: flex-start; padding: 28px 24px; width: 660px"
+            >
+              <svg
+                data-pencil-name="Feature Icon"
+                data-icon-name="git-merge"
+                data-icon-set="lucide"
+                viewBox="0 0 13.99993896484375 14"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+                style="box-sizing: border-box; flex-shrink: 0; height: 28px; width: 28px"
+              >
+                <path
+                  d="M3.1377 1.20313q-0.89893 0.15381-1.44239 0.82714-0.18457 0.22217-0.29052 0.44776-0.10254 0.22559-0.18799 0.51953-0.02734 0.10938-0.03418 0.19482-0.00684 0.08203-0.00684 0.30762 0 0.28027 0.02734 0.43408 0.02734 0.15381 0.1128 0.3794 0.18115 0.48877 0.55713 0.86132 0.37939 0.36914 0.88525 0.53663l0.16748 0.0581 0 6.64795 0.04102 0.08545q0.04443 0.06836 0.12646 0.15381 0.08545 0.08203 0.16065 0.12646 0.07861 0.04102 0.24609 0.04102 0.16748 0 0.24268-0.04102 0.07861-0.04443 0.16064-0.12646 0.08545-0.08545 0.12988-0.15381l0.04102-0.08545 0.01367-3.65381 0.07178 0.08545q0.72803 0.92285 1.77051 1.50391 1.04248 0.58105 2.20459 0.69385l0.0957 0.01367 0.0581 0.1538q0.15381 0.50244 0.52979 0.89551 0.37939 0.39307 0.86816 0.57422 0.22559 0.08545 0.3794 0.1128 0.15381 0.02734 0.43408 0.02734 0.28027 0 0.43408-0.02734 0.15381-0.02734 0.3794-0.1128 0.4751-0.16748 0.8374-0.52978 0.36572-0.36572 0.5332-0.84082 0.08545-0.22559 0.11279-0.3794 0.02734-0.15381 0.02735-0.43408 0-0.28027-0.02735-0.43408-0.02734-0.15381-0.11279-0.3794-0.18115-0.4751-0.56054-0.85107-0.37598-0.37939-0.86817-0.5332-0.2085-0.07178-0.35547-0.09912-0.14697-0.02734-0.3999-0.02735-0.30762 0-0.44775 0.04102-0.4751 0.09912-0.86133 0.35888-0.38623 0.25977-0.64942 0.64942-0.15723 0.25293-0.25293 0.5332l-0.04101 0.12647-0.09912 0q-0.33496-0.04443-0.7417-0.16748-1.23389-0.37939-2.10889-1.33643-0.875-0.96045-1.12451-2.22168-0.04443-0.2085-0.05811-0.32129l0-0.08545 0.12647-0.04101q0.48877-0.15381 0.875-0.52979 0.38623-0.37939 0.56738-0.86816 0.08545-0.22559 0.11279-0.3794 0.02734-0.15381 0.02735-0.43408 0-0.28027-0.02735-0.43408-0.02734-0.15381-0.11279-0.3794-0.2085-0.55713-0.6665-0.95019-0.45459-0.39307-1.04248-0.51953-0.14014-0.02734-0.42725-0.03418-0.28711-0.00684-0.41015 0.02051z m0.65625 1.1621q0.28027 0.07178 0.52294 0.31788 0.24609 0.24268 0.31788 0.52294 0.02734 0.12646 0.02734 0.29395 0 0.16748-0.02734 0.28027-0.07178 0.29395-0.3042 0.53321-0.229 0.23584-0.53662 0.32129-0.11279 0.02734-0.29395 0.02734-0.18115 0-0.29395-0.02734-0.30762-0.08545-0.54003-0.32129-0.229-0.23926-0.30079-0.53321-0.02734-0.11279-0.02734-0.28027 0-0.16748 0.02734-0.29395 0.05811-0.22559 0.22559-0.43408 0.16748-0.2085 0.40674-0.32129 0.34863-0.18115 0.79639-0.08545z m7 7q0.28027 0.07178 0.52294 0.31788 0.24609 0.24268 0.31788 0.52294 0.02734 0.12647 0.02734 0.29395 0 0.16748-0.02734 0.28027-0.07178 0.29395-0.3042 0.53321-0.229 0.23584-0.53662 0.32129-0.11279 0.02734-0.29395 0.02734-0.18115 0-0.29395-0.02734-0.30762-0.08545-0.54003-0.32129-0.229-0.23926-0.30079-0.53321-0.02734-0.11279-0.02734-0.28027 0-0.16748 0.02734-0.29395 0.05811-0.22559 0.22559-0.43408 0.16748-0.2085 0.40674-0.32129 0.34863-0.18115 0.79639-0.08545z"
+                  fill="#4DA3FF"
+                ></path>
+              </svg>
+              <div
+                data-pencil-name="Feature Title"
+                style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 18px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                One Stream, Infinite Reach
+              </div>
+              <div
+                data-pencil-name="Feature Description"
+                style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 20px; text-align: left; width: 100%'
+              >
+                Send one RTMP stream to OME. No OBS plugins, no configuration per platform. We
+                handle the distribution.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        data-pencil-name="Stats Section"
+        style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 20px; height: fit-content; justify-content: flex-start; padding: 60px 120px; width: 100%"
+      >
+        <div
+          data-pencil-name="Stat - Uptime Guaranteed"
+          style="align-items: center; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 6px; height: fit-content; justify-content: flex-start; padding: 32px 28px"
+        >
+          <div
+            data-pencil-name="Stat Value"
+            style='box-sizing: border-box; color: #F5B84B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 48px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            99.9%
+          </div>
+          <div
+            data-pencil-name="Stat Label"
+            style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Uptime Guaranteed
+          </div>
+          <div
+            data-pencil-name="Stat Subtext"
+            style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 12px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Backed by enterprise infrastructure
+          </div>
+        </div>
+        <div
+          data-pencil-name="Stat - Successful Streams"
+          style="align-items: center; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 6px; height: fit-content; justify-content: flex-start; padding: 32px 28px"
+        >
+          <div
+            data-pencil-name="Stat Value"
+            style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 48px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            50K+
+          </div>
+          <div
+            data-pencil-name="Stat Label"
+            style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Successful Streams
+          </div>
+          <div
+            data-pencil-name="Stat Subtext"
+            style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 12px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Powering creators worldwide
+          </div>
+        </div>
+        <div
+          data-pencil-name="Stat - Active Users"
+          style="align-items: center; background-color: #101114; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 6px; height: fit-content; justify-content: flex-start; padding: 32px 28px"
+        >
+          <div
+            data-pencil-name="Stat Value"
+            style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 48px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            10K+
+          </div>
+          <div
+            data-pencil-name="Stat Label"
+            style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Active Users
+          </div>
+          <div
+            data-pencil-name="Stat Subtext"
+            style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 12px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Streaming right now
+          </div>
+        </div>
+      </div>
+      <div
+        data-pencil-name="Pricing Section"
+        style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 32px; height: fit-content; justify-content: flex-start; padding: 60px 120px; width: 100%"
+      >
+        <div
+          data-pencil-name="Pricing Eyebrow"
+          style='box-sizing: border-box; color: #F5B84B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 12px; font-style: normal; font-weight: 900; letter-spacing: 1.5px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          PRICING
+        </div>
+        <div
+          data-pencil-name="Pricing Title"
+          style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 36px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          Simple, Transparent Pricing
+        </div>
+        <div
+          data-pencil-name="Pricing Grid"
+          style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 20px; height: fit-content; justify-content: flex-start; width: 100%"
+        >
+          <div
+            data-pencil-name="Pricing - Starter"
+            style="align-items: flex-start; background-color: #101114; border-radius: 20px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 20px; height: fit-content; justify-content: flex-start; padding: 32px 28px"
+          >
+            <div
+              data-pencil-name="Badge"
+              style="align-items: flex-start; background-color: #2D1A0A; border-radius: 8px; border: 1px solid #D9772A; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 0px; height: fit-content; justify-content: flex-start; padding: 6px 12px; width: fit-content"
+            >
+              <div
+                data-pencil-name="Badge Text"
+                style='box-sizing: border-box; color: #FFE4E6; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Free Trial
+              </div>
+            </div>
+            <div
+              data-pencil-name="Price Row"
+              style="align-items: flex-end; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 4px; height: fit-content; justify-content: flex-start; width: fit-content"
+            >
+              <div
+                data-pencil-name="Amount"
+                style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 44px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                $0
+              </div>
+              <div
+                data-pencil-name="Period"
+                style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                /month
+              </div>
+            </div>
+            <div
+              data-pencil-name="Specs"
+              style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 12px; height: fit-content; justify-content: flex-start; width: 100%"
+            >
+              <div
+                data-pencil-name="Spec Platforms"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  2
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Platforms
+                </div>
+              </div>
+              <div
+                data-pencil-name="Spec Offline"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  60min
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Offline
+                </div>
+              </div>
+              <div
+                data-pencil-name="Spec Quality"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  720p
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Quality
+                </div>
+              </div>
+            </div>
+            <div
+              data-pencil-name="Features List"
+              style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+            >
+              <div
+                data-pencil-name="Feature - Multi-destination streaming"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Multi-destination streaming
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - LL-HLS playback"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  LL-HLS playback
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Basic offline sequencing"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #F5B84B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Basic offline sequencing
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Stream stats &amp; monitoring"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Stream stats &amp; monitoring
+                </div>
+              </div>
+            </div>
+            <a href="/login" style="text-decoration: none; width: 100%">
+              <div
+                data-pencil-name="CTA Button"
+                style="align-items: center; background-color: #d9772a; border-radius: 12px; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 0px; height: fit-content; justify-content: center; padding: 14px 18px; width: 100%; cursor: pointer"
+              >
+                <div
+                  data-pencil-name="CTA Text"
+                  style='box-sizing: border-box; color: #FFFFFF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 15px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Start Free Trial
+                </div>
+              </div>
+            </a>
+            <div
+              data-pencil-name="Trial Note"
+              style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+            >
+              2 hours streaming limit
+            </div>
+          </div>
+          <div
+            data-pencil-name="Pricing - Professional"
+            style="align-items: flex-start; background-color: #101114; border-radius: 20px; border: 2px solid #2EE66B; box-shadow: 0px 0px 30px 0px #2EE66B22; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 20px; height: fit-content; justify-content: flex-start; padding: 32px 28px"
+          >
+            <div
+              data-pencil-name="Badge"
+              style="align-items: flex-start; background-color: #0D2A16; border-radius: 8px; border: 1px solid #2EE66B; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 0px; height: fit-content; justify-content: flex-start; padding: 6px 12px; width: fit-content"
+            >
+              <div
+                data-pencil-name="Badge Text"
+                style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Recommended
+              </div>
+            </div>
+            <div
+              data-pencil-name="Price Row"
+              style="align-items: flex-end; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 4px; height: fit-content; justify-content: flex-start; width: fit-content"
+            >
+              <div
+                data-pencil-name="Amount"
+                style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 44px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                $29
+              </div>
+              <div
+                data-pencil-name="Period"
+                style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                /month
+              </div>
+            </div>
+            <div
+              data-pencil-name="Specs"
+              style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 12px; height: fit-content; justify-content: flex-start; width: 100%"
+            >
+              <div
+                data-pencil-name="Spec Platforms"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  3
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Platforms
+                </div>
+              </div>
+              <div
+                data-pencil-name="Spec Offline"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  240min
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Offline
+                </div>
+              </div>
+              <div
+                data-pencil-name="Spec Quality"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  1080p
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Quality
+                </div>
+              </div>
+            </div>
+            <div
+              data-pencil-name="Features List"
+              style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+            >
+              <div
+                data-pencil-name="Feature - Everything in Starter"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Everything in Starter
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Extended offline storage"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Extended offline storage
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Scheduled broadcasts"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Scheduled broadcasts
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Stream queueing"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Stream queueing
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Priority support"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Priority support
+                </div>
+              </div>
+            </div>
+            <a href="/login" style="text-decoration: none; width: 100%">
+              <div
+                data-pencil-name="CTA Button"
+                style="align-items: center; background-color: #d9772a; border-radius: 12px; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 0px; height: fit-content; justify-content: center; padding: 14px 18px; width: 100%; cursor: pointer"
+              >
+                <div
+                  data-pencil-name="CTA Text"
+                  style='box-sizing: border-box; color: #FFFFFF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 15px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Get Started
+                </div>
+              </div>
+            </a>
+          </div>
+          <div
+            data-pencil-name="Pricing - Enterprise"
+            style="align-items: flex-start; background-color: #101114; border-radius: 20px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 20px; height: fit-content; justify-content: flex-start; padding: 32px 28px"
+          >
+            <div
+              data-pencil-name="Badge"
+              style="align-items: flex-start; background-color: #1A1F2E; border-radius: 8px; border: 1px solid #4DA3FF; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 0px; height: fit-content; justify-content: flex-start; padding: 6px 12px; width: fit-content"
+            >
+              <div
+                data-pencil-name="Badge Text"
+                style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Unlimited
+              </div>
+            </div>
+            <div
+              data-pencil-name="Price Row"
+              style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 4px; height: fit-content; justify-content: flex-start; width: fit-content"
+            >
+              <div
+                data-pencil-name="Amount"
+                style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 44px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Custom
+              </div>
+              <div
+                data-pencil-name="Period"
+                style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Contact us for pricing
+              </div>
+            </div>
+            <div
+              data-pencil-name="Specs"
+              style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 12px; height: fit-content; justify-content: flex-start; width: 100%"
+            >
+              <div
+                data-pencil-name="Spec Platforms"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  4+
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Platforms
+                </div>
+              </div>
+              <div
+                data-pencil-name="Spec Offline"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ∞
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Offline
+                </div>
+              </div>
+              <div
+                data-pencil-name="Spec Quality"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 2px; height: fit-content; justify-content: flex-start"
+              >
+                <div
+                  data-pencil-name="Value"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  4K
+                </div>
+                <div
+                  data-pencil-name="Label"
+                  style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 11px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Quality
+                </div>
+              </div>
+            </div>
+            <div
+              data-pencil-name="Features List"
+              style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+            >
+              <div
+                data-pencil-name="Feature - Everything in Professional"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Everything in Professional
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Unlimited offline storage"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Unlimited offline storage
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Custom integrations"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Custom integrations
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - Dedicated support"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Dedicated support
+                </div>
+              </div>
+              <div
+                data-pencil-name="Feature - SLA guarantee"
+                style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 10px; height: fit-content; justify-content: flex-start; width: 100%"
+              >
+                <div
+                  data-pencil-name="Check"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  ✓
+                </div>
+                <div
+                  data-pencil-name="Text"
+                  style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  SLA guarantee
+                </div>
+              </div>
+            </div>
+            <a href="mailto:sales@omeplayer.com" style="text-decoration: none; width: 100%">
+              <div
+                data-pencil-name="CTA Button"
+                style="align-items: center; background-color: #00000000; border-radius: 12px; border: 1px solid #4DA3FF; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 0px; height: fit-content; justify-content: center; padding: 14px 18px; width: 100%; cursor: pointer"
+              >
+                <div
+                  data-pencil-name="CTA Text"
+                  style='box-sizing: border-box; color: #4DA3FF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 15px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+                >
+                  Contact Sales
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        data-pencil-name="Testimonials Section"
+        style="align-items: flex-start; background-color: #101114; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 32px; height: fit-content; justify-content: flex-start; padding: 60px 120px; width: 100%"
+      >
+        <div
+          data-pencil-name="Testimonials Eyebrow"
+          style='box-sizing: border-box; color: #2EE66B; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 12px; font-style: normal; font-weight: 900; letter-spacing: 1.5px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          TESTIMONIALS
+        </div>
+        <div
+          data-pencil-name="Testimonials Title"
+          style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 36px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          Loved by Creators
+        </div>
+        <div
+          data-pencil-name="Testimonials Grid"
+          style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 20px; height: fit-content; justify-content: flex-start; width: 100%"
+        >
+          <div
+            data-pencil-name="Testimonial 1"
+            style="align-items: center; background-color: #050505; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 0px; height: 200px; justify-content: center; padding: 24px 28px"
+          >
+            <div
+              data-pencil-name="Placeholder"
+              style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+            >
+              Testimonial coming soon
+            </div>
+          </div>
+          <div
+            data-pencil-name="Testimonial 2"
+            style="align-items: center; background-color: #050505; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 0px; height: 200px; justify-content: center; padding: 24px 28px"
+          >
+            <div
+              data-pencil-name="Placeholder"
+              style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+            >
+              Testimonial coming soon
+            </div>
+          </div>
+          <div
+            data-pencil-name="Testimonial 3"
+            style="align-items: center; background-color: #050505; border-radius: 18px; border: 1px solid #292D35; box-sizing: border-box; display: flex; flex-direction: column; flex: 1 1 0; gap: 0px; height: 200px; justify-content: center; padding: 24px 28px"
+          >
+            <div
+              data-pencil-name="Placeholder"
+              style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+            >
+              Testimonial coming soon
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        data-pencil-name="Footer CTA Section"
+        style="align-items: center; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 24px; height: fit-content; justify-content: flex-start; padding: 80px 120px; width: 100%"
+      >
+        <div
+          data-pencil-name="CTA Headline"
+          style='box-sizing: border-box; color: #F7F7F7; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 40px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          Ready to Stream Smarter?
+        </div>
+        <div
+          data-pencil-name="CTA Subheading"
+          style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 16px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          Join thousands of creators reducing complexity and costs.
+        </div>
+        <div
+          data-pencil-name="CTA Buttons"
+          style="align-items: center; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 16px; height: fit-content; justify-content: flex-start; width: fit-content"
+        >
+          <a href="/login" style="text-decoration: none">
+            <div
+              data-pencil-name="Primary CTA"
+              style="align-items: center; background-color: #d9772a; border-radius: 12px; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 0px; height: fit-content; justify-content: center; padding: 16px 40px; width: fit-content; cursor: pointer"
+            >
+              <div
+                data-pencil-name="CTA Text"
+                style='box-sizing: border-box; color: #FFFFFF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 15px; font-style: normal; font-weight: 900; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+              >
+                Start Your Free Trial
+              </div>
+            </div>
+          </a>
+          <a href="mailto:sales@omeplayer.com" style="text-decoration: none; color: #4DA3FF; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 15px; font-weight: 400; white-space: nowrap">
+            Schedule a demo →
+          </a>
+        </div>
+      </div>
+      <div
+        data-pencil-name="Footer"
+        style="align-items: flex-start; border-color: #292D35; border-style: solid; border-width: 1px 0px 0px 0px; box-sizing: border-box; display: flex; flex-direction: column; flex-shrink: 0; gap: 16px; height: fit-content; justify-content: flex-start; padding: 40px 120px; width: 100%"
+      >
+        <div
+          data-pencil-name="Footer Links"
+          style="align-items: flex-start; box-sizing: border-box; display: flex; flex-direction: row; flex-shrink: 0; gap: 24px; height: fit-content; justify-content: flex-start; width: fit-content"
+        >
+          <div
+            data-pencil-name="Privacy Policy"
+            style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 13px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Privacy Policy
+          </div>
+          <div
+            data-pencil-name="Terms of Service"
+            style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 13px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Terms of Service
+          </div>
+          <div
+            data-pencil-name="Contact"
+            style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 13px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+          >
+            Contact
+          </div>
+        </div>
+        <div
+          data-pencil-name="Copyright"
+          style='box-sizing: border-box; color: #9BA3AF; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 12px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: normal; text-align: left; white-space: nowrap'
+        >
+          © 2026 OME Player. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -3,159 +3,498 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restream Settings</title>
+    <title>OME Player — Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <style>
       :root {
         color-scheme: dark;
-        --bg: #061018;
-        --panel: rgba(13, 27, 40, .94);
-        --panel-2: rgba(8, 18, 28, .96);
-        --line: #24415f;
-        --text: #eef7ff;
-        --muted: #93a9bb;
-        --accent: #7ee787;
-        --warn: #ffd166;
+        --bg: #050505;
+        --panel: #101114;
+        --panel-alt: #0B0C10;
+        --surface: #15171C;
+        --line: #292D35;
+        --text: #F7F7F7;
+        --muted: #9BA3AF;
+        --accent: #D9772A;
+        --accent-2: #2EE66B;
+        --blue: #4DA3FF;
+        --warn: #F5B84B;
         --danger: #ff7b7b;
-        --blue: #73d2ff;
+        --input-bg: #07080C;
+        --input-border: #343A46;
+        --btn-secondary-bg: #181B22;
+        --btn-secondary-border: #343A46;
+        --code-color: #7DD3FC;
+        --log-text: #AAB4C2;
       }
-      * { box-sizing: border-box; }
+
+      *, ::before, ::after { box-sizing: border-box; }
+
       body {
         margin: 0;
         min-height: 100vh;
         color: var(--text);
-        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-        background:
-          radial-gradient(circle at 18% 0%, rgba(115, 210, 255, .16), transparent 30%),
-          radial-gradient(circle at 90% 10%, rgba(126, 231, 135, .13), transparent 25%),
-          linear-gradient(180deg, #061018 0%, #03070d 100%);
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        background-color: var(--bg);
+        position: relative;
+        overflow-x: hidden;
       }
-      .shell { width: min(1480px, calc(100% - 32px)); margin: 28px auto 42px; }
-      .topbar { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: end; margin-bottom: 18px; }
-      h1 { margin: 0 0 8px; font-size: clamp(2rem, 4vw, 3.35rem); letter-spacing: -.06em; }
-      p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+      /* Decorative glow accents */
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
+      }
+      body::before {
+        width: 700px; height: 520px;
+        top: -240px; right: -50px;
+        background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(217,119,42,0.34) 0%, transparent 100%);
+      }
+      body::after {
+        width: 620px; height: 620px;
+        top: 110px; right: -120px;
+        background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(24,68,60,0.22) 0%, transparent 100%);
+      }
+
+      .shell {
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 28px 48px 42px;
+        position: relative;
+        z-index: 1;
+      }
+
       a { color: var(--accent); text-decoration: none; }
       a:hover { text-decoration: underline; }
-      code { color: var(--blue); }
-      .status-bar {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 16px;
+      code { color: var(--code-color); font-family: "JetBrains Mono", monospace; font-size: 0.85em; }
+      p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+      /* ── Header ── */
+      .header {
+        display: flex;
         align-items: center;
-        padding: 14px 16px;
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        background: var(--panel);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+        justify-content: space-between;
+        gap: 16px;
+        padding: 0 8px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
       }
-      .status-text { font-weight: 700; color: var(--accent); }
-      .status-text.idle { color: var(--muted); }
-      .message { color: var(--muted); font-size: .88rem; }
-      .message.error { color: #ffd0d0; }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-decoration: none;
+        flex-shrink: 0;
+      }
+      .brand:hover { text-decoration: none; }
+      .brand-mark {
+        width: 42px; height: 42px;
+        background: var(--accent);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .brand-mark svg { width: 16px; height: 20px; }
+      .brand-title {
+        color: var(--text);
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.8px;
+        white-space: nowrap;
+      }
+
+      /* Nav pills */
+      .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #111318;
+        border: 1px solid #242832;
+        border-radius: 999px;
+        padding: 6px;
+        flex-shrink: 0;
+      }
+      .nav-pill {
+        display: flex;
+        align-items: center;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        white-space: nowrap;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.15s, color 0.15s;
+      }
+      .nav-pill:hover { color: var(--text); text-decoration: none; }
+      .nav-pill.active {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      /* Header right */
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+
+      /* Relay health chip */
       .relay-health {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        width: fit-content;
-        margin-top: 12px;
-        padding: 9px 12px;
-        border: 1px solid #2a4a6a;
+        padding: 10px 14px;
         border-radius: 999px;
-        background: rgba(3, 8, 14, .62);
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+        border: 1px solid var(--input-border);
+        background: var(--btn-secondary-bg);
         color: var(--muted);
-        font-size: .84rem;
       }
-      .relay-health-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
-      .relay-health.live { border-color: rgba(126, 231, 135, .45); color: var(--accent); }
-      .relay-health.live .relay-health-dot { background: var(--accent); }
+      .relay-health-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: var(--muted);
+        flex-shrink: 0;
+      }
+      .relay-health.live {
+        background: #0B2618;
+        border-color: rgba(46,230,107,0.45);
+        color: var(--accent-2);
+      }
+      .relay-health.live .relay-health-dot { background: var(--accent-2); }
       .relay-health.offline,
-      .relay-health.error { border-color: rgba(255, 123, 123, .45); color: #ffd0d0; }
+      .relay-health.error {
+        background: #2A1114;
+        border-color: #6F2028;
+        color: #FFE4E6;
+      }
       .relay-health.offline .relay-health-dot,
-      .relay-health.error .relay-health-dot { background: var(--danger); }
-      .grid { display: grid; grid-template-columns: 310px 1fr; gap: 18px; align-items: start; margin-top: 18px; }
-      .panel {
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        background: var(--panel);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
-      }
-      .panel-inner { padding: 16px; }
-      .section-title {
-        color: var(--blue);
-        font-size: .76rem;
-        font-weight: 800;
-        letter-spacing: .1em;
-        text-transform: uppercase;
-        margin: 0 0 12px;
-      }
-      label { display: grid; gap: 7px; color: var(--muted); font-size: .86rem; }
-      input, select, textarea {
-        width: 100%;
-        border: 1px solid #2a4a6a;
-        border-radius: 12px;
-        padding: 11px 12px;
-        color: var(--text);
-        background: rgba(4, 11, 18, .95);
-        font: inherit;
-      }
-      input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); }
-      textarea { min-height: 78px; resize: vertical; }
-      .stack { display: grid; gap: 13px; }
-      .hint { color: var(--muted); font-size: .78rem; line-height: 1.55; margin-top: 12px; }
-      .destinations { display: grid; gap: 14px; }
-      .card { overflow: hidden; }
-      .card-head {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto auto auto;
-        gap: 12px;
+      .relay-health.error .relay-health-dot { background: #FF5B66; }
+      .relay-health.checking { border-color: var(--input-border); color: var(--muted); }
+
+      /* Refresh button */
+      button.refresh-btn {
+        display: flex;
         align-items: center;
-        padding: 15px 16px;
-        border-bottom: 1px solid var(--line);
-        background: rgba(5, 13, 22, .78);
-      }
-      .card h2 { margin: 0 0 5px; letter-spacing: -.04em; }
-      .card-subtitle { color: var(--muted); font-size: .78rem; line-height: 1.45; }
-      .card-summary { color: var(--muted); font-size: .76rem; overflow-wrap: anywhere; }
-      .card-details[hidden] { display: none; }
-      .card.is-open .card-head { border-bottom-color: rgba(115, 210, 255, .34); }
-      .pill {
-        border: 1px solid #36516f;
+        padding: 10px 16px;
         border-radius: 999px;
-        padding: 7px 10px;
-        color: var(--muted);
-        background: rgba(3, 8, 14, .62);
-        font-size: .76rem;
+        border: 1px solid var(--btn-secondary-border);
+        background: var(--btn-secondary-bg);
+        color: var(--text);
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
         white-space: nowrap;
       }
-      .pill.running { color: #03110a; background: var(--accent); border-color: var(--accent); }
-      .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-      .full { grid-column: 1 / -1; }
-      .copy-mode-row {
-        border: 1px solid rgba(126, 231, 135, .42);
+      button.refresh-btn:hover { filter: brightness(1.15); }
+
+      /* ── Hero Stats Bar ── */
+      .hero-stats {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 26px 30px;
+        background: var(--panel-alt);
+        border: 1px solid #242832;
+        border-radius: 26px;
+        box-shadow: 0 24px 60px -30px rgba(217,119,42,0.2);
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+      }
+      .hero-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1 1 500px;
+        min-width: 0;
+      }
+      .hero-title {
+        font-size: clamp(28px, 4vw, 54px);
+        font-weight: 800;
+        letter-spacing: -2.4px;
+        line-height: 1;
+        color: var(--text);
+      }
+      .hero-subtitle {
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 22px;
+      }
+      .hero-metrics {
+        display: flex;
+        gap: 12px;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+      }
+      .hero-metric {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px 18px;
+        min-width: 100px;
+      }
+      .hero-metric-value {
+        font-size: 24px;
+        font-weight: 800;
+        font-family: "Space Grotesk", system-ui, sans-serif;
+      }
+      .hero-metric-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      /* ── Status bar (overall status + message) ── */
+      .status-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 18px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(16,17,20,0.9);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+      }
+      .status-text { font-weight: 700; color: var(--accent-2); }
+      .status-text.idle { color: var(--muted); }
+      .message { color: var(--muted); font-size: 0.88rem; }
+      .message.error { color: #ffd0d0; }
+
+      /* ── Main grid: sidebar + workspace ── */
+      .grid {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 22px;
+        align-items: start;
+      }
+
+      /* Panel (sidebar) */
+      .panel {
+        background: rgba(16,17,20,0.9);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: 0px 20px 50px -36px rgba(0,0,0,0.8);
+      }
+      .panel-inner {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .section-title {
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        margin: 0 0 6px;
+      }
+
+      .section-heading {
+        color: var(--text);
+        font-size: 18px;
+        font-weight: 800;
+        margin: 0 0 10px;
+      }
+
+      /* ── Form elements ── */
+      label {
+        display: grid;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      input, select, textarea {
+        width: 100%;
+        border: 1px solid var(--input-border);
+        border-radius: 14px;
+        padding: 13px 14px;
+        color: var(--text);
+        background: var(--input-bg);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+      }
+      input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      textarea { min-height: 78px; resize: vertical; }
+
+      .stack { display: flex; flex-direction: column; gap: 13px; }
+      .hint { color: var(--muted); font-size: 0.78rem; line-height: 1.55; margin-top: 4px; }
+
+      /* Default filter chips */
+      .filter-chip {
+        background: var(--surface);
+        border: 1px solid var(--line);
         border-radius: 14px;
         padding: 12px;
-        background: rgba(126, 231, 135, .08);
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .filter-chip-label {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+      .filter-chip-value {
+        color: var(--code-color);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+      }
+
+      /* ── Destination cards ── */
+      .destinations { display: flex; flex-direction: column; gap: 14px; }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: var(--panel-alt);
+        overflow: hidden;
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .card-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex: 1 1 0;
+        min-width: 0;
+      }
+      .card-icon {
+        width: 58px; height: 58px;
+        border-radius: 16px;
+        background: var(--btn-secondary-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 24px;
+        font-weight: 900;
+        color: #fff;
+      }
+      .card-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+        flex: 1;
+      }
+      .card-title-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .card h2 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+      .card-subtitle {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+      .card-summary {
+        color: #B6C2D1;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+      .card-details[hidden] { display: none; }
+
+      .card.is-open .card-head {
+        border-bottom-color: rgba(217,119,42,0.4);
+      }
+
+      /* State pill */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid #3B4251;
+        background: var(--btn-secondary-bg);
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .pill.running {
+        color: #fff;
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .card-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+
+      /* Card form grid */
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .full { grid-column: 1 / -1; }
+
+      .copy-mode-row {
+        border: 1px solid rgba(217,119,42,0.42);
+        border-radius: 14px;
+        padding: 12px;
+        background: rgba(217,119,42,0.08);
       }
       .hold-mode-row {
-        border: 1px solid rgba(255, 209, 102, .42);
+        border: 1px solid rgba(245,184,75,0.42);
         border-radius: 14px;
         padding: 12px;
-        background: rgba(255, 209, 102, .08);
+        background: rgba(245,184,75,0.08);
       }
-      .scene-list { display: grid; gap: 8px; }
-      .scene-item {
-        display: grid;
-        grid-template-columns: 1fr auto auto;
-        gap: 8px;
-        align-items: center;
-        padding: 9px;
-        border: 1px solid #213a55;
-        border-radius: 10px;
-        background: rgba(3, 8, 14, .62);
-      }
-      .scene-item strong { display: block; overflow-wrap: anywhere; font-size: .8rem; }
-      .scene-item span { color: var(--muted); font-size: .72rem; }
-      .scene-item.selected { border-color: rgba(126, 231, 135, .6); }
-      .scene-empty { color: var(--muted); font-size: .8rem; }
+
       .checkbox-label {
         display: flex;
         align-items: flex-start;
@@ -163,90 +502,201 @@
         color: var(--text);
       }
       .checkbox-label input { width: auto; margin-top: 2px; }
-      .field-note { color: var(--muted); font-size: .76rem; line-height: 1.45; margin-top: 5px; }
-      .transcode-disabled {
-        opacity: .45;
-      }
+      .field-note { color: var(--muted); font-size: 0.76rem; line-height: 1.45; margin-top: 5px; }
+
+      .transcode-disabled { opacity: 0.45; }
       .transcode-disabled input,
       .transcode-disabled select,
-      .transcode-disabled textarea {
-        cursor: not-allowed;
-      }
+      .transcode-disabled textarea { cursor: not-allowed; }
+
+      /* ── Buttons ── */
       .buttons { display: flex; flex-wrap: wrap; gap: 9px; padding-top: 4px; }
+
       button {
         border: 0;
         border-radius: 999px;
         padding: 11px 14px;
         cursor: pointer;
-        color: #02100c;
-        background: linear-gradient(135deg, var(--accent), #b7ffca);
-        font: inherit;
+        color: #fff;
+        background: var(--accent);
+        font-family: "Space Grotesk", system-ui, sans-serif;
         font-weight: 800;
+        font-size: 13px;
+        transition: filter 0.1s;
       }
-      button.secondary { color: var(--text); background: #20364d; border: 1px solid #36516f; }
-      button.danger { color: #1a0202; background: linear-gradient(135deg, #ff9c9c, var(--danger)); }
+      button:hover { filter: brightness(1.1); }
+
+      button.secondary {
+        color: var(--text);
+        background: var(--btn-secondary-bg);
+        border: 1px solid var(--btn-secondary-border);
+      }
+      button.danger {
+        color: #fff;
+        background: linear-gradient(135deg, #ff9c9c, var(--danger));
+      }
       button.expand-toggle {
         color: var(--text);
-        background: #182940;
-        border: 1px solid #36516f;
+        background: var(--btn-secondary-bg);
+        border: 1px solid var(--btn-secondary-border);
+        padding: 13px 18px;
+        font-size: 15px;
       }
       button.live-toggle {
-        color: var(--text);
-        background: rgba(3, 8, 14, .62);
-        border: 1px solid #36516f;
+        color: #fff;
+        background: var(--bg);
+        border: 1px solid #556070;
+        padding: 13px 24px;
+        font-size: 15px;
+        font-weight: 900;
       }
       button.live-toggle.is-live {
-        color: #1a0202;
+        color: #fff;
         background: linear-gradient(135deg, #ff9c9c, var(--danger));
-        border: 1px solid rgba(255, 123, 123, .75);
+        border-color: rgba(255,123,123,0.75);
       }
-      button:hover { filter: brightness(1.06); }
+
+      /* ── Metrics row ── */
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--input-bg);
+        padding: 12px;
+      }
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+      }
+      .metric strong {
+        font-size: 0.82rem;
+        font-weight: 700;
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      /* ── Log console ── */
       .log {
         height: 230px;
         overflow-y: auto;
         white-space: pre-wrap;
         word-break: break-word;
-        color: #b7c7d6;
-        background: rgba(3, 8, 14, .74);
-        border: 1px solid #213a55;
+        color: var(--log-text);
+        background: var(--input-bg);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        line-height: 15px;
+      }
+
+      /* ── Offline scene clips ── */
+      .scene-list { display: grid; gap: 8px; }
+      .scene-item {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 8px;
+        align-items: center;
+        padding: 9px 10px;
+        border: 1px solid var(--line);
         border-radius: 12px;
-        padding: 11px;
-        font-size: .76rem;
+        background: var(--panel-alt);
       }
-      .meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-      .metric {
-        border: 1px solid #213a55;
-        border-radius: 10px;
-        background: rgba(3, 8, 14, .62);
-        padding: 9px;
+      .scene-item strong {
+        display: block;
+        overflow-wrap: anywhere;
+        font-size: 0.8rem;
       }
-      .metric span { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
-      .metric strong { font-size: .78rem; font-weight: 700; }
-      @media (max-width: 1280px) {
+      .scene-item span { color: var(--muted); font-size: 0.72rem; }
+      .scene-item.selected { border-color: rgba(46,230,107,0.6); }
+      .scene-empty { color: var(--muted); font-size: 0.8rem; }
+
+      /* ── Responsive ── */
+      @media (max-width: 1100px) {
+        .shell { padding: 20px 24px 36px; }
         .grid { grid-template-columns: 1fr; }
-        .destinations { grid-template-columns: 1fr; }
+        .hero-stats { flex-direction: column; align-items: stretch; }
+        .header { flex-wrap: wrap; gap: 12px; }
       }
       @media (max-width: 740px) {
-        .topbar, .status-bar { grid-template-columns: 1fr; }
-        .card-head { grid-template-columns: 1fr; }
+        .shell { padding: 16px 16px 32px; }
+        .header { flex-direction: column; align-items: stretch; }
+        .header-nav { overflow-x: auto; }
+        .hero-metrics { flex-wrap: wrap; }
+        .hero-metric { flex: 1 1 80px; min-width: 80px; }
+        .status-bar { flex-direction: column; align-items: stretch; }
+        .card-head { flex-direction: column; align-items: stretch; }
+        .card-info { flex-direction: column; }
+        .card-actions { justify-content: flex-start; }
         .form-grid, .meta { grid-template-columns: 1fr; }
       }
     </style>
   </head>
   <body>
     <main class="shell">
-      <section class="topbar">
-        <div>
-          <h1>Restream Control</h1>
-          <p>OBS publishes to <code>rtmp://HOST:1936/stream</code> with key <code>input</code>. YouTube, Facebook, and Instagram now run as separate ffmpeg jobs, so stopping one destination will not stop the others or the custom web stream. <a href="/">Back to player</a></p>
+      <!-- Header -->
+      <header class="header">
+        <a href="/" class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 16 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0 L16 10 L0 20 Z" fill="#FFFFFF"></path>
+            </svg>
+          </div>
+          <div class="brand-title">Restream Control</div>
+        </a>
+
+        <nav class="header-nav">
+          <a href="/settings" class="nav-pill active">Overview</a>
+          <a href="#destinations" class="nav-pill">Destinations</a>
+          <a href="#offline-scene" class="nav-pill">Offline Scene</a>
+          <a href="#logs" class="nav-pill">Logs</a>
+          <a href="/home" class="nav-pill">Player</a>
+        </nav>
+
+        <div class="header-right">
           <div id="relayHealth" class="relay-health checking" title="Checks OBS ingest at rtmp://127.0.0.1:1936/stream/input">
             <span class="relay-health-dot"></span>
-            <span id="relayHealthText">OBS → Relay: checking...</span>
+            <span id="relayHealthText">OBS Relay: checking...</span>
+          </div>
+          <button id="refreshBtn" type="button" class="refresh-btn">Refresh</button>
+        </div>
+      </header>
+
+      <!-- Hero Stats -->
+      <section class="hero-stats">
+        <div class="hero-copy">
+          <div class="hero-title">Live Routing Studio</div>
+          <div class="hero-subtitle">Control YouTube, Facebook and Instagram restreams independently while preserving the custom web stream.</div>
+        </div>
+        <div class="hero-metrics">
+          <div class="hero-metric">
+            <div class="hero-metric-value" id="metricLive" style="color: #FF5B66;">0</div>
+            <div class="hero-metric-label">LIVE</div>
+          </div>
+          <div class="hero-metric">
+            <div class="hero-metric-value" id="metricConfigured" style="color: var(--blue);">0</div>
+            <div class="hero-metric-label">CONFIGURED</div>
+          </div>
+          <div class="hero-metric">
+            <div class="hero-metric-value" id="metricFailover" style="color: var(--warn);">-</div>
+            <div class="hero-metric-label">FAILOVER</div>
+          </div>
+          <div class="hero-metric">
+            <div class="hero-metric-value" id="metricOffline" style="color: var(--accent-2);">-</div>
+            <div class="hero-metric-label">OFFLINE LOOP</div>
           </div>
         </div>
-        <button id="refreshBtn" type="button" class="secondary">Refresh</button>
       </section>
 
+      <!-- Status bar -->
       <section class="status-bar">
         <div>
           <div id="overallStatus" class="status-text idle">Loading status...</div>
@@ -255,36 +705,56 @@
         <div id="message" class="message">Ready.</div>
       </section>
 
+      <!-- Main grid -->
       <section class="grid">
+        <!-- Sidebar: Relay panel -->
         <aside class="panel">
-          <div class="panel-inner stack">
+          <div class="panel-inner">
+            <div class="section-title">Global Controls</div>
+
+            <!-- Relay Input -->
             <div>
-              <div class="section-title">Relay Input</div>
+              <div class="section-heading">Relay Input</div>
               <label>Shared input URL
                 <input id="inputUrl" data-common="inputUrl" placeholder="rtmp://127.0.0.1:1936/restream/input">
               </label>
               <div class="hint">Every destination pulls from this relay branch. Keep this on <code>rtmp://127.0.0.1:1936/restream/input</code> unless the relay config changes.</div>
             </div>
+
+            <!-- Default Filters -->
             <div>
-              <div class="section-title">Default Filters</div>
-              <div class="hint">YouTube: <code>scale=-2:720</code></div>
-              <div class="hint">Facebook and Instagram: <code>transpose=1,scale=-2:1280</code>. <code>transpose=1</code> rotates the frame 90 degrees clockwise.</div>
+              <div class="section-heading">Default Filters</div>
+              <div class="stack" style="gap:8px;">
+                <div class="filter-chip">
+                  <div class="filter-chip-label">YouTube</div>
+                  <div class="filter-chip-value">scale=-2:720</div>
+                </div>
+                <div class="filter-chip">
+                  <div class="filter-chip-label">Vertical (Facebook / Instagram)</div>
+                  <div class="filter-chip-value">transpose=1,scale=-2:1280</div>
+                </div>
+              </div>
             </div>
-            <div>
-              <div class="section-title">Offline Scene Clips</div>
+
+            <!-- Offline Scene Clips -->
+            <div id="offline-scene">
+              <div class="section-heading">Offline Scene</div>
               <div class="field-note">The selected clip is used for every destination when OBS relay drops.</div>
-              <input type="file" data-role="offline-scene-file" accept="video/*,.mkv,.ts">
-              <div class="buttons">
-                <button type="button" class="secondary" data-action="upload-offline-scene">Upload Clip</button>
+              <div style="margin-top:10px;">
+                <input type="file" data-role="offline-scene-file" accept="video/*,.mkv,.ts">
+              </div>
+              <div class="buttons" style="margin-top:10px;">
+                <button type="button" data-action="upload-offline-scene">Upload</button>
                 <button type="button" class="secondary" data-action="refresh-offline-scenes">Refresh Clips</button>
               </div>
-              <div class="scene-list" data-role="offline-scene-list">
+              <div class="scene-list" data-role="offline-scene-list" style="margin-top:10px;">
                 <div class="scene-empty">No offline clips loaded yet.</div>
               </div>
             </div>
           </div>
         </aside>
 
+        <!-- Destination workspace -->
         <section class="destinations" id="destinations"></section>
       </section>
     </main>
@@ -292,14 +762,21 @@
     <template id="destinationTemplate">
       <article class="panel card">
         <div class="card-head">
-          <div>
-            <h2 data-role="title"></h2>
-            <div class="card-subtitle" data-role="subtitle"></div>
-            <div class="card-summary" data-role="summary">Not configured.</div>
+          <div class="card-info">
+            <div class="card-icon" data-role="icon"></div>
+            <div class="card-copy">
+              <div class="card-title-row">
+                <h2 data-role="title"></h2>
+                <div class="pill" data-role="state">idle</div>
+              </div>
+              <div class="card-subtitle" data-role="subtitle"></div>
+              <div class="card-summary" data-role="summary">Not configured.</div>
+            </div>
           </div>
-          <div class="pill" data-role="state">idle</div>
-          <button type="button" class="live-toggle" data-action="live-toggle">Live</button>
-          <button type="button" class="expand-toggle" data-action="expand-toggle" aria-expanded="false">Settings</button>
+          <div class="card-actions">
+            <button type="button" class="live-toggle" data-action="live-toggle">Live</button>
+            <button type="button" class="expand-toggle" data-action="expand-toggle" aria-expanded="false">Settings</button>
+          </div>
         </div>
         <div class="panel-inner stack card-details" data-role="details" hidden>
           <div class="form-grid">
@@ -391,7 +868,7 @@
             <div class="metric"><span>Exit</span><strong data-role="exit">-</strong></div>
           </div>
 
-          <div>
+          <div id="logs">
             <div class="section-title">ffmpeg Log</div>
             <div class="log" data-role="log">No log yet.</div>
           </div>
@@ -405,16 +882,19 @@
           name: "youtube",
           title: "YouTube",
           subtitle: "Recommended default: copy OBS video/audio directly to YouTube.",
+          icon: "Y",
         },
         {
           name: "facebook",
           title: "Facebook",
-          subtitle: "Vertical output by default: rotate 90° clockwise, then scale height to 1280.",
+          subtitle: "Vertical output by default: rotate 90\u00b0 clockwise, then scale height to 1280.",
+          icon: "F",
         },
         {
           name: "instagram",
           title: "Instagram",
-          subtitle: "Vertical output by default: rotate 90° clockwise, then scale height to 1280.",
+          subtitle: "Vertical output by default: rotate 90\u00b0 clockwise, then scale height to 1280.",
+          icon: "I",
         },
       ];
 
@@ -426,6 +906,10 @@
         destinations: document.getElementById("destinations"),
         template: document.getElementById("destinationTemplate"),
         refreshBtn: document.getElementById("refreshBtn"),
+        metricLive: document.getElementById("metricLive"),
+        metricConfigured: document.getElementById("metricConfigured"),
+        metricFailover: document.getElementById("metricFailover"),
+        metricOffline: document.getElementById("metricOffline"),
       };
       const cards = new Map();
       const dirty = new Set();
@@ -452,7 +936,7 @@
         const audio = (payload.streams || []).find((stream) => stream.codec_type === "audio");
         const resolution = video && video.width && video.height ? ` ${video.width}x${video.height}` : "";
         const audioLabel = audio ? " + audio" : "";
-        text.textContent = payload.ok ? `OBS → Relay: live${resolution}${audioLabel}` : `OBS → Relay: ${status}`;
+        text.textContent = payload.ok ? `OBS \u2192 Relay: live${resolution}${audioLabel}` : `OBS \u2192 Relay: ${status}`;
         node.title = `${payload.source || ""}\n${payload.message || ""}\nChecked: ${payload.checkedAt || "-"}`;
       }
 
@@ -478,6 +962,10 @@
           card.dataset.destination = destination.name;
           card.querySelector('[data-role="title"]').textContent = destination.title;
           card.querySelector('[data-role="subtitle"]').textContent = destination.subtitle;
+          card.querySelector('[data-role="icon"]').textContent = destination.icon || destination.title.charAt(0);
+          if (destination.name === "youtube") {
+            card.querySelector('.card-icon').style.background = "var(--accent)";
+          }
           card.querySelector('[data-action="save"]').addEventListener("click", () => guarded(() => saveDestination(destination.name)));
           card.querySelector('[data-action="live-toggle"]').addEventListener("click", () => guarded(() => toggleDestination(destination.name)));
           card.querySelector('[data-action="expand-toggle"]').addEventListener("click", () => toggleCardDetails(destination.name));
@@ -542,7 +1030,7 @@
           row.innerHTML = `
             <div>
               <strong></strong>
-              <span>${formatBytes(file.size)} · ${file.modifiedAt || ""}${file.selected ? " · selected" : ""}</span>
+              <span>${formatBytes(file.size)} \u00b7 ${file.modifiedAt || ""}${file.selected ? " \u00b7 selected" : ""}</span>
             </div>
             <button type="button" class="secondary" data-scene-select>Select</button>
             <button type="button" class="danger" data-scene-delete>Delete</button>
@@ -649,6 +1137,13 @@
         }
       }
 
+      function updateHeroMetrics(payload) {
+        const runningTargets = payload.status?.runningTargets || [];
+        const configuredTargets = payload.status?.targets || [];
+        if (nodes.metricLive) nodes.metricLive.textContent = runningTargets.length;
+        if (nodes.metricConfigured) nodes.metricConfigured.textContent = configuredTargets.length;
+      }
+
       function render(payload) {
         const runningTargets = payload.status?.runningTargets || [];
         const configuredTargets = payload.status?.targets || [];
@@ -658,6 +1153,8 @@
         nodes.overallTargets.textContent = configuredTargets.length
           ? `Configured targets: ${configuredTargets.join(", ")}`
           : "No destination has a stream key yet.";
+
+        updateHeroMetrics(payload);
 
         for (const [name, card] of cards) {
           const state = payload.destinations?.[name] || {};
@@ -671,9 +1168,9 @@
           liveButton.classList.toggle("is-live", isRunning);
           liveButton.setAttribute("aria-pressed", String(isRunning));
           const key = payload.config?.[`${name}Key`] || "";
-          const mode = state.mode ? ` · ${state.mode}` : "";
+          const mode = state.mode ? ` \u00b7 ${state.mode}` : "";
           const filter = payload.config?.[`${name}VideoFilter`] || "none";
-          card.querySelector('[data-role="summary"]').textContent = `${key ? "configured" : "no key"}${mode} · filter: ${filter}`;
+          card.querySelector('[data-role="summary"]').textContent = `${key ? "configured" : "no key"}${mode} \u00b7 filter: ${filter}`;
           card.querySelector('[data-role="pid"]').textContent = state.pid || "-";
           card.querySelector('[data-role="started"]').textContent = state.startedAt || "-";
           card.querySelector('[data-role="exit"]').textContent = state.lastExitCode ?? "-";
