@@ -105,6 +105,7 @@ services:
       SERVER_ID: ${SERVER_ID:-}
       SERVER_TOKEN: ${SERVER_TOKEN:-}
       API_URL: ${API_URL:-}
+      SECRET_ENCRYPTION_KEY: ${SECRET_ENCRYPTION_KEY:-}
     volumes:
       - ./worker/data:/data
     depends_on:

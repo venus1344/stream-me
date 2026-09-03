@@ -8,12 +8,17 @@ import time
 from pathlib import Path
 from urllib.parse import urlparse
 
+from secretbox import decrypt, encrypt
+
 DATA_DIR = Path("/data")
 DB_PATH = DATA_DIR / "restream.db"
 OFFLINE_SCENE_DIR = DATA_DIR / "offline-scenes"
 OFFLINE_SCENE_CACHE_DIR = OFFLINE_SCENE_DIR / ".cache"
 
 DESTINATIONS = ("youtube", "facebook", "instagram")
+
+# Config fields that hold credentials and must be encrypted at rest.
+SECRET_FIELDS = {f"{name}Key" for name in DESTINATIONS}
 
 
 def obs_relay_health_url():
@@ -192,7 +197,9 @@ class RestreamManager:
                 mapped_key = aliases.get(key, key)
                 if mapped_key in cfg:
                     try:
-                        if isinstance(cfg[mapped_key], int):
+                        if mapped_key in SECRET_FIELDS:
+                            cfg[mapped_key] = decrypt(value)
+                        elif isinstance(cfg[mapped_key], int):
                             cfg[mapped_key] = int(value)
                         else:
                             cfg[mapped_key] = value
@@ -222,7 +229,8 @@ class RestreamManager:
             cursor = conn.cursor()
             cursor.execute("DELETE FROM config_settings")
             for key, value in self.config.items():
-                cursor.execute("INSERT INTO config_settings (key, value) VALUES (?, ?)", (key, str(value)))
+                stored = encrypt(str(value)) if key in SECRET_FIELDS else str(value)
+                cursor.execute("INSERT INTO config_settings (key, value) VALUES (?, ?)", (key, stored))
             conn.commit()
             conn.close()
         except Exception as e:

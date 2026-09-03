@@ -128,8 +128,12 @@ Make the worker serve exactly one tenant and reject others.
 
 ### Phase 5 — Billing / plan enforcement
 
-- Use `tenants.subscription_plan` to enforce per-tenant limits: destinations count, concurrent streams, bitrate caps.
-- Enforce in the worker (reject configs/starts beyond limits) and expose limits via the API.
+Plans (decided 2026-09-03):
+- `free` — 1 destination, video bitrate cap **2500** Kbps
+- `pro` — 3 destinations, video bitrate cap **6000** Kbps
+
+- Use `tenants.subscription_plan` to enforce the above: destination count and bitrate caps.
+- Enforce in the worker (reject starts beyond limits, clamp bitrate) and expose limits via the API.
 - Super-admin can set/change a tenant's plan (extends `api/routes/tenants.py`).
 
 ---
@@ -194,6 +198,6 @@ Options for local encrypted storage:
 | 3. Envelope encryption (KMS) | DEK wrapped by cloud/self-hosted KMS | above + rotation/audit | more infra |
 | 4. Secret manager (Vault / cloud) | don't store locally; fetch at runtime | centralized rotation/audit | runtime dependency |
 
-**Decision: Option 2 now (field encryption), layered on Option 1 where the host offers encrypted volumes.** Upgrade to 3/4 when compliance/audit demands (tied to billing going live).
+**Decision: Option 2 (field encryption) — implemented.** Layered on Option 1 where the host offers encrypted volumes. Upgrade to 3/4 when compliance/audit demands (tied to billing going live).
 
 > At-rest only: the tenant still sees their own keys in Settings — the worker decrypts on read. This protects the DB file/backups, not the authorized reader.
