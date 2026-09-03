@@ -62,6 +62,35 @@ flowchart LR
 | `worker` | `ome`, `relay-rtmp`, `worker` | Tenant servers |
 | `ingest-copy` | `ingester` (optional legacy copy path) | Tenant servers |
 
+### 1.1 URL derivation reference
+
+Where each URL comes from at deploy time:
+
+| URL | Derived from | Where it's set |
+|---|---|---|
+| `worker_url` | manual | master `servers` table, at `POST /api/servers` |
+| `ome_url` | manual | master `servers` table, at `POST /api/servers` |
+| `ingest_url` (`rtmp://<host>:<port>/stream`) | `ingest_host` + `ingest_port` | computed by the API (`_server_dict`) from registration fields |
+| `stream_key` (`input`) | constant | API response |
+| relay `inputUrl` (`rtmp://127.0.0.1:1936/restream/input`) | `RELAY_INPUT_HOST` / `RELAY_INPUT_APP` / `RELAY_INPUT_STREAM_KEY` | worker `.env` (defaults `127.0.0.1:1936`, `restream`, `input`) |
+| relay live-probe URL | `OBS_RELAY_HEALTH_URL` or the same `inputUrl` | worker `.env` |
+| relay apps + pushes | hardcoded | `relay/nginx.conf` (`stream` → `ome:1935/app/key` + `127.0.0.1:1935/restream/input`) |
+| OME WebRTC host | hardcoded | `conf/Server.xml` (`IceCandidate` / `TcpRelay`) — edit to each server's public IP |
+
+Notes:
+
+- **`worker_url` / `ome_url` are control-plane data, not worker env.** The
+  frontend fetches them at login (`GET /api/servers/current`) and stores them as
+  routing. Left empty, the frontend falls back to same-origin proxying through
+  the master's nginx.
+- **The relay `inputUrl` is loopback by default** — the worker and relay share a
+  host, so OBS publishes to the *public* IP (`ingest_url`) while the worker
+  consumes `127.0.0.1`. Once saved from the Settings UI, the persisted
+  `inputUrl` in `worker/data/restream.db` overrides the env default.
+- The `OME_RELAY_APP` / `OME_RELAY_STREAM_KEY` / `OME_RTMP_HOST` variables in
+  `.env.example` are legacy — the worker always consumes the `restream/input`
+  app defined in `relay/nginx.conf`.
+
 ---
 
 ## 2. Prerequisites
