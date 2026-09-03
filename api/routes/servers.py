@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException
 
 from auth import get_current_user, generate_server_token, hash_password, require_superuser, verify_password
 from database import get_db
+from plans import plan_limits
 from models.server import (
     BootstrapRequest,
     CreateServerRequest,
@@ -153,9 +154,19 @@ def bootstrap_server(body: BootstrapRequest):
     tenant_id = row[3]
     ingest_host = row[5]
     ingest_port = row[6]
+    plan = "free"
+    if tenant_id:
+        with get_db() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT subscription_plan FROM tenants WHERE id = %s", (tenant_id,))
+                r = cur.fetchone()
+                if r:
+                    plan = r[0]
     return {
         "server_id": row[2],
         "tenant_id": str(tenant_id) if tenant_id else None,
+        "plan": plan,
+        "limits": plan_limits(plan),
         "ingest_host": ingest_host,
         "ingest_port": ingest_port,
         "ingest_url": f"rtmp://{ingest_host}:{ingest_port}/stream" if ingest_host else None,

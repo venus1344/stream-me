@@ -49,6 +49,10 @@ def _bootstrap_tenant():
             print(f"[bootstrap] bound to tenant {tenant_id}")
         else:
             print("[bootstrap] server not yet assigned to a tenant")
+        limits = data.get("limits") or {}
+        if limits:
+            manager.set_limits(limits)
+            print(f"[bootstrap] plan limits: {limits}")
     except Exception as e:
         print(f"[bootstrap] failed: {e}")
 CHUNK_SIZE = 256 * 1024  # 256 KB read buffer

@@ -126,7 +126,7 @@ Make the worker serve exactly one tenant and reject others.
 - Provisioning script: `scripts/provision-server.sh <server_id> <server_token> <api_url> <jwt_secret>` starts the `worker` profile.
 - `JWT_SECRET` must match the control plane.
 
-### Phase 5 — Billing / plan enforcement
+### Phase 5 — Billing / plan enforcement ✅ (done)
 
 Plans (decided 2026-09-03):
 - `free` — 1 destination, video bitrate cap **2500** Kbps

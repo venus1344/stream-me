@@ -167,6 +167,7 @@ class RestreamManager:
         self.relay_loss_poll_seconds = max(1, float(os.getenv("OBS_RELAY_LOSS_POLL_SECONDS", "2")))
         self.relay_loss_grace_seconds = max(1, float(os.getenv("OBS_RELAY_LOSS_GRACE_SECONDS", "6")))
         self.jobs = {name: DestinationJob(name) for name in DESTINATIONS}
+        self.limits = {}  # plan limits (max_destinations, max_video_bitrate_kbps)
         self._init_db()
         self.config = self._load_config()
         self._watch_relay_loss()
@@ -211,6 +212,7 @@ class RestreamManager:
                     cfg["youtubeVideoFilter"] = f"scale=-2:{scale}"
         except Exception as e:
             print(f"Error loading config from database: {e}")
+        self._apply_limits(cfg)
         return cfg
 
     def _legacy_scale_height(self, rows):
@@ -264,6 +266,25 @@ class RestreamManager:
                     continue
             else:
                 self.config[mapped_key] = str(value)
+        self._apply_limits()
+
+    def set_limits(self, limits: dict):
+        self.limits = limits or {}
+        self._apply_limits()
+
+    def _running_count(self) -> int:
+        return sum(1 for job in self.jobs.values() if job.running())
+
+    def _apply_limits(self, cfg=None):
+        cfg = cfg if cfg is not None else self.config
+        cap = self.limits.get("max_video_bitrate_kbps")
+        if not cap:
+            return
+        for name in DESTINATIONS:
+            for field in ("VideoBitrateKbps", "MaxrateKbps"):
+                key = f"{name}{field}"
+                if key in cfg and isinstance(cfg[key], int) and cfg[key] > cap:
+                    cfg[key] = cap
 
     def _target(self, name):
         key = self.config.get(f"{name}Key", "").strip()
@@ -594,6 +615,9 @@ class RestreamManager:
             job = self.jobs[name]
             if job.running():
                 return self.snapshot()
+            max_dest = self.limits.get("max_destinations")
+            if max_dest and self._running_count() >= max_dest:
+                raise ValueError(f"plan limit reached: max {max_dest} destination(s)")
             health = self._probe_relay_health()
             if not health.get("ok") and self._offline_scene_ready(name):
                 cmd = self._build_offline_scene_command(name, self._target(name))
@@ -636,7 +660,10 @@ class RestreamManager:
             if maybe_patch:
                 self._merge_config(maybe_patch)
                 self._save_config()
+        max_dest = self.limits.get("max_destinations")
         for name in DESTINATIONS:
+            if max_dest and self._running_count() >= max_dest:
+                break
             if self._target(name):
                 self.start(name)
         return self.snapshot()

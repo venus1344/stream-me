@@ -3,7 +3,7 @@ FROM python:3.12-slim
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-COPY app.py auth.py database.py init_admin.py ./
+COPY app.py auth.py database.py init_admin.py plans.py ./
 COPY routes/ routes/
 COPY models/ models/
 COPY utils/ utils/

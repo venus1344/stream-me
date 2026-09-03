@@ -1,9 +1,15 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 
 from auth import require_superuser
 from database import get_db
+from plans import PLANS
 
 router = APIRouter(prefix="/api/tenants", tags=["tenants"])
+
+
+class SetPlanRequest(BaseModel):
+    plan: str
 
 _TENANT_EXAMPLE = {
     "id": "018f1a2b-0000-7000-8000-000000000001",
@@ -75,3 +81,24 @@ def list_tenants(current_user: dict = Depends(require_superuser)):
                     "servers": [{"id": str(s[0]), "name": s[1], "serverId": s[2], "status": s[3]} for s in servers],
                 })
     return result
+
+
+@router.patch(
+    "/{tenant_id}/plan",
+    summary="Set a tenant's subscription plan  [SuperUser only]",
+    responses={
+        200: {"description": "Plan updated"},
+        400: {"description": "Unknown plan"},
+        403: {"description": "SuperUser access required"},
+        404: {"description": "Tenant not found"},
+    },
+)
+def set_tenant_plan(tenant_id: str, body: SetPlanRequest, current_user: dict = Depends(require_superuser)):
+    if body.plan not in PLANS:
+        raise HTTPException(400, "unknown plan")
+    with get_db() as conn:
+        with conn.cursor() as cur:
+            cur.execute("UPDATE tenants SET subscription_plan = %s WHERE id = %s", (body.plan, tenant_id))
+            if cur.rowcount == 0:
+                raise HTTPException(404, "tenant not found")
+    return {"ok": True, "plan": body.plan, "limits": PLANS[body.plan]}
