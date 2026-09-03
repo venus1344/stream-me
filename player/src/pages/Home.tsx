@@ -1,8 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import RelayChip from '../components/RelayChip'
 import GlowBackground from '../components/GlowBackground'
+import { useNavItems } from '../lib/useNavItems'
 
 declare global {
   interface Window {
@@ -35,6 +35,7 @@ function getQualityLabel(w: number, h: number) {
 }
 
 export default function Home() {
+  const navItems = useNavItems()
   const [host, setHost] = useState('')
   const [protocol, setProtocol] = useState<'hls' | 'webrtc'>('hls')
   const [app, setApp] = useState('app')
@@ -270,47 +271,44 @@ export default function Home() {
   }, [protocol, host, getPlaylistUrl, getWebRtcUrl, destroyHls, destroyOven, stopStats, startStats, appendDebug])
 
   const dotClass = statusState === 'playing' ? 'bg-green' : statusState === 'error' ? 'bg-danger' : 'bg-muted'
-  const metricStateColor = statusState === 'playing' ? '#2EE66B' : statusState === 'error' ? '#FF5B66' : '#9BA3AF'
+  const metricStateClass = statusState === 'playing' ? 'text-green' : statusState === 'error' ? 'text-danger' : 'text-muted'
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto relative px-14 pt-[30px] pb-14 overflow-hidden min-h-screen">
+    <div className="w-full max-w-[1600px] mx-auto relative px-4 sm:px-8 lg:px-14 pt-5 sm:pt-[30px] pb-8 lg:pb-14 overflow-hidden min-h-screen">
       <GlowBackground variant="home" />
 
       <NavBar
-        items={[{ label: 'Player', to: '/home' }, { label: 'Settings', to: '/settings' }]}
+        items={navItems}
         rightContent={
           <>
             <RelayChip />
-            <Link to="/settings" className="flex items-center px-4 py-2.5 bg-[#181B22] rounded-full border border-border-2 text-[13px] font-black text-text hover:bg-[#20242E] transition-colors">
-              Restream Settings
-            </Link>
           </>
         }
       />
 
       {/* Hero */}
-      <section className="relative z-[3] flex items-center justify-between bg-[#0B0D12] rounded-[26px] border border-border-3 shadow-[0px_24px_60px_-34px_#D9772A55] p-7 mb-6 gap-6 flex-wrap">
-        <div className="flex flex-col gap-2.5 flex-1 min-w-[280px]">
-          <h1 className="text-[clamp(28px,4vw,50px)] font-black tracking-[-2px] leading-none">Local Stream Preview</h1>
+      <section className="relative z-[3] flex items-center justify-between bg-surface rounded-[26px] border border-border-3 shadow-[0px_24px_60px_-34px_#D9772A55] p-4 sm:p-7 mb-6 gap-4 sm:gap-6 flex-wrap">
+        <div className="flex flex-col gap-2.5 flex-1 min-w-[220px]">
+          <h1 className="text-[clamp(24px,4vw,50px)] font-black tracking-[-2px] leading-none">Local Stream Preview</h1>
           <p className="text-muted text-[15px] leading-5">
             Verify LL-HLS or WebRTC playback, monitor stream health, and confirm OBS ingest without leaving the control surface.
           </p>
         </div>
-        <div className="flex gap-3 shrink-0 flex-wrap">
-          <div className="flex flex-col items-center gap-0.5 bg-surface-2 rounded-[18px] border border-border px-4 py-4 w-[126px]">
+        <div className="grid grid-cols-2 sm:flex gap-3 flex-wrap w-full sm:w-auto">
+          <div className="flex flex-col items-center gap-0.5 bg-surface-2 rounded-[18px] border border-border px-4 py-4 min-w-0">
             <span className="text-xl font-black text-blue">{protocol === 'webrtc' ? 'WebRTC' : 'LL-HLS'}</span>
             <span className="text-[10px] font-black text-muted">PROTOCOL</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 bg-surface-2 rounded-[18px] border border-border px-4 py-4 w-[126px]">
+          <div className="flex flex-col items-center gap-0.5 bg-surface-2 rounded-[18px] border border-border px-4 py-4 min-w-0">
             <span className="text-xl font-black text-green">{stream || 'key'}</span>
             <span className="text-[10px] font-black text-muted">STREAM</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 bg-surface-2 rounded-[18px] border border-border px-4 py-4 w-[126px]">
+          <div className="flex flex-col items-center gap-0.5 bg-surface-2 rounded-[18px] border border-border px-4 py-4 min-w-0">
             <span className="text-xl font-black text-amber">{metricJitter}</span>
             <span className="text-[10px] font-black text-muted">JITTER</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 bg-surface-2 rounded-[18px] border border-border px-4 py-4 w-[126px]">
-            <span className="text-xl font-black" style={{ color: metricStateColor }}>{statusState}</span>
+          <div className="flex flex-col items-center gap-0.5 bg-surface-2 rounded-[18px] border border-border px-4 py-4 min-w-0">
+            <span className={`text-xl font-black ${metricStateClass}`}>{statusState}</span>
             <span className="text-[10px] font-black text-muted">STATE</span>
           </div>
         </div>
@@ -350,13 +348,13 @@ export default function Home() {
           </div>
 
           <button onClick={loadStream}
-            className="w-full flex items-center justify-center py-4 px-4 bg-accent border border-accent rounded-full text-white font-sans text-[15px] font-black cursor-pointer hover:bg-accent-hover hover:shadow-[0_8px_24px_-8px_rgba(217,119,42,0.5)] active:bg-[#c06a22] transition-all">
+            className="w-full flex items-center justify-center py-4 px-4 bg-accent border border-accent rounded-full text-white font-sans text-[15px] font-black cursor-pointer hover:bg-accent-hover hover:shadow-[0_8px_24px_-8px_rgba(217,119,42,0.5)] active:opacity-80 transition-all">
             Load Stream
           </button>
 
           <div className="flex flex-col gap-1.5 bg-surface-3 rounded-2xl border border-border p-3.5 w-full">
             <span className="text-muted text-[11px] font-black">COMPUTED URL</span>
-            <span className="text-[#D7E3F1] font-mono text-xs leading-[15px] break-all">{computedUrl}</span>
+            <span className="text-text font-mono text-xs leading-[15px] break-all">{computedUrl}</span>
           </div>
 
           <div className="flex items-center gap-2.5 bg-surface-2 rounded-[14px] border border-border-2 px-3.5 py-3 w-full">
@@ -371,15 +369,15 @@ export default function Home() {
             <div className="flex items-center justify-between w-full flex-wrap gap-2.5">
               <h2 className="text-[22px] font-black">Stream Output</h2>
               <div className="flex gap-2 flex-wrap max-sm:hidden">
-                <span className="px-2.5 py-1.5 bg-[#181B22] rounded-full border border-border-2 text-[11px] font-black text-blue">
+                <span className="px-2.5 py-1.5 bg-surface-2 rounded-full border border-border-2 text-[11px] font-black text-blue">
                   {protocol === 'webrtc' ? 'WebRTC' : 'LL-HLS'}
                 </span>
-                <span className="px-2.5 py-1.5 bg-[#181B22] rounded-full border border-border-2 text-[11px] font-black text-green">Proxy 8081</span>
-                <span className="px-2.5 py-1.5 bg-[#181B22] rounded-full border border-border-2 text-[11px] font-black text-amber">Muted</span>
+                <span className="px-2.5 py-1.5 bg-surface-2 rounded-full border border-border-2 text-[11px] font-black text-green">Proxy 8081</span>
+                <span className="px-2.5 py-1.5 bg-surface-2 rounded-full border border-border-2 text-[11px] font-black text-amber">Muted</span>
               </div>
             </div>
 
-            <div className="relative rounded-[22px] border border-border-2 bg-[#111] overflow-hidden w-full aspect-video">
+            <div className="relative rounded-[22px] border border-border-2 bg-surface-3 overflow-hidden w-full aspect-video">
               <video ref={videoRef} controls autoPlay muted playsInline
                 className={`block w-full h-full object-contain rounded-[22px] bg-black ${protocol === 'webrtc' ? 'hidden' : ''}`} />
               <div ref={ovenRef} id="ovenplayer"
@@ -403,11 +401,11 @@ export default function Home() {
           <div className="flex gap-4 w-full max-sm:flex-col">
             <div className="flex-1 flex flex-col gap-3 bg-surface-3 rounded-[18px] border border-border p-4 min-w-0">
               <h3 className="text-base font-black">Playback Stats</h3>
-              <pre className="font-mono text-xs leading-5 text-[#AAB4C2] whitespace-pre-wrap break-all m-0 overflow-auto">{statsText}</pre>
+              <pre className="font-mono text-xs leading-5 text-muted whitespace-pre-wrap break-all m-0 overflow-auto">{statsText}</pre>
             </div>
             <div className="flex-1 flex flex-col gap-3 bg-surface-3 rounded-[18px] border border-border p-4 min-w-0">
               <h3 className="text-base font-black">Debug Log</h3>
-              <pre className="font-mono text-xs leading-5 text-[#AAB4C2] whitespace-pre-wrap break-all m-0 overflow-auto">{debugText}</pre>
+              <pre className="font-mono text-xs leading-5 text-muted whitespace-pre-wrap break-all m-0 overflow-auto">{debugText}</pre>
             </div>
           </div>
         </div>

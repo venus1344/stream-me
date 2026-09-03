@@ -2,13 +2,9 @@ import json
 import os
 import re
 import shlex
-import signal
-import sqlite3
 import subprocess
 import threading
 import time
-import cgi
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -16,15 +12,13 @@ DATA_DIR = Path("/data")
 DB_PATH = DATA_DIR / "restream.db"
 OFFLINE_SCENE_DIR = DATA_DIR / "offline-scenes"
 OFFLINE_SCENE_CACHE_DIR = OFFLINE_SCENE_DIR / ".cache"
-HOST = "0.0.0.0"
-PORT = int(os.getenv("RESTREAM_CONTROL_PORT", "8099"))
 
 DESTINATIONS = ("youtube", "facebook", "instagram")
 
 
 def obs_relay_health_url():
     host = os.getenv("OBS_RELAY_HEALTH_HOST", "127.0.0.1:1936")
-    app = os.getenv("OBS_RELAY_HEALTH_APP", "stream")
+    app = os.getenv("OBS_RELAY_HEALTH_APP", "restream")
     key = os.getenv("OBS_RELAY_HEALTH_STREAM_KEY", "input")
     return os.getenv("OBS_RELAY_HEALTH_URL", f"rtmp://{host}/{app}/{key}")
 
@@ -173,9 +167,9 @@ class RestreamManager:
         self._watch_relay_loss()
 
     def _init_db(self):
+        import sqlite3
         conn = sqlite3.connect(str(DB_PATH))
-        cursor = conn.cursor()
-        cursor.execute("""
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS config_settings (
                 key TEXT PRIMARY KEY,
                 value TEXT NOT NULL
@@ -185,6 +179,7 @@ class RestreamManager:
         conn.close()
 
     def _load_config(self):
+        import sqlite3
         cfg = default_config()
         aliases = legacy_aliases()
         try:
@@ -221,6 +216,7 @@ class RestreamManager:
         return 0
 
     def _save_config(self):
+        import sqlite3
         try:
             conn = sqlite3.connect(str(DB_PATH))
             cursor = conn.cursor()
@@ -276,48 +272,18 @@ class RestreamManager:
         fps = max(1, int(cfg[f"{name}Fps"]))
         gop_frames = fps * max(1, int(cfg[f"{name}GopSeconds"]))
         cmd = [
-            "ffmpeg",
-            "-hide_banner",
-            "-loglevel",
-            "info",
-            "-fflags",
-            "+genpts",
-            "-i",
-            cfg["inputUrl"],
-            "-map",
-            "0:v:0",
-            "-map",
-            "0:a:0?",
-            "-c:v",
-            "libx264",
-            "-preset",
-            cfg[f"{name}Preset"],
-            "-pix_fmt",
-            "yuv420p",
-            "-tune",
-            "zerolatency",
-            "-profile:v",
-            "main",
-            "-r",
-            str(fps),
-            "-g",
-            str(gop_frames),
-            "-keyint_min",
-            str(gop_frames),
-            "-sc_threshold",
-            "0",
-            "-b:v",
-            f"{cfg[f'{name}VideoBitrateKbps']}k",
-            "-maxrate",
-            f"{cfg[f'{name}MaxrateKbps']}k",
-            "-bufsize",
-            f"{cfg[f'{name}BufsizeKbps']}k",
-            "-c:a",
-            "aac",
-            "-ar",
-            "48000",
-            "-b:a",
-            f"{cfg[f'{name}AudioBitrateKbps']}k",
+            "ffmpeg", "-hide_banner", "-loglevel", "info", "-fflags", "+genpts",
+            "-i", cfg["inputUrl"],
+            "-map", "0:v:0", "-map", "0:a:0?",
+            "-c:v", "libx264", "-preset", cfg[f"{name}Preset"],
+            "-pix_fmt", "yuv420p", "-tune", "zerolatency", "-profile:v", "main",
+            "-r", str(fps), "-g", str(gop_frames), "-keyint_min", str(gop_frames),
+            "-sc_threshold", "0",
+            "-b:v", f"{cfg[f'{name}VideoBitrateKbps']}k",
+            "-maxrate", f"{cfg[f'{name}MaxrateKbps']}k",
+            "-bufsize", f"{cfg[f'{name}BufsizeKbps']}k",
+            "-c:a", "aac", "-ar", "48000",
+            "-b:a", f"{cfg[f'{name}AudioBitrateKbps']}k",
         ]
         video_filter = cfg.get(f"{name}VideoFilter", "").strip()
         if video_filter:
@@ -330,20 +296,9 @@ class RestreamManager:
 
     def _build_copy_command(self, name, target):
         cmd = [
-            "ffmpeg",
-            "-hide_banner",
-            "-loglevel",
-            "info",
-            "-fflags",
-            "+genpts",
-            "-i",
-            self.config["inputUrl"],
-            "-map",
-            "0:v:0",
-            "-map",
-            "0:a:0?",
-            "-c",
-            "copy",
+            "ffmpeg", "-hide_banner", "-loglevel", "info", "-fflags", "+genpts",
+            "-i", self.config["inputUrl"],
+            "-map", "0:v:0", "-map", "0:a:0?", "-c", "copy",
         ]
         extra = self.config.get(f"{name}ExtraArgs", "").strip()
         if extra:
@@ -359,56 +314,20 @@ class RestreamManager:
         height = max(16, int(cfg["youtubeHoldHeight"]))
         gop_frames = fps * max(1, int(cfg["youtubeGopSeconds"]))
         return [
-            "ffmpeg",
-            "-hide_banner",
-            "-loglevel",
-            "info",
-            "-re",
-            "-f",
-            "lavfi",
-            "-i",
-            f"color=c=black:s={width}x{height}:r={fps}",
-            "-f",
-            "lavfi",
-            "-i",
-            "anullsrc=channel_layout=stereo:sample_rate=48000",
-            "-t",
-            str(hold_seconds),
-            "-map",
-            "0:v:0",
-            "-map",
-            "1:a:0",
-            "-c:v",
-            "libx264",
-            "-preset",
-            "ultrafast",
-            "-tune",
-            "zerolatency",
-            "-pix_fmt",
-            "yuv420p",
-            "-r",
-            str(fps),
-            "-g",
-            str(gop_frames),
-            "-keyint_min",
-            str(gop_frames),
-            "-sc_threshold",
-            "0",
-            "-b:v",
-            f"{cfg['youtubeHoldVideoBitrateKbps']}k",
-            "-maxrate",
-            f"{cfg['youtubeHoldVideoBitrateKbps']}k",
-            "-bufsize",
-            f"{int(cfg['youtubeHoldVideoBitrateKbps']) * 2}k",
-            "-c:a",
-            "aac",
-            "-ar",
-            "48000",
-            "-b:a",
-            f"{cfg['youtubeHoldAudioBitrateKbps']}k",
-            "-f",
-            "flv",
-            target,
+            "ffmpeg", "-hide_banner", "-loglevel", "info",
+            "-re", "-f", "lavfi", "-i", f"color=c=black:s={width}x{height}:r={fps}",
+            "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=48000",
+            "-t", str(hold_seconds),
+            "-map", "0:v:0", "-map", "1:a:0",
+            "-c:v", "libx264", "-preset", "ultrafast", "-tune", "zerolatency",
+            "-pix_fmt", "yuv420p", "-r", str(fps), "-g", str(gop_frames),
+            "-keyint_min", str(gop_frames), "-sc_threshold", "0",
+            "-b:v", f"{cfg['youtubeHoldVideoBitrateKbps']}k",
+            "-maxrate", f"{cfg['youtubeHoldVideoBitrateKbps']}k",
+            "-bufsize", f"{int(cfg['youtubeHoldVideoBitrateKbps']) * 2}k",
+            "-c:a", "aac", "-ar", "48000",
+            "-b:a", f"{cfg['youtubeHoldAudioBitrateKbps']}k",
+            "-f", "flv", target,
         ]
 
     def _offline_scene_path(self):
@@ -447,26 +366,16 @@ class RestreamManager:
             f"[v1]trim=start=0:end={fade_seconds},setpts=PTS-STARTPTS,fps={loop_fps},settb=AVTB[vhead];"
             f"[vmain][vhead]xfade=transition=fade:duration={fade_seconds}:offset={offset},format=yuv420p[v]"
         )
-        filter_parts = [video_filter]
         loop_duration = max(1, duration - fade_seconds)
         cmd = [
-            "ffmpeg",
-            "-y",
-            "-hide_banner",
-            "-loglevel",
-            "warning",
-            "-i",
-            str(scene),
-            "-f",
-            "lavfi",
-            "-t",
-            str(loop_duration),
-            "-i",
-            "anullsrc=channel_layout=stereo:sample_rate=48000",
+            "ffmpeg", "-y", "-hide_banner", "-loglevel", "warning",
+            "-i", str(scene),
+            "-f", "lavfi", "-t", str(loop_duration), "-i", "anullsrc=channel_layout=stereo:sample_rate=48000",
+            "-filter_complex", video_filter,
+            "-map", "[v]", "-map", "1:a",
+            "-c:a", "aac", "-b:a", f"{self.config['youtubeOfflineSceneAudioBitrateKbps']}k",
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", str(tmp_path),
         ]
-        cmd.extend(["-filter_complex", ";".join(filter_parts), "-map", "[v]"])
-        cmd.extend(["-map", "1:a", "-c:a", "aac", "-b:a", f"{self.config['youtubeOfflineSceneAudioBitrateKbps']}k"])
-        cmd.extend(["-c:v", "libx264", "-preset", "veryfast", "-crf", "20", str(tmp_path)])
         try:
             subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=300)
             tmp_path.replace(cache_path)
@@ -485,25 +394,13 @@ class RestreamManager:
     def _probe_media(self, path):
         try:
             result = subprocess.run(
-                [
-                    "ffprobe",
-                    "-v",
-                    "error",
-                    "-print_format",
-                    "json",
-                    "-show_entries",
-                    "format=duration:stream=codec_type",
-                    str(path),
-                ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                timeout=15,
-                check=True,
+                ["ffprobe", "-v", "error", "-print_format", "json",
+                 "-show_entries", "format=duration:stream=codec_type", str(path)],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=15, check=True,
             )
             payload = json.loads(result.stdout or "{}")
             duration = float(payload.get("format", {}).get("duration") or 0)
-            has_audio = any(stream.get("codec_type") == "audio" for stream in payload.get("streams", []))
+            has_audio = any(s.get("codec_type") == "audio" for s in payload.get("streams", []))
             return {"duration": duration, "has_audio": has_audio}
         except Exception as e:
             print(f"Could not probe offline scene {path}: {e}")
@@ -526,52 +423,20 @@ class RestreamManager:
         video_bitrate = max(100, int(cfg["youtubeOfflineSceneVideoBitrateKbps"]))
         audio_bitrate = max(64, int(cfg["youtubeOfflineSceneAudioBitrateKbps"]))
         cmd = [
-            "ffmpeg",
-            "-hide_banner",
-            "-loglevel",
-            "info",
-            "-re",
-            "-stream_loop",
-            "-1",
-            "-i",
-            str(scene),
+            "ffmpeg", "-hide_banner", "-loglevel", "info",
+            "-re", "-stream_loop", "-1", "-i", str(scene),
         ]
         if fade:
             fade_seconds = max(1, int(cfg["youtubeOfflineSceneFadeSeconds"]))
             cmd.extend(["-t", str(fade_seconds)])
         cmd.extend([
-            "-map",
-            "0:v:0",
-            "-map",
-            "0:a:0?",
-            "-c:v",
-            "libx264",
-            "-preset",
-            "ultrafast",
-            "-tune",
-            "zerolatency",
-            "-pix_fmt",
-            "yuv420p",
-            "-r",
-            str(fps),
-            "-g",
-            str(gop_frames),
-            "-keyint_min",
-            str(gop_frames),
-            "-sc_threshold",
-            "0",
-            "-b:v",
-            f"{video_bitrate}k",
-            "-maxrate",
-            f"{video_bitrate}k",
-            "-bufsize",
-            f"{video_bitrate * 2}k",
-            "-c:a",
-            "aac",
-            "-ar",
-            "48000",
-            "-b:a",
-            f"{audio_bitrate}k",
+            "-map", "0:v:0", "-map", "0:a:0?",
+            "-c:v", "libx264", "-preset", "ultrafast", "-tune", "zerolatency",
+            "-pix_fmt", "yuv420p", "-r", str(fps), "-g", str(gop_frames),
+            "-keyint_min", str(gop_frames), "-sc_threshold", "0",
+            "-b:v", f"{video_bitrate}k", "-maxrate", f"{video_bitrate}k",
+            "-bufsize", f"{video_bitrate * 2}k",
+            "-c:a", "aac", "-ar", "48000", "-b:a", f"{audio_bitrate}k",
         ])
         video_filters = []
         destination_filter = cfg.get(f"{name}VideoFilter", "").strip()
@@ -589,8 +454,8 @@ class RestreamManager:
         job = self.jobs[name]
         path = log_path(name)
         with path.open("a", encoding="utf-8") as log:
-            log.write(f"\\n=== {name} {log_message} {time.strftime('%Y-%m-%d %H:%M:%S')} ===\\n")
-            log.write(f"command: {self._redact_command(cmd)}\\n")
+            log.write(f"\n=== {name} {log_message} {time.strftime('%Y-%m-%d %H:%M:%S')} ===\n")
+            log.write(f"command: {self._redact_command(cmd)}\n")
         handle = path.open("a", encoding="utf-8")
         job.proc = subprocess.Popen(cmd, stdout=handle, stderr=subprocess.STDOUT)
         job.started_at = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -617,11 +482,7 @@ class RestreamManager:
             job.proc = None
             job.started_at = None
             job.mode = None
-            should_fallback = (
-                mode == "stream"
-                and not job.stop_requested
-                and self._target(name)
-            )
+            should_fallback = mode == "stream" and not job.stop_requested and self._target(name)
             should_restart_live = mode == "offline_fade" and not job.stop_requested and self._target(name)
             if should_restart_live:
                 cmd = self._build_command(name)
@@ -658,8 +519,7 @@ class RestreamManager:
                 continue
             with self.lock:
                 live_jobs = [
-                    name
-                    for name, job in self.jobs.items()
+                    name for name, job in self.jobs.items()
                     if job.running() and job.mode == "stream" and not job.stop_requested
                 ]
             if not live_jobs:
@@ -888,62 +748,38 @@ class RestreamManager:
     def _relay_health_public(self):
         return {key: value for key, value in self.relay_health_cache.items() if not key.startswith("_")}
 
+    def _probe_url(self):
+        # Prefer the exact URL the ffmpeg jobs consume so live-detection always
+        # reflects what the restream actually reads (the relay's `restream` app).
+        configured = self.config.get("inputUrl", "").strip()
+        return configured or obs_relay_health_url()
+
     def _probe_relay_health(self):
-        source = obs_relay_health_url()
+        source = self._probe_url()
         checked_at = time.strftime("%Y-%m-%d %H:%M:%S")
         cmd = [
-            "ffprobe",
-            "-v",
-            "error",
-            "-rw_timeout",
-            "2000000",
-            "-show_entries",
-            "stream=codec_type,width,height,r_frame_rate,sample_rate,channels",
-            "-of",
-            "json",
-            source,
+            "ffprobe", "-v", "error", "-rw_timeout", "3000000",
+            "-show_entries", "stream=codec_type,width,height,r_frame_rate,sample_rate,channels",
+            "-of", "json", source,
         ]
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=4)
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=6)
             if result.returncode != 0:
                 message = (result.stderr or result.stdout or "ffprobe could not read the OBS relay stream.").strip()
-                return {
-                    "ok": False,
-                    "status": "offline",
-                    "message": message[-500:],
-                    "source": source,
-                    "checkedAt": checked_at,
-                    "streams": [],
-                }
+                return {"ok": False, "status": "offline", "message": message[-500:], "source": source, "checkedAt": checked_at, "streams": []}
             payload = json.loads(result.stdout or "{}")
             streams = payload.get("streams", [])
-            has_video = any(stream.get("codec_type") == "video" for stream in streams)
+            has_video = any(s.get("codec_type") == "video" for s in streams)
             return {
                 "ok": has_video,
                 "status": "live" if has_video else "offline",
                 "message": "OBS relay ingest is live." if has_video else "Relay answered, but no video stream was found.",
-                "source": source,
-                "checkedAt": checked_at,
-                "streams": streams,
+                "source": source, "checkedAt": checked_at, "streams": streams,
             }
         except subprocess.TimeoutExpired:
-            return {
-                "ok": False,
-                "status": "offline",
-                "message": "Timed out probing OBS relay ingest.",
-                "source": source,
-                "checkedAt": checked_at,
-                "streams": [],
-            }
+            return {"ok": False, "status": "offline", "message": "Timed out probing OBS relay ingest.", "source": source, "checkedAt": checked_at, "streams": []}
         except Exception as e:
-            return {
-                "ok": False,
-                "status": "error",
-                "message": str(e),
-                "source": source,
-                "checkedAt": checked_at,
-                "streams": [],
-            }
+            return {"ok": False, "status": "error", "message": str(e), "source": source, "checkedAt": checked_at, "streams": []}
 
     def _assert_destination(self, name):
         if name not in DESTINATIONS:
@@ -959,108 +795,3 @@ class RestreamManager:
             else:
                 redacted.append(item)
         return " ".join(shlex.quote(part) for part in redacted)
-
-
-manager = RestreamManager()
-
-
-class Handler(BaseHTTPRequestHandler):
-    def _send(self, status, body, content_type):
-        body_bytes = body.encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", content_type)
-        self.send_header("Content-Length", str(len(body_bytes)))
-        self.end_headers()
-        self.wfile.write(body_bytes)
-
-    def _json(self, status, payload):
-        self._send(status, json.dumps(payload), "application/json")
-
-    def do_GET(self):
-        if self.path == "/api/restream/status":
-            return self._json(200, manager.snapshot())
-        if self.path == "/api/restream/relay-health":
-            return self._json(200, manager.relay_health())
-        if self.path == "/api/restream/offline-scenes":
-            return self._json(200, manager.list_offline_scenes())
-        if self.path == "/healthz":
-            return self._send(200, "ok\n", "text/plain")
-        return self._send(404, "not found", "text/plain")
-
-    def do_POST(self):
-        if self.path == "/api/restream/offline-scenes/upload":
-            return self._handle_offline_scene_upload()
-        length = int(self.headers.get("Content-Length", "0"))
-        raw = self.rfile.read(length) if length else b"{}"
-        try:
-            payload = json.loads(raw.decode("utf-8"))
-        except json.JSONDecodeError:
-            return self._send(400, "invalid json", "text/plain")
-        try:
-            if self.path == "/api/restream/config":
-                return self._json(200, manager.update_config(payload))
-            if self.path == "/api/restream/start":
-                return self._json(200, manager.start_all(payload))
-            if self.path == "/api/restream/stop":
-                return self._json(200, manager.stop_all())
-            if self.path == "/api/restream/offline-scenes/select":
-                return self._json(200, manager.select_offline_scene(payload.get("name", "")))
-            if self.path == "/api/restream/offline-scenes/delete":
-                return self._json(200, manager.delete_offline_scene(payload.get("name", "")))
-            parts = self.path.strip("/").split("/")
-            if len(parts) == 4 and parts[:2] == ["api", "restream"]:
-                name = parts[2]
-                action = parts[3]
-                if action == "config":
-                    return self._json(200, manager.update_destination(name, payload))
-                if action == "start":
-                    return self._json(200, manager.start(name, payload))
-                if action == "stop":
-                    return self._json(200, manager.stop(name))
-        except ValueError as e:
-            return self._send(400, str(e), "text/plain")
-        return self._send(404, "not found", "text/plain")
-
-    def _handle_offline_scene_upload(self):
-        try:
-            content_type = self.headers.get("Content-Type", "")
-            if "multipart/form-data" not in content_type:
-                return self._send(400, "expected multipart/form-data", "text/plain")
-            form = cgi.FieldStorage(
-                fp=self.rfile,
-                headers=self.headers,
-                environ={
-                    "REQUEST_METHOD": "POST",
-                    "CONTENT_TYPE": content_type,
-                    "CONTENT_LENGTH": self.headers.get("Content-Length", "0"),
-                },
-            )
-            field = form["file"] if "file" in form else None
-            if field is None or not getattr(field, "filename", ""):
-                return self._send(400, "missing upload field: file", "text/plain")
-            return self._json(200, manager.save_offline_scene_upload(field.filename, field.file))
-        except ValueError as e:
-            return self._send(400, str(e), "text/plain")
-        except Exception as e:
-            return self._send(500, str(e), "text/plain")
-
-    def log_message(self, format, *args):
-        return
-
-
-def main():
-    server = ThreadingHTTPServer((HOST, PORT), Handler)
-
-    def shutdown(_sig, _frame):
-        try:
-            manager.stop_all()
-        finally:
-            server.shutdown()
-
-    signal.signal(signal.SIGTERM, shutdown)
-    signal.signal(signal.SIGINT, shutdown)
-    server.serve_forever()
-
-
-if __name__ == "__main__":
-    main()

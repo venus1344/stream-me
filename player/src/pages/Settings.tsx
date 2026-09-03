@@ -1,7 +1,9 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import NavBar from '../components/NavBar'
 import RelayChip from '../components/RelayChip'
 import GlowBackground from '../components/GlowBackground'
+import { apiFetch, clearToken, getToken } from '../lib/auth'
+import { useNavItems } from '../lib/useNavItems'
 
 interface DestinationDef {
   name: string; title: string; subtitle: string; icon: string
@@ -29,6 +31,7 @@ function formatBytes(b: number) {
 }
 
 export default function Settings() {
+  const navItems = useNavItems()
   const [config, setConfig] = useState<Record<string, any>>({})
   const [destinations, setDestinations] = useState<Record<string, DestState>>({})
   const [logs, setLogs] = useState<Record<string, string>>({})
@@ -36,11 +39,14 @@ export default function Settings() {
   const [configuredTargets, setConfiguredTargets] = useState<string[]>([])
   const [offlineScenes, setOfflineScenes] = useState<OfflineScene[]>([])
   const [message, setMessage] = useState({ text: 'Ready.', error: false })
-  const [expanded, setExpanded] = useState<Set<string>>(new Set())
+  const [expanded, setExpanded] = useState<string | null>(null)
+  const [toggling, setToggling] = useState<Set<string>>(new Set())
+  const [sceneDropdownOpen, setSceneDropdownOpen] = useState(false)
+  const [sceneQuery, setSceneQuery] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
   const api = useCallback(async (path: string, method = 'GET', body?: any) => {
-    const res = await fetch(`/api/restream/${path}`, {
+    const res = await apiFetch(`/api/restream/${path}`, {
       method,
       headers: body ? { 'Content-Type': 'application/json' } : undefined,
       body: body ? JSON.stringify(body) : undefined,
@@ -49,29 +55,63 @@ export default function Settings() {
     return res.json()
   }, [])
 
-  const refresh = useCallback(async () => {
+  // Load config + offline scenes once on mount only
+  const loadConfig = useCallback(async () => {
     try {
-      const p = await api('status')
+      const [p, s] = await Promise.all([
+        api('status'),
+        api('offline-scenes').catch(() => ({ files: [] })),
+      ])
       setConfig(p.config || {})
       setDestinations(p.destinations || {})
       setLogs(p.logs || {})
       setRunningTargets(p.status?.runningTargets || [])
       setConfiguredTargets(p.status?.targets || [])
-      // fetch offline scenes
-      try {
-        const s = await api('offline-scenes')
-        setOfflineScenes(s.files || [])
-      } catch {}
+      setOfflineScenes(s.files || [])
     } catch (e: any) {
       setMessage({ text: e.message, error: true })
     }
   }, [api])
 
+  // WebSocket for live logs + destination status
   useEffect(() => {
-    refresh()
-    const id = setInterval(refresh, 2500)
-    return () => clearInterval(id)
-  }, [refresh])
+    loadConfig()
+
+    let ws: WebSocket | null = null
+    let reconnectTimer: ReturnType<typeof setTimeout> | null = null
+    let dead = false
+
+    const connect = () => {
+      if (dead) return
+      const token = getToken()
+      if (!token) return
+      const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
+      ws = new WebSocket(`${proto}://${window.location.host}/api/restream/ws?token=${encodeURIComponent(token)}`)
+
+      ws.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data)
+          setDestinations(data.destinations || {})
+          setLogs(data.logs || {})
+          setRunningTargets(data.runningTargets || [])
+          setConfiguredTargets(data.targets || [])
+        } catch {}
+      }
+
+      ws.onerror = () => ws?.close()
+      ws.onclose = () => {
+        if (!dead) reconnectTimer = setTimeout(connect, 3000)
+      }
+    }
+
+    connect()
+
+    return () => {
+      dead = true
+      if (reconnectTimer) clearTimeout(reconnectTimer)
+      ws?.close()
+    }
+  }, [loadConfig])
 
   const getFieldValue = (name: string, field: string) => config[`${name}${field}`] ?? ''
 
@@ -90,6 +130,8 @@ export default function Settings() {
   }
 
   const handleToggle = async (name: string) => {
+    if (toggling.has(name)) return
+    setToggling(prev => new Set(prev).add(name))
     try {
       const isRunning = destinations[name]?.running
       if (isRunning) {
@@ -103,7 +145,11 @@ export default function Settings() {
         setDestinations(p.destinations || {})
         setMessage({ text: `${name} started.`, error: false })
       }
-    } catch (e: any) { setMessage({ text: e.message, error: true }) }
+    } catch (e: any) {
+      setMessage({ text: e.message, error: true })
+    } finally {
+      setToggling(prev => { const s = new Set(prev); s.delete(name); return s })
+    }
   }
 
   const handleUpload = async () => {
@@ -112,7 +158,7 @@ export default function Settings() {
     try {
       const form = new FormData()
       form.append('file', file)
-      const res = await fetch('/api/restream/offline-scenes/upload', { method: 'POST', body: form })
+      const res = await apiFetch('/api/restream/offline-scenes/upload', { method: 'POST', body: form })
       if (!res.ok) throw new Error(await res.text() || `${res.status}`)
       const p = await res.json()
       setOfflineScenes(p.files || [])
@@ -140,43 +186,64 @@ export default function Settings() {
   const setField = (key: string, val: any) => setConfig(prev => ({ ...prev, [key]: val }))
 
   const isYtCopy = Boolean(Number(config.youtubeCopyMode || 0))
+  const selectedScene = useMemo(() => offlineScenes.find(scene => scene.selected), [offlineScenes])
+  const filteredScenes = useMemo(() => {
+    const q = sceneQuery.trim().toLowerCase()
+    if (!q) return offlineScenes
+    return offlineScenes.filter(scene => scene.name.toLowerCase().includes(q))
+  }, [offlineScenes, sceneQuery])
 
   return (
-    <main className="w-full max-w-[1600px] mx-auto relative px-12 pt-7 pb-10 z-[1]">
+    <main className="w-full max-w-[1600px] mx-auto relative px-4 sm:px-8 lg:px-12 pt-5 sm:pt-7 pb-8 sm:pb-10 z-[1]">
       <GlowBackground variant="settings" />
 
       <NavBar
-        items={[{ label: 'Settings', to: '/settings' }, { label: 'Player', to: '/home' }]}
+        items={navItems}
         rightContent={
           <>
             <RelayChip />
-            <button onClick={refresh} className="flex items-center px-4 py-2.5 rounded-full border border-border-2 bg-[#181B22] text-[13px] font-bold text-text cursor-pointer hover:brightness-110">
-              Refresh
+            <button onClick={loadConfig} className="hidden sm:flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-border-2 bg-surface-2 text-[13px] font-bold text-text cursor-pointer hover:brightness-110">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              {/* Refresh */}
+            </button>
+            <button
+              onClick={() => { clearToken(); window.location.href = '/login' }}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-border-2 bg-surface-2 text-[13px] font-bold text-muted cursor-pointer hover:text-text hover:brightness-110"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              {/* <span className="max-sm:hidden">Sign out</span> */}
             </button>
           </>
         }
       />
 
       {/* Hero Stats */}
-      <section className="flex items-center justify-between gap-6 p-7 bg-[#0B0C10] border border-border-3 rounded-[26px] shadow-[0_24px_60px_-30px_rgba(217,119,42,0.2)] mb-5 flex-wrap">
-        <div className="flex flex-col gap-2.5 flex-1 min-w-0">
-          <h1 className="text-[clamp(28px,4vw,54px)] font-extrabold tracking-[-2.4px] leading-none">Live Routing Studio</h1>
+      <section className="flex items-center justify-between gap-4 sm:gap-6 p-4 sm:p-7 bg-surface border border-border-3 rounded-[26px] shadow-[0_24px_60px_-30px_rgba(217,119,42,0.2)] mb-5 flex-wrap">
+        <div className="flex flex-col gap-2.5 flex-1 min-w-[200px]">
+          <h1 className="text-[clamp(24px,4vw,54px)] font-extrabold tracking-[-2px] leading-none">Live Routing Studio</h1>
           <p className="text-muted text-base leading-[22px]">Control YouTube, Facebook and Instagram restreams independently while preserving the custom web stream.</p>
         </div>
-        <div className="flex gap-3 shrink-0 flex-wrap">
-          <div className="flex flex-col items-center gap-0.5 bg-surface-2 border border-border rounded-[18px] px-4 py-4 min-w-[100px]">
+        <div className="grid grid-cols-2 sm:flex gap-3 flex-wrap w-full sm:w-auto">
+          <div className="flex flex-col items-center gap-0.5 bg-surface-2 border border-border rounded-[18px] px-4 py-4 min-w-0">
             <span className="text-2xl font-extrabold text-danger">{runningTargets.length}</span>
             <span className="text-[11px] font-bold text-muted uppercase">LIVE</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 bg-surface-2 border border-border rounded-[18px] px-4 py-4 min-w-[100px]">
+          <div className="flex flex-col items-center gap-0.5 bg-surface-2 border border-border rounded-[18px] px-4 py-4 min-w-0">
             <span className="text-2xl font-extrabold text-blue">{configuredTargets.length}</span>
             <span className="text-[11px] font-bold text-muted uppercase">CONFIGURED</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 bg-surface-2 border border-border rounded-[18px] px-4 py-4 min-w-[100px]">
+          <div className="flex flex-col items-center gap-0.5 bg-surface-2 border border-border rounded-[18px] px-4 py-4 min-w-0">
             <span className="text-2xl font-extrabold text-amber">-</span>
             <span className="text-[11px] font-bold text-muted uppercase">FAILOVER</span>
           </div>
-          <div className="flex flex-col items-center gap-0.5 bg-surface-2 border border-border rounded-[18px] px-4 py-4 min-w-[100px]">
+          <div className="flex flex-col items-center gap-0.5 bg-surface-2 border border-border rounded-[18px] px-4 py-4 min-w-0">
             <span className="text-2xl font-extrabold text-green">-</span>
             <span className="text-[11px] font-bold text-muted uppercase">OFFLINE LOOP</span>
           </div>
@@ -193,13 +260,13 @@ export default function Settings() {
             {configuredTargets.length ? `Configured targets: ${configuredTargets.join(', ')}` : 'No destination has a stream key yet.'}
           </div>
         </div>
-        <div className={`text-sm ${message.error ? 'text-[#ffd0d0]' : 'text-muted'}`}>{message.text}</div>
+        <div className={`text-sm ${message.error ? 'text-danger' : 'text-muted'}`}>{message.text}</div>
       </section>
 
       {/* Main Grid */}
-      <section className="grid grid-cols-[350px_1fr] gap-5 items-start max-lg:grid-cols-1">
-        {/* Sidebar */}
-        <aside className="bg-surface/90 border border-border rounded-3xl shadow-[0px_20px_50px_-36px_rgba(0,0,0,0.8)]">
+      <section className="grid grid-cols-[1fr_350px] gap-5 items-start max-lg:grid-cols-1">
+        {/* Sidebar — pinned right */}
+        <aside className="bg-surface/90 border border-border rounded-3xl shadow-[0px_20px_50px_-36px_rgba(0,0,0,0.8)] order-2 max-lg:order-none">
           <div className="p-5 flex flex-col gap-4">
             <span className="text-accent text-xs font-extrabold tracking-[1.2px] uppercase">Global Controls</span>
 
@@ -219,11 +286,11 @@ export default function Settings() {
               <div className="flex flex-col gap-2">
                 <div className="bg-surface-2 border border-border rounded-[14px] p-3 flex flex-col gap-0.5">
                   <span className="text-muted text-[11px] font-extrabold uppercase">YouTube</span>
-                  <span className="text-[#7DD3FC] font-mono text-xs">scale=-2:720</span>
+                  <span className="text-blue font-mono text-xs">scale=-2:720</span>
                 </div>
                 <div className="bg-surface-2 border border-border rounded-[14px] p-3 flex flex-col gap-0.5">
                   <span className="text-muted text-[11px] font-extrabold uppercase">Vertical (Facebook / Instagram)</span>
-                  <span className="text-[#7DD3FC] font-mono text-xs">transpose=1,scale=-2:1280</span>
+                  <span className="text-blue font-mono text-xs">transpose=1,scale=-2:1280</span>
                 </div>
               </div>
             </div>
@@ -231,67 +298,124 @@ export default function Settings() {
             <div>
               <h3 className="text-text text-lg font-extrabold mb-2">Offline Scene</h3>
               <p className="text-muted text-[0.76rem] leading-relaxed mb-2">The selected clip is used for every destination when OBS relay drops.</p>
-              <input type="file" ref={fileRef} accept="video/*,.mkv,.ts" className="text-xs text-muted mb-2" />
-              <div className="flex gap-2 flex-wrap mb-2">
-                <button onClick={handleUpload} className="px-3 py-2 bg-accent text-white rounded-full text-[13px] font-extrabold cursor-pointer border-none hover:brightness-110">Upload</button>
-                <button onClick={() => refresh()} className="px-3 py-2 bg-[#181B22] text-text border border-border-2 rounded-full text-[13px] font-extrabold cursor-pointer hover:brightness-110">Refresh Clips</button>
-              </div>
-              <div className="grid gap-2">
-                {offlineScenes.length === 0 ? (
-                  <span className="text-muted text-sm">No offline clips loaded yet.</span>
-                ) : offlineScenes.map(f => (
-                  <div key={f.name} className={`grid grid-cols-[1fr_auto_auto] gap-2 items-center p-2 border rounded-xl bg-[#0B0C10] ${f.selected ? 'border-green/60' : 'border-border'}`}>
-                    <div>
-                      <strong className="text-sm block break-all">{f.name}</strong>
-                      <span className="text-muted text-[0.72rem]">{formatBytes(f.size)} · {f.modifiedAt || ''}{f.selected ? ' · selected' : ''}</span>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setSceneDropdownOpen(open => !open)}
+                  className="flex w-full items-center justify-between gap-3 rounded-[16px] border border-border-2 bg-surface-3 px-3.5 py-3 text-left text-text hover:border-accent"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-[11px] font-black uppercase tracking-[1px] text-muted">Active clip</span>
+                    <strong className="block truncate text-sm">{selectedScene?.name || 'No clip selected'}</strong>
+                    <span className="block text-[0.72rem] text-muted">
+                      {selectedScene ? `${formatBytes(selectedScene.size)} · ${selectedScene.modifiedAt || 'uploaded'}` : 'Choose a clip for relay failover'}
+                    </span>
+                  </span>
+                  <span className="text-xl text-accent">{sceneDropdownOpen ? '^' : 'v'}</span>
+                </button>
+
+                {sceneDropdownOpen && (
+                  <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-30 rounded-[18px] border border-border bg-surface p-3 shadow-[0_18px_60px_rgba(0,0,0,0.42)]">
+                    <input
+                      value={sceneQuery}
+                      onChange={e => setSceneQuery(e.target.value)}
+                      placeholder="Search clips..."
+                      className="mb-2 w-full rounded-[12px] border border-border-2 bg-surface-3 px-3 py-2.5 text-sm text-text outline-none focus:border-accent"
+                    />
+                    <div className="max-h-[260px] overflow-y-auto">
+                      {filteredScenes.length === 0 ? (
+                        <div className="rounded-xl border border-border bg-surface-3 p-3 text-sm text-muted">
+                          {offlineScenes.length === 0 ? 'No offline clips loaded yet.' : 'No clips match your search.'}
+                        </div>
+                      ) : filteredScenes.map(scene => (
+                        <button
+                          key={scene.name}
+                          type="button"
+                          onClick={async () => {
+                            await handleSceneSelect(scene.name)
+                            setSceneDropdownOpen(false)
+                            setSceneQuery('')
+                          }}
+                          className={`mb-2 grid w-full grid-cols-[1fr_auto] items-center gap-3 rounded-xl border p-3 text-left last:mb-0 ${scene.selected ? 'border-accent bg-accent/15 text-text' : 'border-border bg-surface-3 text-text hover:border-border-2'
+                            }`}
+                        >
+                          <span className="min-w-0">
+                            <strong className="block break-all text-sm">{scene.name}</strong>
+                            <span className="block text-[0.72rem] text-muted">{formatBytes(scene.size)} · {scene.modifiedAt || ''}</span>
+                          </span>
+                          {scene.selected && <span className="rounded-full bg-accent px-2 py-1 text-[10px] font-black text-white">ACTIVE</span>}
+                        </button>
+                      ))}
                     </div>
-                    <button onClick={() => handleSceneSelect(f.name)} className="px-2 py-1.5 bg-[#181B22] text-text border border-border-2 rounded-full text-xs font-extrabold cursor-pointer">Select</button>
-                    <button onClick={() => handleSceneDelete(f.name)} className="px-2 py-1.5 bg-gradient-to-br from-[#ff9c9c] to-danger text-white rounded-full text-xs font-extrabold cursor-pointer border-none">Delete</button>
                   </div>
-                ))}
+                )}
+              </div>
+
+              <input type="file" ref={fileRef} accept="video/*,.mkv,.ts" className="hidden" />
+              <div className="mt-3 flex gap-2 flex-wrap">
+                <button onClick={() => fileRef.current?.click()} className="px-3 py-2 bg-surface-2 text-text border border-border-2 rounded-full text-[13px] font-extrabold cursor-pointer hover:brightness-110">Choose Clip</button>
+                <button onClick={handleUpload} className="px-3 py-2 bg-accent text-white rounded-full text-[13px] font-extrabold cursor-pointer border-none hover:brightness-110">Upload</button>
+                <button onClick={() => loadConfig()} className="px-3 py-2 bg-surface-2 text-text border border-border-2 rounded-full text-[13px] font-extrabold cursor-pointer hover:brightness-110">Refresh</button>
+                {selectedScene && (
+                  <button onClick={() => handleSceneDelete(selectedScene.name)} className="px-3 py-2 bg-danger text-white rounded-full text-[13px] font-extrabold cursor-pointer border-none hover:brightness-110">Delete Active</button>
+                )}
               </div>
             </div>
           </div>
         </aside>
 
-        {/* Destination Cards */}
-        <div className="flex flex-col gap-3.5">
+        {/* Destination Cards — main column left */}
+        <div className="flex flex-col gap-3.5 order-1 max-lg:order-none">
           {DESTINATIONS.map(dest => {
             const state = destinations[dest.name] || {}
             const isRunning = Boolean(state.running)
-            const isOpen = expanded.has(dest.name)
+            const isOpen = expanded === dest.name
             const key = config[`${dest.name}Key`] || ''
             const filter = config[`${dest.name}VideoFilter`] || 'none'
             const summary = `${key ? 'configured' : 'no key'}${state.mode ? ` · ${state.mode}` : ''} · filter: ${filter}`
             const isCopyDisabled = dest.name === 'youtube' && isYtCopy
 
             return (
-              <article key={dest.name} className="border border-border rounded-3xl bg-[#0B0C10] overflow-hidden">
+              <article key={dest.name} className="border border-border rounded-3xl bg-surface overflow-hidden">
                 {/* Card Head */}
-                <div className={`flex items-center justify-between gap-4 px-5 py-4 border-b flex-wrap ${isOpen ? 'border-accent/40' : 'border-border'}`}>
+                <div className={`flex items-center justify-between gap-3 px-3 sm:px-5 py-3 sm:py-4 border-b flex-wrap ${isOpen ? 'border-accent/40' : 'border-border'}`}>
                   <div className="flex items-center gap-4 flex-1 min-w-0">
-                    <div className={`w-[58px] h-[58px] rounded-2xl flex items-center justify-center shrink-0 text-2xl font-black text-white ${dest.name === 'youtube' ? 'bg-accent' : 'bg-[#181B22]'}`}>
+                    <div className={`w-[58px] h-[58px] rounded-2xl flex items-center justify-center shrink-0 text-2xl font-black text-white ${dest.name === 'youtube' ? 'bg-accent' : 'bg-surface-2'}`}>
                       {dest.icon}
                     </div>
                     <div className="flex flex-col gap-1.5 min-w-0 flex-1">
                       <div className="flex items-center gap-2.5 flex-wrap">
-                        <h2 className="text-[26px] font-extrabold m-0">{dest.title}</h2>
-                        <span className={`inline-flex items-center px-2.5 py-1.5 rounded-full border text-[11px] font-extrabold ${isRunning ? 'bg-accent border-accent text-white' : 'bg-[#181B22] border-[#3B4251] text-muted'}`}>
+                        <h2 className="text-[clamp(18px,3vw,26px)] font-extrabold m-0">{dest.title}</h2>
+                        <span className={`inline-flex items-center px-2.5 py-1.5 rounded-full border text-[11px] font-extrabold ${isRunning ? 'bg-accent border-accent text-white' : 'bg-surface-2 border-border text-muted'}`}>
                           {isRunning ? `running${state.mode ? `/${state.mode}` : ''}` : 'idle'}
                         </span>
                       </div>
                       <span className="text-muted text-[13px] leading-relaxed">{dest.subtitle}</span>
-                      <span className="text-[#B6C2D1] font-mono text-[11px] break-all">{summary}</span>
+                      <span className="text-muted font-mono text-[11px] break-all">{summary}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2.5 shrink-0">
-                    <button onClick={() => handleToggle(dest.name)}
-                      className={`px-6 py-3 rounded-full text-[15px] font-black cursor-pointer border ${isRunning ? 'bg-gradient-to-br from-[#ff9c9c] to-danger border-[rgba(255,123,123,0.75)] text-white' : 'bg-bg border-[#556070] text-white'}`}>
-                      {isRunning ? 'End' : 'Live'}
+                  <div className="flex items-center gap-3 shrink-0">
+                    {/* On/Off toggle */}
+                    <button
+                      onClick={() => handleToggle(dest.name)}
+                      disabled={toggling.has(dest.name)}
+                      aria-label={isRunning ? 'Stop stream' : 'Start stream'}
+                      className={`relative w-[56px] h-[30px] rounded-full border transition-all duration-200 cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-wait
+                        ${isRunning ? 'bg-accent border-accent' : 'bg-surface-3 border-border-2'}`}
+                    >
+                      <span className={`absolute top-[3px] w-[22px] h-[22px] rounded-full shadow transition-all duration-200
+                        ${isRunning ? 'left-[29px] bg-white' : 'left-[3px] bg-muted'}`}
+                      />
                     </button>
-                    <button onClick={() => setExpanded(prev => { const s = new Set(prev); s.has(dest.name) ? s.delete(dest.name) : s.add(dest.name); return s })}
-                      className="px-4 py-3 rounded-full text-[15px] bg-[#181B22] border border-border-2 text-text font-extrabold cursor-pointer">
-                      {isOpen ? 'Hide' : 'Settings'}
+                    {/* Chevron toggle */}
+                    <button
+                      onClick={() => setExpanded(prev => prev === dest.name ? null : dest.name)}
+                      className="w-9 h-9 flex items-center justify-center rounded-full bg-surface-2 border border-border-2 text-muted cursor-pointer hover:text-text hover:brightness-110 transition-all"
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                        className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
                     </button>
                   </div>
                 </div>
@@ -403,7 +527,7 @@ export default function Settings() {
                     </div>
 
                     <div className="flex gap-2 pt-1">
-                      <button onClick={() => handleSave(dest.name)} className="px-3.5 py-2.5 bg-[#181B22] text-text border border-border-2 rounded-full text-[13px] font-extrabold cursor-pointer hover:brightness-110">Save</button>
+                      <button onClick={() => handleSave(dest.name)} className="px-3.5 py-2.5 bg-surface-2 text-text border border-border-2 rounded-full text-[13px] font-extrabold cursor-pointer hover:brightness-110">Save</button>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 max-sm:grid-cols-1">
@@ -423,7 +547,7 @@ export default function Settings() {
 
                     <div>
                       <span className="text-accent text-xs font-extrabold tracking-[1.2px] uppercase block mb-2">ffmpeg Log</span>
-                      <div className="h-[230px] overflow-y-auto whitespace-pre-wrap break-words text-[#AAB4C2] bg-surface-3 border border-border rounded-[14px] p-3.5 font-mono text-[11px] leading-[15px]">
+                      <div className="h-[230px] overflow-y-auto whitespace-pre-wrap break-words text-muted bg-surface-3 border border-border rounded-[14px] p-3.5 font-mono text-[11px] leading-[15px]">
                         {logs[dest.name] || 'No log yet.'}
                       </div>
                     </div>

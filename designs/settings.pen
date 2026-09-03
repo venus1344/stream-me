@@ -1,5 +1,5 @@
 {
-  "version": "2.14",
+  "version": "2.17",
   "children": [
     {
       "type": "frame",
@@ -12460,6 +12460,815 @@
                       "fontFamily": "$font",
                       "fontSize": 13,
                       "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "uMFoi",
+      "x": 5040,
+      "y": 0,
+      "name": "Upload Workflow - Complete Flow",
+      "width": 2045,
+      "fill": "#050505",
+      "gap": 40,
+      "padding": 20,
+      "children": [
+        {
+          "type": "frame",
+          "id": "ic8pc",
+          "name": "Column 1 - Collapsed",
+          "width": 300,
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "NerJn",
+              "name": "Column Title",
+              "fill": "#A1A1A6",
+              "content": "1. Collapsed",
+              "fontFamily": "Space Grotesk",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "V7Ern",
+              "name": "Collapsed State",
+              "clip": true,
+              "width": "fill_container",
+              "height": 580,
+              "fill": "#101114",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 20,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "h2hlv",
+                  "name": "Upload Icon",
+                  "width": 32,
+                  "height": 32,
+                  "icon": "upload",
+                  "library": "lucide",
+                  "fill": "#D9772A"
+                },
+                {
+                  "type": "text",
+                  "id": "wXVkf",
+                  "name": "Label",
+                  "fill": "#E5E5E7",
+                  "content": "Upload a file",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PTogS",
+          "name": "Column 2 - Expanded",
+          "width": 300,
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "a4a1aE",
+              "name": "Column Title",
+              "fill": "#A1A1A6",
+              "content": "2. File Picker",
+              "fontFamily": "Space Grotesk",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "aBlyh",
+              "name": "Expanded State",
+              "clip": true,
+              "width": "fill_container",
+              "height": 580,
+              "fill": "#101114",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 12,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "oFP4R",
+                  "name": "Modal Title",
+                  "fill": "#E5E5E7",
+                  "content": "Select a clip",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "t6GDRv",
+                  "name": "File List",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nCkBD",
+                      "name": "File Item",
+                      "width": "fill_container",
+                      "fill": "#0A0A0D",
+                      "cornerRadius": 8,
+                      "gap": 10,
+                      "padding": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "GHUD0",
+                          "name": "File Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "film",
+                          "library": "lucide",
+                          "fill": "#D9772A"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LjjnW",
+                          "name": "Filename",
+                          "fill": "#E5E5E7",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "stream-highlight.mkv",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "EgF7k",
+                      "name": "File Item",
+                      "width": "fill_container",
+                      "fill": "#0A0A0D",
+                      "cornerRadius": 8,
+                      "gap": 10,
+                      "padding": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "VqkBl",
+                          "name": "File Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "film",
+                          "library": "lucide",
+                          "fill": "#D9772A"
+                        },
+                        {
+                          "type": "text",
+                          "id": "eqg2S",
+                          "name": "Filename",
+                          "fill": "#E5E5E7",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "clip-001.mp4",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "z9mMC",
+                      "name": "File Item",
+                      "width": "fill_container",
+                      "fill": "#0A0A0D",
+                      "cornerRadius": 8,
+                      "gap": 10,
+                      "padding": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "n96IUG",
+                          "name": "File Icon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "film",
+                          "library": "lucide",
+                          "fill": "#D9772A"
+                        },
+                        {
+                          "type": "text",
+                          "id": "UcWkG",
+                          "name": "Filename",
+                          "fill": "#E5E5E7",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "intro.mov",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dw8ts",
+          "name": "Column 3 - Ready",
+          "width": 300,
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "TmMij",
+              "name": "Column Title",
+              "fill": "#A1A1A6",
+              "content": "3. Ready",
+              "fontFamily": "Space Grotesk",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "c6DRmL",
+              "name": "Ready State",
+              "clip": true,
+              "width": "fill_container",
+              "height": 580,
+              "fill": "#101114",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "c5C6ju",
+                  "name": "State Label",
+                  "fill": "#D9772A",
+                  "content": "Ready",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "xNyp8",
+                  "name": "File Preview",
+                  "width": "fill_container",
+                  "fill": "#0A0A0D",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "X63Rvh",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Q4a5EP",
+                          "name": "File Icon",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "film",
+                          "library": "lucide",
+                          "fill": "#D9772A"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Ythxb",
+                          "name": "Filename",
+                          "fill": "#E5E5E7",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "stream-highlight.mkv",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "itf2w",
+                      "name": "File Size",
+                      "fill": "#A1A1A6",
+                      "content": "2.4 GB",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Pvxez",
+                  "name": "Upload Button",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "#D9772A",
+                  "cornerRadius": 6,
+                  "layout": "vertical",
+                  "padding": [
+                    12,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "p8PxgJ",
+                  "name": "Button Text",
+                  "fill": "#050505",
+                  "content": "Upload",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PKQIk",
+          "name": "Column 4 - Uploading",
+          "width": 300,
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "D54msm",
+              "name": "Column Title",
+              "fill": "#A1A1A6",
+              "content": "4. Uploading",
+              "fontFamily": "Space Grotesk",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "s7bhB",
+              "name": "Uploading State",
+              "clip": true,
+              "width": "fill_container",
+              "height": 580,
+              "fill": "#101114",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pX7im",
+                  "name": "State Label",
+                  "fill": "#D9772A",
+                  "content": "Uploading...",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "WBBiR",
+                  "name": "File Preview",
+                  "width": "fill_container",
+                  "fill": "#0A0A0D",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "HkLqb",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "l0rmu",
+                          "name": "File Icon",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "film",
+                          "library": "lucide",
+                          "fill": "#D9772A"
+                        },
+                        {
+                          "type": "text",
+                          "id": "kw3fR",
+                          "name": "Filename",
+                          "fill": "#E5E5E7",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "stream-highlight.mkv",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 3,
+                      "id": "UAXI5",
+                      "name": "Progress Bar BG",
+                      "fill": "#1F2125",
+                      "width": "fill_container",
+                      "height": 6
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 3,
+                      "id": "OY25a",
+                      "name": "Progress Fill",
+                      "fill": "#D9772A",
+                      "width": 135,
+                      "height": 6
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qdldh",
+                      "name": "Stats",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Sn0Kh",
+                          "name": "Percent",
+                          "fill": "#A1A1A6",
+                          "content": "45%",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "cL9AI",
+                          "name": "Speed",
+                          "fill": "#A1A1A6",
+                          "content": "2.3 MB/s",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TWVjA",
+                  "name": "Cancel Button",
+                  "width": "fill_container",
+                  "height": 40,
+                  "fill": "#1F2125",
+                  "cornerRadius": 6,
+                  "layout": "vertical",
+                  "padding": [
+                    10,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "GdzvG",
+                  "name": "Cancel Text",
+                  "fill": "#E5E5E7",
+                  "content": "Cancel",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "W6vd2G",
+          "name": "Column 5 - Success",
+          "width": 300,
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "rgbox",
+              "name": "Column Title",
+              "fill": "#A1A1A6",
+              "content": "5. Success",
+              "fontFamily": "Space Grotesk",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "j8AZq",
+              "name": "Success State",
+              "clip": true,
+              "width": "fill_container",
+              "height": 580,
+              "fill": "#101114",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yXCvX",
+                  "name": "State Label",
+                  "fill": "#22C55E",
+                  "content": "Complete",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "X8GkMe",
+                  "name": "File Preview",
+                  "width": "fill_container",
+                  "fill": "#0A0A0D",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "WkVhC",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "FChgy",
+                          "name": "Check Icon",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "#22C55E"
+                        },
+                        {
+                          "type": "text",
+                          "id": "iiyos",
+                          "name": "Filename",
+                          "fill": "#E5E5E7",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "stream-highlight.mkv",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "R7ve9",
+                      "name": "Meta",
+                      "fill": "#A1A1A6",
+                      "content": "2.4 GB • 4:32 PM",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 10,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lH9As",
+                  "name": "Done Button",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "#22C55E",
+                  "cornerRadius": 6,
+                  "layout": "vertical",
+                  "padding": [
+                    12,
+                    16
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center"
+                },
+                {
+                  "type": "text",
+                  "id": "xEK1J",
+                  "name": "Button Text",
+                  "fill": "#050505",
+                  "content": "Done",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jPtM0",
+          "name": "Column 6 - Error",
+          "width": 300,
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "jUocA",
+              "name": "Column Title",
+              "fill": "#A1A1A6",
+              "content": "6. Error",
+              "fontFamily": "Space Grotesk",
+              "fontSize": 12,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "ZCQtH",
+              "name": "Error State",
+              "clip": true,
+              "width": "fill_container",
+              "height": 580,
+              "fill": "#101114",
+              "cornerRadius": 12,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "HNZlu",
+                  "name": "State Label",
+                  "fill": "#EF4444",
+                  "content": "Failed",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "I60Yx",
+                  "name": "File Preview",
+                  "width": "fill_container",
+                  "fill": "#0A0A0D",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "wMazn",
+                      "name": "Header",
+                      "width": "fill_container",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Ve3Su",
+                          "name": "Error Icon",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "triangle-alert",
+                          "library": "lucide",
+                          "fill": "#EF4444"
+                        },
+                        {
+                          "type": "text",
+                          "id": "DNVNI",
+                          "name": "Filename",
+                          "fill": "#E5E5E7",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "stream-highlight.mkv",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Wnv6p",
+                      "name": "Error Message",
+                      "fill": "#EF4444",
+                      "content": "Connection lost",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 10,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "U0TAHF",
+                  "name": "Buttons",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Br1CY",
+                      "name": "Retry Button",
+                      "width": 90,
+                      "fill": "#EF4444",
+                      "cornerRadius": 6,
+                      "layout": "vertical",
+                      "padding": [
+                        10,
+                        12
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YL8df",
+                          "name": "Retry Text",
+                          "fill": "#050505",
+                          "content": "Retry",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j0nGtV",
+                      "name": "Dismiss Button",
+                      "width": 90,
+                      "fill": "#1F2125",
+                      "cornerRadius": 6,
+                      "layout": "vertical",
+                      "padding": [
+                        10,
+                        12
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "EHCM0",
+                          "name": "Dismiss Text",
+                          "fill": "#E5E5E7",
+                          "content": "Dismiss",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
                     }
                   ]
                 }

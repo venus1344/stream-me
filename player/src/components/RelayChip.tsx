@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { apiFetch } from '../lib/auth'
 
 interface RelayStream {
   codec_type: string
@@ -21,7 +22,7 @@ export default function RelayChip() {
   useEffect(() => {
     async function poll() {
       try {
-        const res = await fetch('/api/restream/relay-health', { cache: 'no-store' })
+        const res = await apiFetch('/api/restream/relay-health', { cache: 'no-store' })
         if (!res.ok) throw new Error(`${res.status}`)
         setPayload(await res.json())
       } catch (e) {
@@ -42,10 +43,10 @@ export default function RelayChip() {
   const status = payload.status || 'unknown'
 
   const chipClass = isLive
-    ? 'bg-[#0F2A18] border-[#1F6B3A] text-[#D1FAE5]'
+    ? 'bg-green/10 border-green/40 text-green'
     : status === 'error' || status === 'offline'
-      ? 'bg-danger-bg border-danger-border text-[#FFE4E6]'
-      : 'bg-[#1A1A20] border-[#3A3A46] text-muted'
+      ? 'bg-danger-bg border-danger-border text-danger'
+      : 'bg-surface-2 border-border-2 text-muted'
 
   const dotClass = isLive
     ? 'bg-green'

@@ -5,8 +5,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/app': 'http://127.0.0.1:3333',
-      '/api/restream': 'http://127.0.0.1:8099',
+      '/api/auth': 'http://localhost:8001',
+      '/api/servers': 'http://localhost:8001',
+      '/api/restream': 'http://localhost:8099',
+      '/api/clips': 'http://localhost:8099',
+      '/app': 'http://localhost:3333',
     },
   },
 })
