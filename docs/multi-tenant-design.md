@@ -119,11 +119,12 @@ Make the worker serve exactly one tenant and reject others.
 - `Home` player uses the tenant's `ome_url`.
 - `Admin` (superuser) shows tenants → servers → live status.
 
-### Phase 4 — Per-server provisioning & edge
+### Phase 4 — Per-server provisioning & edge ✅ (done)
 
-- Per-server stack: `relay + ome + worker + edge nginx (TLS)` via `deploy.sh --profile worker`.
-- `SERVER_ID` + `SERVER_TOKEN` provided at deploy; worker bootstraps from the API.
-- Document in `arch.md` / ops runbook.
+- Worker bootstraps its tenant from the API at startup (`SERVER_ID` + `SERVER_TOKEN` + `API_URL` env; falls back to static `TENANT_ID`).
+- Per-server TLS edge template: `nginx/server-edge.conf` (worker API + OME playback; no central-platform routes).
+- Provisioning script: `scripts/provision-server.sh <server_id> <server_token> <api_url> <jwt_secret>` starts the `worker` profile.
+- `JWT_SECRET` must match the control plane.
 
 ### Phase 5 — Billing / plan enforcement
 

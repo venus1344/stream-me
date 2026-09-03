@@ -4,7 +4,9 @@ import os
 import re
 import threading
 import time
+import urllib.request
 import uuid
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, UploadFile, File, WebSocket, WebSocketDisconnect, status
@@ -21,13 +23,46 @@ ALGORITHM = "HS256"
 # Model B: this worker serves a single tenant. When TENANT_ID is set, only that
 # tenant's users (plus platform superusers) may call this worker's API.
 TENANT_ID = os.environ.get("TENANT_ID", "").strip()
+API_URL = os.environ.get("API_URL", "").strip()
+SERVER_ID = os.environ.get("SERVER_ID", "").strip()
+SERVER_TOKEN = os.environ.get("SERVER_TOKEN", "").strip()
 UPLOAD_MAX_BYTES = int(os.getenv("UPLOAD_MAX_BYTES", str(10 * 1024 ** 3)))  # 10 GB default
+
+
+def _bootstrap_tenant():
+    """Resolve this worker's tenant from the control plane (Model B)."""
+    global TENANT_ID
+    if not (API_URL and SERVER_ID and SERVER_TOKEN):
+        return
+    try:
+        req = urllib.request.Request(
+            f"{API_URL.rstrip('/')}/api/servers/bootstrap",
+            data=json.dumps({"server_id": SERVER_ID, "token": SERVER_TOKEN}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8") or "{}")
+        tenant_id = data.get("tenant_id")
+        if tenant_id:
+            TENANT_ID = tenant_id
+            print(f"[bootstrap] bound to tenant {tenant_id}")
+        else:
+            print("[bootstrap] server not yet assigned to a tenant")
+    except Exception as e:
+        print(f"[bootstrap] failed: {e}")
 CHUNK_SIZE = 256 * 1024  # 256 KB read buffer
 CLIPS_DIR = DATA_DIR / "clips"
 
 ALLOWED_EXTENSIONS = {".mp4", ".mov", ".m4v", ".webm", ".mkv", ".ts", ".avi"}
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    _bootstrap_tenant()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 manager = RestreamManager()
 bearer = HTTPBearer()
 

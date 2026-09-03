@@ -102,6 +102,9 @@ services:
     environment:
       RESTREAM_CONTROL_PORT: "8099"
       TENANT_ID: ${TENANT_ID:-}
+      SERVER_ID: ${SERVER_ID:-}
+      SERVER_TOKEN: ${SERVER_TOKEN:-}
+      API_URL: ${API_URL:-}
     volumes:
       - ./worker/data:/data
     depends_on:

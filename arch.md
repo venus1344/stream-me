@@ -120,6 +120,19 @@ docker compose --profile server --profile worker --profile frontend up -d --remo
 - After an rsync deploy, force-recreate nginx so single-file bind mounts pick up new inodes:
   `docker compose --profile server --profile worker --profile frontend up -d --force-recreate nginx`
 
+### Per-server deployment (Model B — multi-tenant)
+
+Each tenant gets its own streaming server (`relay` + `ome` + `worker` + edge nginx). See `docs/multi-tenant-design.md` (Phase 4).
+
+```bash
+# On a fresh streaming VPS, after registering the server in the control plane:
+scripts/provision-server.sh <server_id> <server_token> <api_url> <jwt_secret>
+```
+
+- `worker` bootstraps its tenant from the control plane at startup (`SERVER_ID`/`SERVER_TOKEN`/`API_URL`; falls back to a static `TENANT_ID`).
+- `nginx/server-edge.conf` is the per-server TLS template (worker API + OME playback only).
+- `JWT_SECRET` must match the control plane (users' tokens are verified by the worker).
+
 ## VPS-specific notes
 
 - `conf/Server.xml` hardcodes the public IP in `IceCandidates` (UDP `10000-10010`, `TcpRelay` `3478`). Update if the IP changes.
