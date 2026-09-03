@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import NavBar from '../components/NavBar'
 import RelayChip from '../components/RelayChip'
 import GlowBackground from '../components/GlowBackground'
-import { apiFetch, clearToken, getToken } from '../lib/auth'
+import { apiFetch, clearToken, getToken, getRouting } from '../lib/auth'
 import { useNavItems } from '../lib/useNavItems'
 
 interface DestinationDef {
@@ -32,6 +32,7 @@ function formatBytes(b: number) {
 
 export default function Settings() {
   const navItems = useNavItems()
+  const routing = getRouting()
   const [config, setConfig] = useState<Record<string, any>>({})
   const [destinations, setDestinations] = useState<Record<string, DestState>>({})
   const [logs, setLogs] = useState<Record<string, string>>({})
@@ -46,7 +47,8 @@ export default function Settings() {
   const fileRef = useRef<HTMLInputElement>(null)
 
   const api = useCallback(async (path: string, method = 'GET', body?: any) => {
-    const res = await apiFetch(`/api/restream/${path}`, {
+    const base = getRouting()?.workerUrl?.replace(/\/+$/, '') ?? ''
+    const res = await apiFetch(`${base}/api/restream/${path}`, {
       method,
       headers: body ? { 'Content-Type': 'application/json' } : undefined,
       body: body ? JSON.stringify(body) : undefined,
@@ -85,8 +87,9 @@ export default function Settings() {
       if (dead) return
       const token = getToken()
       if (!token) return
-      const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
-      ws = new WebSocket(`${proto}://${window.location.host}/api/restream/ws?token=${encodeURIComponent(token)}`)
+      const wsHost = routing?.workerUrl ? new URL(routing.workerUrl).host : window.location.host
+      const proto = routing?.workerUrl?.startsWith('https') ? 'wss' : 'ws'
+      ws = new WebSocket(`${proto}://${wsHost}/api/restream/ws?token=${encodeURIComponent(token)}`)
 
       ws.onmessage = (e) => {
         try {
@@ -95,7 +98,7 @@ export default function Settings() {
           setLogs(data.logs || {})
           setRunningTargets(data.runningTargets || [])
           setConfiguredTargets(data.targets || [])
-        } catch {}
+        } catch { }
       }
 
       ws.onerror = () => ws?.close()
@@ -158,7 +161,8 @@ export default function Settings() {
     try {
       const form = new FormData()
       form.append('file', file)
-      const res = await apiFetch('/api/restream/offline-scenes/upload', { method: 'POST', body: form })
+      const base = getRouting()?.workerUrl?.replace(/\/+$/, '') ?? ''
+      const res = await apiFetch(`${base}/api/restream/offline-scenes/upload`, { method: 'POST', body: form })
       if (!res.ok) throw new Error(await res.text() || `${res.status}`)
       const p = await res.json()
       setOfflineScenes(p.files || [])
@@ -259,6 +263,11 @@ export default function Settings() {
           <div className="text-muted text-sm">
             {configuredTargets.length ? `Configured targets: ${configuredTargets.join(', ')}` : 'No destination has a stream key yet.'}
           </div>
+          {routing?.ingestUrl && (
+            <div className="text-muted text-sm font-mono">
+              OBS → {routing.ingestUrl} · key: {routing.streamKey ?? 'input'}
+            </div>
+          )}
         </div>
         <div className={`text-sm ${message.error ? 'text-danger' : 'text-muted'}`}>{message.text}</div>
       </section>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import GlowBackground from '../components/GlowBackground'
-import { setToken, setUser, isAuthenticated } from '../lib/auth'
+import { setToken, setUser, setRouting, isAuthenticated } from '../lib/auth'
 
 function isEmail(val: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
@@ -78,6 +78,21 @@ export default function Login() {
         if (!res.ok) { setError(data.detail || `Error ${res.status}`); return }
         setToken(data.token)
         if (data.user) setUser(data.user)
+        try {
+          const srv = await fetch('/api/servers/current', {
+            headers: { Authorization: `Bearer ${data.token}` },
+          })
+          if (srv.ok) {
+            const list = await srv.json()
+            const first = Array.isArray(list) ? list[0] : null
+            setRouting({
+              workerUrl: first?.workerUrl ?? null,
+              omeUrl: first?.omeUrl ?? null,
+              ingestUrl: first?.ingestUrl ?? null,
+              streamKey: first?.streamKey ?? null,
+            })
+          }
+        } catch { /* routing is optional; fall back to same-origin */ }
         navigate('/home', { replace: true })
       } catch {
         setError('Network error. Please try again.')

@@ -101,6 +101,7 @@ services:
     env_file: .env
     environment:
       RESTREAM_CONTROL_PORT: "8099"
+      TENANT_ID: ${TENANT_ID:-}
     volumes:
       - ./worker/data:/data
     depends_on:

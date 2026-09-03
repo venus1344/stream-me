@@ -1,9 +1,15 @@
 import psycopg2.errors
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
 
-from auth import get_current_user, require_superuser
+from auth import get_current_user, generate_server_token, hash_password, require_superuser, verify_password
 from database import get_db
-from models.server import CreateServerRequest, ServerResponse
+from models.server import (
+    BootstrapRequest,
+    CreateServerRequest,
+    CreateServerResponse,
+    HeartbeatRequest,
+    ServerResponse,
+)
 from utils.uuid7 import uuid7
 
 router = APIRouter(prefix="/api/servers", tags=["servers"])
@@ -15,6 +21,45 @@ _SERVER_EXAMPLE = {
     "tenantId": "018f1a2b-0000-7000-8000-000000000001",
     "createdAt": "2025-01-15T10:30:00+00:00",
 }
+
+_SERVER_COLUMNS = (
+    "id, name, server_id, tenant_id, worker_url, ingest_host, ingest_port, "
+    "ome_url, status, last_heartbeat_at, server_token_hash, created_at"
+)
+
+
+def _server_dict(row) -> dict:
+    return {
+        "id": str(row[0]),
+        "name": row[1],
+        "serverId": row[2],
+        "tenantId": str(row[3]) if row[3] else None,
+        "workerUrl": row[4],
+        "ingestHost": row[5],
+        "ingestPort": row[6],
+        "ingestUrl": f"rtmp://{row[5]}:{row[6]}/stream" if row[5] else None,
+        "streamKey": "input",
+        "omeUrl": row[7],
+        "status": row[8],
+        "lastHeartbeatAt": row[9].isoformat() if row[9] else None,
+        "createdAt": row[11].isoformat() if row[11] else None,
+    }
+
+
+def _fetch_server(server_id: str):
+    with get_db() as conn:
+        with conn.cursor() as cur:
+            cur.execute(f"SELECT {_SERVER_COLUMNS} FROM servers WHERE server_id = %s", (server_id,))
+            return cur.fetchone()
+
+
+def _verify_server_token(server_id: str, token: str):
+    row = _fetch_server(server_id)
+    if not row:
+        raise HTTPException(404, "server not found")
+    if not row[10] or not token or not verify_password(token, row[10]):
+        raise HTTPException(401, "invalid server token")
+    return row
 
 
 @router.get(
@@ -39,27 +84,20 @@ def list_servers(current_user: dict = Depends(get_current_user)):
     with get_db() as conn:
         with conn.cursor() as cur:
             if current_user["role"] == "superuser":
-                cur.execute(
-                    "SELECT id, name, server_id, tenant_id, created_at FROM servers ORDER BY created_at"
-                )
+                cur.execute(f"SELECT {_SERVER_COLUMNS} FROM servers ORDER BY created_at")
             else:
                 cur.execute(
-                    "SELECT id, name, server_id, tenant_id, created_at FROM servers "
-                    "WHERE tenant_id = %s ORDER BY created_at",
+                    f"SELECT {_SERVER_COLUMNS} FROM servers WHERE tenant_id = %s ORDER BY created_at",
                     (current_user["tenant_id"],),
                 )
             rows = cur.fetchall()
-    return [
-        {"id": str(r[0]), "name": r[1], "serverId": r[2],
-         "tenantId": str(r[3]) if r[3] else None, "createdAt": r[4].isoformat()}
-        for r in rows
-    ]
+    return [_server_dict(r) for r in rows]
 
 
 @router.post(
     "",
     status_code=201,
-    response_model=ServerResponse,
+    response_model=CreateServerResponse,
     summary="Register a new server  [SuperUser only]",
     responses={
         201: {"description": "Server registered", "content": {"application/json": {"example": _SERVER_EXAMPLE}}},
@@ -75,20 +113,102 @@ def create_server(body: CreateServerRequest, current_user: dict = Depends(requir
     - Optionally pass `tenant_id` to assign it to a tenant immediately.
     - **SuperUser only.**
     """
+    token = generate_server_token()
+    token_hash = hash_password(token)
     with get_db() as conn:
         with conn.cursor() as cur:
             try:
                 server_id = uuid7()
                 cur.execute(
-                    "INSERT INTO servers (id, name, server_id, tenant_id) "
-                    "VALUES (%s, %s, %s, %s) RETURNING id, name, server_id, tenant_id, created_at",
-                    (server_id, body.name, body.server_id, body.tenant_id),
+                    "INSERT INTO servers (id, name, server_id, tenant_id, worker_url, ingest_host, ingest_port, ome_url, server_token_hash) "
+                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) "
+                    "RETURNING id, name, server_id, tenant_id, worker_url, ingest_host, ingest_port, ome_url, status, created_at",
+                    (server_id, body.name, body.server_id, body.tenant_id, body.worker_url, body.ingest_host, body.ingest_port, body.ome_url, token_hash),
                 )
                 row = cur.fetchone()
             except psycopg2.errors.UniqueViolation:
                 raise HTTPException(400, "server_id already registered")
-    return {"id": str(row[0]), "name": row[1], "serverId": row[2],
-            "tenantId": str(row[3]) if row[3] else None, "createdAt": row[4].isoformat()}
+    return {
+        "id": str(row[0]), "name": row[1], "serverId": row[2],
+        "tenantId": str(row[3]) if row[3] else None,
+        "workerUrl": row[4], "ingestHost": row[5], "ingestPort": row[6],
+        "omeUrl": row[7], "status": row[8],
+        "createdAt": row[9].isoformat() if row[9] else None,
+        "serverToken": token,
+    }
+
+
+@router.post(
+    "/bootstrap",
+    summary="Worker bootstraps its tenant assignment  [server token]",
+    responses={
+        200: {"description": "Tenant assignment + routing config"},
+        401: {"description": "Invalid server token"},
+        404: {"description": "Server not found"},
+    },
+)
+def bootstrap_server(body: BootstrapRequest):
+    """Called by a worker at startup using its machine token."""
+    row = _verify_server_token(body.server_id, body.token)
+    tenant_id = row[3]
+    ingest_host = row[5]
+    ingest_port = row[6]
+    return {
+        "server_id": row[2],
+        "tenant_id": str(tenant_id) if tenant_id else None,
+        "ingest_host": ingest_host,
+        "ingest_port": ingest_port,
+        "ingest_url": f"rtmp://{ingest_host}:{ingest_port}/stream" if ingest_host else None,
+        "stream_key": "input",
+        "worker_url": row[4],
+        "ome_url": row[7],
+        "status": row[8],
+    }
+
+
+@router.get(
+    "/current",
+    response_model=list[ServerResponse],
+    summary="Routing info for the caller's tenant",
+)
+def current_server(current_user: dict = Depends(get_current_user)):
+    """Returns the servers assigned to the caller's tenant (for frontend routing)."""
+    if current_user["role"] == "superuser":
+        return []
+    with get_db() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                f"SELECT {_SERVER_COLUMNS} FROM servers WHERE tenant_id = %s ORDER BY created_at",
+                (current_user["tenant_id"],),
+            )
+            rows = cur.fetchall()
+    return [_server_dict(r) for r in rows]
+
+
+@router.get(
+    "/{server_id}/assignment",
+    summary="Worker polls its tenant assignment  [server token]",
+    responses={401: {"description": "Invalid server token"}, 404: {"description": "Server not found"}},
+)
+def get_server_assignment(server_id: str, x_server_token: str | None = Header(default=None)):
+    row = _verify_server_token(server_id, x_server_token or "")
+    return {"server_id": row[2], "tenant_id": str(row[3]) if row[3] else None}
+
+
+@router.post(
+    "/{server_id}/heartbeat",
+    summary="Worker reports status/load  [server token]",
+    responses={401: {"description": "Invalid server token"}, 404: {"description": "Server not found"}},
+)
+def server_heartbeat(server_id: str, body: HeartbeatRequest, x_server_token: str | None = Header(default=None)):
+    _verify_server_token(server_id, x_server_token or "")
+    with get_db() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE servers SET status = %s, last_heartbeat_at = NOW() WHERE server_id = %s",
+                (body.status, server_id),
+            )
+    return {"ok": True}
 
 
 @router.post(

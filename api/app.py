@@ -1,9 +1,19 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
+from database import migrate_db
 from routes.auth import router as auth_router
 from routes.servers import router as servers_router
 from routes.users import router as users_router
 from routes.tenants import router as tenants_router
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    migrate_db()
+    yield
+
 
 app = FastAPI(
     title="Beamcast Platform API",
@@ -28,6 +38,7 @@ Bearer <your_token_here>
 | `user` | Limited — view only within their tenant |
 """,
     version="1.0.0",
+    lifespan=lifespan,
     contact={"name": "Beamcast", "email": "admin@beamcast.local"},
     license_info={"name": "Proprietary"},
     openapi_tags=[

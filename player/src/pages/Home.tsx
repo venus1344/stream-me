@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar'
 import RelayChip from '../components/RelayChip'
 import GlowBackground from '../components/GlowBackground'
 import { useNavItems } from '../lib/useNavItems'
+import { getRouting } from '../lib/auth'
 
 declare global {
   interface Window {
@@ -36,7 +37,15 @@ function getQualityLabel(w: number, h: number) {
 
 export default function Home() {
   const navItems = useNavItems()
-  const [host, setHost] = useState('')
+  const [host, setHost] = useState(() => {
+    const r = getRouting()
+    const base = r?.omeUrl || r?.workerUrl || null
+    if (!base) return ''
+    try {
+      const u = new URL(base)
+      return `${u.protocol}//${u.host}`
+    } catch { return '' }
+  })
   const [protocol, setProtocol] = useState<'hls' | 'webrtc'>('hls')
   const [app, setApp] = useState('app')
   const [stream, setStream] = useState('key')

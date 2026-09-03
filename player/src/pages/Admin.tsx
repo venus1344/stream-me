@@ -27,6 +27,11 @@ interface Server {
   tenantId?: string
   createdAt: string
   tenantName?: string
+  status?: string
+  workerUrl?: string
+  ingestHost?: string
+  ingestPort?: number
+  omeUrl?: string
 }
 
 // ── helpers ───────────────────────────────────────────────────────────────────
@@ -187,6 +192,9 @@ function SuperUserPanel({
                     <p className="text-sm font-bold text-text">{s.name}</p>
                     <p className="text-xs text-muted font-mono">{s.serverId}</p>
                   </div>
+                  {s.status && (
+                    <span className={`text-xs border rounded-full px-2.5 py-1 shrink-0 ${s.status === 'healthy' ? 'text-green border-green/30' : 'text-amber border-amber/30'}`}>{s.status}</span>
+                  )}
                   {s.tenantName && (
                     <span className="text-xs text-muted border border-border rounded-full px-2.5 py-1 shrink-0">{s.tenantName}</span>
                   )}

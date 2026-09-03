@@ -56,7 +56,7 @@ def list_tenants(current_user: dict = Depends(require_superuser)):
                 users = cur.fetchall()
 
                 cur.execute("""
-                    SELECT id, name, server_id FROM servers
+                    SELECT id, name, server_id, status FROM servers
                     WHERE tenant_id = %s ORDER BY created_at
                 """, (t_id,))
                 servers = cur.fetchall()
@@ -72,6 +72,6 @@ def list_tenants(current_user: dict = Depends(require_superuser)):
                     "plan": t_plan,
                     "admin": admin,
                     "users": [{"id": str(u[0]), "email": u[1], "role": u[2]} for u in users],
-                    "servers": [{"id": str(s[0]), "name": s[1], "serverId": s[2]} for s in servers],
+                    "servers": [{"id": str(s[0]), "name": s[1], "serverId": s[2], "status": s[3]} for s in servers],
                 })
     return result

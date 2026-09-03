@@ -2,6 +2,8 @@
 
 This document describes the runtime architecture of the OME restream engine, both as designed and as deployed on the VPS.
 
+> **Multi-tenant roadmap:** the plan for multi-user streaming (Model B: per-tenant streaming servers, phased rollout) lives in [`docs/multi-tenant-design.md`](multi-tenant-design.md).
+
 ## Canonical data flow
 
 ```

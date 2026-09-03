@@ -1,4 +1,5 @@
 import os
+import secrets
 import time
 import uuid
 
@@ -24,6 +25,10 @@ def hash_password(password: str) -> str:
 
 def verify_password(plain: str, hashed: str) -> bool:
     return password_hash.verify(plain, hashed)
+
+
+def generate_server_token() -> str:
+    return secrets.token_urlsafe(32)
 
 
 def get_redis() -> redis_lib.Redis:
