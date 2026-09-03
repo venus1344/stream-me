@@ -1,0 +1,74 @@
+{
+  "discountPercentage": 17,
+  "discountLabel": "Save 2 months",
+  "tiers": [
+    {
+      "name": "starter",
+      "badge": "Free Trial",
+      "badgeBg": "#2D1A0A",
+      "badgeBorder": "#D9772A",
+      "badgeText": "#FFE4E6",
+      "monthly": 0,
+      "annual": 0,
+      "specs": {
+        "platforms": { "value": "2", "color": "#F7F7F7" },
+        "offline": { "value": "60min", "color": "#F7F7F7" },
+        "quality": { "value": "720p", "color": "#F7F7F7" }
+      },
+      "features": [
+        { "text": "Multi-destination streaming", "color": "blue" },
+        { "text": "LL-HLS playback", "color": "green" },
+        { "text": "Basic offline sequencing", "color": "amber" },
+        { "text": "Stream stats & monitoring", "color": "blue" }
+      ],
+      "cta": { "text": "Start Free Trial", "href": "/login" },
+      "note": "2 hours streaming limit"
+    },
+    {
+      "name": "professional",
+      "badge": "Recommended",
+      "badgeBg": "#0D2A16",
+      "badgeBorder": "#2EE66B",
+      "badgeText": "#2EE66B",
+      "monthly": 29,
+      "annual": 290,
+      "highlighted": true,
+      "specs": {
+        "platforms": { "value": "3", "color": "#2EE66B" },
+        "offline": { "value": "240min", "color": "#2EE66B" },
+        "quality": { "value": "1080p", "color": "#2EE66B" }
+      },
+      "features": [
+        { "text": "Everything in Starter", "color": "green" },
+        { "text": "Extended offline storage", "color": "green" },
+        { "text": "Scheduled broadcasts", "color": "green" },
+        { "text": "Stream queueing", "color": "green" },
+        { "text": "Priority support", "color": "green" }
+      ],
+      "cta": { "text": "Get Started", "href": "/login" }
+    },
+    {
+      "name": "enterprise",
+      "badge": "Unlimited",
+      "badgeBg": "#1A1F2E",
+      "badgeBorder": "#4DA3FF",
+      "badgeText": "#4DA3FF",
+      "monthly": null,
+      "annual": null,
+      "specs": {
+        "platforms": { "value": "4+", "color": "#4DA3FF" },
+        "offline": { "value": "∞", "color": "#4DA3FF" },
+        "quality": { "value": "4K", "color": "#4DA3FF" }
+      },
+      "features": [
+        { "text": "Everything in Professional", "color": "blue" },
+        { "text": "Unlimited offline storage", "color": "blue" },
+        { "text": "Custom integrations", "color": "blue" },
+        { "text": "Dedicated support", "color": "blue" },
+        { "text": "SLA guarantee", "color": "blue" }
+      ],
+      "cta": { "text": "Contact Sales", "href": "mailto:sales@omeplayer.com" },
+      "customPrice": true
+    }
+  ]
+}

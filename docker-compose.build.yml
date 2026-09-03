@@ -1,0 +1,17 @@
+# VPS-only build override.
+#
+# The hosting provider transparently TLS-inspects Docker *bridge* egress, which
+# makes `pip install` inside build containers fail with CERTIFICATE_VERIFY_FAILED
+# (a cert for the provider's own domain is presented instead of pypi.org). The
+# host itself sees the real cert, so building with host networking bypasses the
+# interception.
+#
+# Usage on the VPS:
+#   docker compose -f docker-compose.yml -f docker-compose.build.yml build api worker
+services:
+  api:
+    build:
+      network: host
+  worker:
+    build:
+      network: host
