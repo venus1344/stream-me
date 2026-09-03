@@ -78,6 +78,7 @@ function SuperUserPanel({
   users, tenants, servers,
   expandedTenants, toggleTenant,
   expandedServers, toggleServer,
+  onSetPlan, savingPlan,
 }: {
   users: User[]
   tenants: Tenant[]
@@ -86,6 +87,8 @@ function SuperUserPanel({
   toggleTenant: (id: string) => void
   expandedServers: Set<string>
   toggleServer: (id: string) => void
+  onSetPlan: (id: string, plan: string) => Promise<void>
+  savingPlan: string | null
 }) {
   return (
     <div className="flex flex-col gap-5">
@@ -145,6 +148,18 @@ function SuperUserPanel({
                 </button>
                 {expandedTenants.has(t.id) && (
                   <div className="bg-surface-2 border-t border-border px-6 py-3 flex flex-col gap-2">
+                    <div className="flex items-center gap-3 py-1.5">
+                      <span className="text-xs font-bold text-muted uppercase tracking-wider">Plan</span>
+                      <select
+                        value={t.plan}
+                        onChange={e => onSetPlan(t.id, e.target.value)}
+                        className="bg-surface-3 border border-border-2 rounded-[10px] px-2.5 py-1.5 text-xs font-bold text-text outline-none focus:border-accent cursor-pointer"
+                      >
+                        <option value="free">Free · 1 dest · 2.5 Mbps</option>
+                        <option value="pro">Pro · 3 dest · 6 Mbps</option>
+                      </select>
+                      {savingPlan === t.id && <span className="text-xs text-muted">saving…</span>}
+                    </div>
                     {t.users.length === 0
                       ? <EmptyRow text="No members" />
                       : t.users.map(u => (
@@ -397,6 +412,7 @@ export default function Admin() {
 
   const [expandedTenants, setExpandedTenants] = useState<Set<string>>(new Set())
   const [expandedServers, setExpandedServers] = useState<Set<string>>(new Set())
+  const [savingPlan, setSavingPlan] = useState<string | null>(null)
 
   const toggle = (set: Set<string>, id: string): Set<string> => {
     const next = new Set(set)
@@ -445,6 +461,24 @@ export default function Admin() {
       load()
     } catch (e: any) {
       setMessage({ text: e.message, error: true })
+    }
+  }
+
+  const handleSetPlan = async (tenantId: string, plan: string) => {
+    setSavingPlan(tenantId)
+    try {
+      const res = await apiFetch(`/api/tenants/${tenantId}/plan`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan }),
+      })
+      if (!res.ok) throw new Error((await res.json()).detail ?? `Error ${res.status}`)
+      setMessage({ text: `Plan set to ${plan}`, error: false })
+      load()
+    } catch (e: any) {
+      setMessage({ text: e.message, error: true })
+    } finally {
+      setSavingPlan(null)
     }
   }
 
@@ -518,6 +552,8 @@ export default function Admin() {
           toggleTenant={id => setExpandedTenants(prev => toggle(prev, id))}
           expandedServers={expandedServers}
           toggleServer={id => setExpandedServers(prev => toggle(prev, id))}
+          onSetPlan={handleSetPlan}
+          savingPlan={savingPlan}
         />
       ) : role === 'manager' && currentUser ? (
         <TenantAdminPanel
